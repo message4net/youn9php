@@ -36,7 +36,11 @@ class Init {
  *	  $dst 目标拷贝的文件夹绝对路径
  *返回:网页html内容
  */
-	public function print_html($html_arr='',$html_file_name=TMPLT_DIR_404.FILE_TMPLT_404){
+//	public function print_html($html_arr='',$html_file_name=TMPLT_DIR_404.FILE_TMPLT_404){
+	public function print_html($html_arr='',$html_file_name=''){
+		if ($html_file_name==''){
+			$html_file_name=TMPLT_DIR_404.FILE_TMPLT_404;
+		}
 		$html_content=file_get_contents($html_file_name);
 		if (is_array($html_arr)){
 			foreach ($html_arr as $key=>$val) {

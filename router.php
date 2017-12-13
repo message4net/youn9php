@@ -12,6 +12,11 @@ $url_para=str_replace(URI_BASE.'/','',$_SERVER['REQUEST_URI']);
 $url_para=str_replace(URI_BASE,'',$url_para);
 
 if ($url_para==='' || $url_para==='/') {
+	list($app_name,$app_para)=split('/', $url_para,2);
+}
+
+if ($url_para==='' || $url_para==='/') {
+	$app_name='404';
 	//初始化日志路径
 	if (file_exists(LOG_DIR)){
 		if (!is_dir(LOG_DIR)){
@@ -27,8 +32,11 @@ if ($url_para==='' || $url_para==='/') {
 	$init_404->init_app();
 	$html_arr_404['url_rel']=URL_REL.DIR_404;
 	$html_arr_404['url_index']='http://'.$_SERVER['SERVER_ADDR'];
+	if ($_SERVER['SERVER_PORT']!=''){
+		$html_arr_404['url_index'].=':'.$_SERVER['SERVER_PORT'].'/'.$_SERVER['REQUEST_URI'];
+	}
 	echo $init_404->print_html($html_arr_404);
 } else {
-	echo $url_para;
+	//echo $url_para;
 	echo "恭喜，访问成功";
 }
