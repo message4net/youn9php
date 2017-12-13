@@ -1,31 +1,35 @@
 <?php
 //定义起始路径
 $basedir=str_replace('\\','/',dirname(dirname(__DIR__))).'/';
-define(BASE_DIR,$basedir);
+define('BASE_DIR',$basedir);
 unset($basedir);
 
 //定义常参
-define(DIR_COMM, 'comm/');
-define(DIR_INC, 'inc/');
-define(DIR_TMPLT, 'tmplt/');
-define(FILE_INF, 'index.php');
-define(FILE_ROUTER, 'router.php');
-define(FILE_INIT_INC, 'init.inc.php');
-
+define('DIR_COMM', 'comm/');
+define('DIR_INC', 'inc/');
+define('DIR_TMPLT', 'tmplt/');
+define('DIR_RUNTIME', 'runtime/');
+define('DIR_404', '404/');
+define('FILE_INF', 'index.php');
+define('FILE_ROUTER', 'router.php');
+define('FILE_INIT_INC', 'init.inc.php');
+define('FILE_TMPLT_404', '404.html');
+define('TMPLT_VRSN', '.vrsn');
+define('VRSN_TMPLT','0.0.1');
 
 //基于其实路径 或 常参 定义2阶常参
-define(CFG_DIR,BASE_DIR.DIR_COMM.'cfg/');
-define(LOG_DIR,BASE_DIR.'log/');
-define(INC_DIR,BASE_DIR.'inc/');
-define(INF_1, BASE_DIR.FILE_INF);
-define(FILE_DIR_ROUTER, BASE_DIR.FILE_ROUTER);
-define(TMPLT_DIR, BASE_DIR.DIR_TMPLT);
-define(INIT_INC, BASE_DIR.DIR_COMM.DIR_INC.FILE_INIT_INC);
-
-define(TMPLT_DIR_404, BASE_DIR.DIR_TMPLT.'404');
+define('CFG_DIR',BASE_DIR.DIR_COMM.'cfg/');
+define('LOG_DIR',BASE_DIR.'log/');
+define('INC_DIR',BASE_DIR.'inc/');
+define('INF_1', BASE_DIR.FILE_INF);
+define('FILE_DIR_ROUTER', BASE_DIR.FILE_ROUTER);
+define('TMPLT_DIR', BASE_DIR.DIR_TMPLT);
+define('INIT_INC', BASE_DIR.DIR_COMM.DIR_INC.FILE_INIT_INC);
+define('RUNTIME_DIR', BASE_DIR.DIR_RUNTIME);
+define('TMPLT_DIR_404', BASE_DIR.DIR_TMPLT.DIR_404);
 
 //基于 2阶常参及以上参数 定义常参
-define(LOG_FILE_PATH_NAME,LOG_DIR.'log.log');
+define('LOG_FILE_PATH_NAME',LOG_DIR.'log.log');
 //define(CFG_SLF,'self.cfg.php');
 
 

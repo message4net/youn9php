@@ -1,11 +1,7 @@
 <?php session_start();
-//定义起始路径
-//$basedir=str_replace('\\','/',dirname(__DIR__)).'/';
-//define(BASE_DIR,$basedir);
-//unset($basedir);
 
 //定义起始URL
-define(BASE_URI, '/youn9php/index.php');
+define('URI_BASE', '/index.php');
+define('URL_REL', 'http://127.0.0.1/youn9php/');
 
-require __DIR__.'/../comm/cfg/init.cfg.php';
-require INF_1;
+require __DIR__.'/../index.php';

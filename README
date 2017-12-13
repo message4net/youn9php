@@ -1,0 +1,9 @@
+a.部署注意事项
+	一级域名 apache配置
+		<VirtualHost *:80>
+  			 DocumentRoot "F:\workspace\test\http\youn9php\public"
+  			 ServerName 127.0.0.1
+		</VirtualHost>
+		Alias /youn9php "F:\workspace\test\http\youn9php\runtime"
+	二级域名及一级域名 均需定义 public/index.php中的 BASE_URI
+	
