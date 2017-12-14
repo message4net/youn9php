@@ -3,29 +3,31 @@ class Init {
 	
 /**
 	*功能:初始化app模版页面
-	*参数:$name_app app的名称
+	*参数:$app_name app的名称
 	*返回:TRUE OR FALSE
 	*/
-	public function init_app($name_app='404') {
+	public function init_app($app_name='404') {
 		//构造app常量路径参数
-		eval("\$tmplt_dir_tmp=TMPLT_DIR_$name_app;");
+		//eval("\$tmplt_dir_tmp=TMPLT_DIR_$app_name;");
 		
 		//确认app参数路径非文件
-		if (file_exists(RUNTIME_DIR.$name_app)){
-			if (!is_dir(RUNTIME_DIR.$name_app)){
-				unlink(RUNTIME_DIR.$name_app);
+		if (file_exists(RUNTIME_DIR.$app_name)){
+			if (!is_dir(RUNTIME_DIR.$app_name)){
+				unlink(RUNTIME_DIR.$app_name);
 			}
 		}
 
 		//判断模版是否在硬盘缓存，并确认模版版本，否创建缓存
-		if (!is_dir(RUNTIME_DIR.$name_app.'/')){
-			$this->copy_dir($tmplt_dir_tmp,RUNTIME_DIR.$name_app.'/');
+		if (!is_dir(RUNTIME_DIR.$app_name.'/')){
+			$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/');
 		} else {
-			if (file_exists(RUNTIME_DIR.$name_app.'/'.TMPLT_VRSN)) {
-				if(file_get_contents(RUNTIME_DIR.$name_app.'/'.TMPLT_VRSN)!=VRSN_TMPLT) {
-					$this->remove_directory(RUNTIME_DIR.$name_app);
-					$this->copy_dir($tmplt_dir_tmp,RUNTIME_DIR.$name_app.'/');
+			if (file_exists(RUNTIME_DIR.$app_name.'/'.NAME_FILE_TMPLT_VRSN)) {
+				if(file_get_contents(RUNTIME_DIR.$app_name.'/'.NAME_FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
+					$this->remove_directory(RUNTIME_DIR.$app_name);
+					$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/');
 				}
+			}else{
+				$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/');
 			}
 		}
 	}
@@ -39,7 +41,7 @@ class Init {
 //	public function print_html($html_arr='',$html_file_name=TMPLT_DIR_404.FILE_TMPLT_404){
 	public function print_html($html_arr='',$html_file_name=''){
 		if ($html_file_name==''){
-			$html_file_name=TMPLT_DIR_404.FILE_TMPLT_404;
+			$html_file_name=TMPLT_DIR_404.NAME_FILE_TMPLT_404;
 		}
 		$html_content=file_get_contents($html_file_name);
 		if (is_array($html_arr)){

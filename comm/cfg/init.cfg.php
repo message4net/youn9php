@@ -10,21 +10,22 @@ define('DIR_INC', 'inc/');
 define('DIR_TMPLT', 'tmplt/');
 define('DIR_RUNTIME', 'runtime/');
 define('DIR_404', '404/');
-define('FILE_INF', 'index.php');
-define('FILE_ROUTER', 'router.php');
-define('FILE_INIT_INC', 'init.inc.php');
-define('FILE_TMPLT_404', '404.html');
-define('TMPLT_VRSN', '.vrsn');
+define('NAME_APP_404', '404');
+define('NAME_FILE_INF', 'index.php');
+define('NAME_FILE_ROUTER', 'router.php');
+define('NAME_FILE_INC_INIT', 'init.inc.php');
+define('NAME_FILE_TMPLT_404', '404.html');
+define('NAME_FILE_TMPLT_VRSN', '.vrsn');
 define('VRSN_TMPLT','0.0.1');
 
 //基于其实路径 或 常参 定义2阶常参
 define('CFG_DIR',BASE_DIR.DIR_COMM.'cfg/');
 define('LOG_DIR',BASE_DIR.'log/');
 define('INC_DIR',BASE_DIR.'inc/');
-define('INF_1', BASE_DIR.FILE_INF);
-define('FILE_DIR_ROUTER', BASE_DIR.FILE_ROUTER);
+define('INF_INDEX', BASE_DIR.NAME_FILE_INF);
+define('FILE_DIR_ROUTER', BASE_DIR.NAME_FILE_ROUTER);
 define('TMPLT_DIR', BASE_DIR.DIR_TMPLT);
-define('INIT_INC', BASE_DIR.DIR_COMM.DIR_INC.FILE_INIT_INC);
+define('INIT_INC', BASE_DIR.DIR_COMM.DIR_INC.NAME_FILE_INC_INIT);
 define('RUNTIME_DIR', BASE_DIR.DIR_RUNTIME);
 define('TMPLT_DIR_404', BASE_DIR.DIR_TMPLT.DIR_404);
 
