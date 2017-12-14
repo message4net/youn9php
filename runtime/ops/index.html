@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>{title}</title>
+		<link href="{url_rel}css/default.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{url_rel}js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="{url_rel}js/func.js"></script>
+	</head>
+	<body>
+		<div id="main">
+			<div id="main_left">
+				<div id="logo">ops_sys</div>
+				<div id="menu_sub"></div>
+			</div>
+			<div id="main_right">
+				<div id="info" style="display: none">hi,<span id="span_info"></span><a id='logout' href="javascript:void(0);"><span style="font-size:14px;color:yellow"><i>娉ㄩ攢</i></span></a></div>
+				<div id="menu_nav"></div>
+				<div id="menu_func"></div>
+				<div id="tips_nav"></div>
+				<div id="tips"></div>
+				<div id="content"></div>
+				<div id="page_bar"></div>
+			</div>
+			<div id="main_login">
+				<form id="form_login" method="post">
+					<table id="table_login">
+						<tr>
+							<th colspan="2" style="color: black; font-size: 15px; text-align: left">璇疯緭鍏ョ敤鎴峰悕銆佸瘑鐮佸悗,</th>
+						</tr>
+						<tr>
+							<th colspan="2" style="color: black; font-size: 15px; text-align: right">鐐瑰嚮鎸夐挳鐧诲綍杩涘叆绯荤粺</th>
+						</tr>
+						<tr>
+							<td>用户名</td>
+							<td><input id="username" type="text" value="" /></td>
+						</tr>
+						<tr>
+							<td>密码</td>
+							<td><input id="userpassword" type="password" value="" /></td>
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align: center"><button id="button_login" type="button">鐧诲綍</button></td>
+						</tr>
+					</table>
+				</form>
+				<div id='tips_login'></div>
+				</div>
+			</div>
+		<script type="text/javascript">
+			$.firstinit();
+		</script>
+	</body>
+</html>

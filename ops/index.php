@@ -5,6 +5,8 @@ define('NAME_FILE_TMPLT_OPS', 'index.html');
 
 $init_ops=new Init();
 $init_ops->init_app($app_name);
+$html_arr_ops=$init_ops->url_encode($_app_arr);
+var_dump($html_arr_ops);
 $html_arr_ops['url_rel']=URL_REL.$app_name.'/';
 //$html_arr_ops['url_index']='http://'.$_SERVER['SERVER_ADDR'];
 //if ($_SERVER['SERVER_PORT']!='80'){

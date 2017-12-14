@@ -42,12 +42,13 @@ class Init {
 	public function print_html($html_arr='',$html_file_name=''){
 		if ($html_file_name==''){
 			$html_file_name=TMPLT_DIR_404.NAME_FILE_TMPLT_404;
+			$html_arr=array();
+			$html_arr['url_rel']=URL_REL.DIR_404;
+			$html_arr['url_index']='http://'.URL_REL.DIR_404.NAME_FILE_TMPLT_404;
 		}
 		$html_content=file_get_contents($html_file_name);
-		if (is_array($html_arr)){
-			foreach ($html_arr as $key=>$val) {
-				$html_content=str_replace('{'.$key.'}', $val, $html_content);
-			}
+		foreach ($html_arr as $key=>$val) {
+			$html_content=str_replace('{'.$key.'}', $val, $html_content);
 		}
 		return $html_content;
 	}
@@ -64,7 +65,7 @@ class Init {
 		while(false !== ( $file = readdir($dir)) ) {
 			if (( $file != '.' ) && ( $file != '..' )) {
 				if ( is_dir($src.$file.'/') ) {
-					copy_dir($src.$file.'/',$dst.$file);
+					$this->copy_dir($src.$file.'/',$dst.$file);
 					continue;
 				}
 				else {
@@ -96,7 +97,53 @@ class Init {
 		}
 	}
 	
+/**
+	*功能:解析url参数,并编码
+	*参数:$url_para_arr url参数数组
+	*返回:无
+	*/	
+	public function url_encode($url_para_arr=array()){
+		//echo '#B#';
+		array_slice($url_para_arr,1);
+		//var_dump($url_para_arr);
+		$_arr_length=count($url_para_arr);
+		$this->para_encode($url_para_arr,$_arr_length,0);
+		//var_dump($a);
+		//return $this->para_encode($_url_para_arr,0);
+	}	
 	
-	
+/**
+	*功能:编码url参数key字典
+	*参数:$url_para url参数key
+	*返回:无
+	*/
+	public function para_encode($_url_para_arr=array(),$_arr_length=0,$_i_start=0){
+		if ($_url_para_arr[$_i_start]){
+			echo $_i_start.'#A';
+			switch ($_url_para_arr[$_i_start]){
+			case 'web':
+				$_para_num=1;
+				$_arr_key_start=($_i_start+$_para_num+1);
+				if(($_i_start+$_para_num)<$_arr_length){
+					$_arr_return[$_url_para_arr[$_i_start]]=$_url_para_arr[($_i_start+$_para_num)];
+				}else{
+					$_arr_return['web']='';
+					$_arr_key_start=$_arr_length;
+				}
+				break;
+			;;
+			default:
+				$_arr_return['web']=''; 
+				$_arr_key_start=$_arr_length; 
+			}
+		}
+		if ($_arr_key_start<$_arr_length){
+			$this->para_encode($_url_para_arr,$_arr_key_start);
+		}else{
+			return $_arr_return;
+		}
+		echo '#C#';
+		//return $_arr_return;
+	}
 	
 }

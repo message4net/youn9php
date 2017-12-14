@@ -8,15 +8,20 @@ $_app_arr='';
 $url_para=str_replace(URI_BASE.'/','',$_SERVER['REQUEST_URI']);
 $url_para=str_replace(URI_BASE,'',$url_para);
 $_app_arr=explode('/', $url_para);
+//var_dump($_app_arr);
 //echo $url_para.'#1#'.$_app_arr[0].'###';
 if ($url_para!='' && $url_para!='/') {
-	if (file_exists(BASE_DIR.$_app_arr[0].'/'.INF_INDEX)) {
+	//echo BASE_DIR.$_app_arr[0].'/'.NAME_FILE_INF;
+	if (file_exists(BASE_DIR.$_app_arr[0].'/'.NAME_FILE_INF)) {
 		$app_name=$_app_arr[0];
+		//echo '#a1';
 	}else{
 		$app_name=NAME_APP_404;
+		//echo '#b1';
 	}
 } else {
 	$app_name=NAME_APP_404;
+	//echo '#c';
 }
 
 //echo $app_name;
