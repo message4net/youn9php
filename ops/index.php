@@ -5,11 +5,14 @@ define('NAME_FILE_TMPLT_OPS', 'index.html');
 
 $init_ops=new Init();
 $init_ops->init_app($app_name);
-$html_arr_ops=$init_ops->url_encode($_app_arr);
-var_dump($html_arr_ops);
+$_app_arr_length=count($_app_arr);
+$para_arr_ops=$init_ops->url_encode($_app_arr);
+if(!isset($para_arr_ops['web'])){
+	$para_arr_ops['web']='';
+}else{
+	if (!file_exists(RUNTIME_DIR.$app_name.'/'.$para_arr_ops['web'])){
+		$para_arr_ops['web']='';
+	}
+}
 $html_arr_ops['url_rel']=URL_REL.$app_name.'/';
-//$html_arr_ops['url_index']='http://'.$_SERVER['SERVER_ADDR'];
-//if ($_SERVER['SERVER_PORT']!='80'){
-//	$html_arr_ops['url_index'].=':'.$_SERVER['SERVER_PORT'].'/'.$_SERVER['REQUEST_URI'];
-//}
-echo $init_ops->print_html($html_arr_ops);
+echo $init_ops->print_html($html_arr_ops,RUNTIME_DIR.$app_name.'/'.$para_arr_ops['web']);
