@@ -1,9 +1,10 @@
 $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
+			var url_ajx='http://www.youn9php.com/rtjs.php';
 			$('#form_login').on('click','button',function(){
 				alert('z');
-				$.ajx('router.php','1');
+				$.ajx(url_ajx,'m=login&b=2');
 			});
 		});
 	}

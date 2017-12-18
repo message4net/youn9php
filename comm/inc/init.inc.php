@@ -111,14 +111,39 @@ class Init {
 	*参数:$url_para_arr url参数数组
 	*返回:无
 	*/	
-	public function url_encode($url_para_arr=array()){
-		$arr_return['web']=array_slice($url_para_arr, -1);
-		var_dump(array_slice($url_para_arr, 0,2));
-		
-		//$_url_para_arr=array_slice($url_para_arr,1);
-		//$_arr_length=count($_url_para_arr);
-		//$a=$this->para_encode($_url_para_arr,$_arr_length,0,array());
-		//return $this->para_encode($_url_para_arr,$_arr_length,0,array());
+	public function url_encode($reqeust_uri){
+		$_url_para=str_replace(URI_BASE.'/','',$reqeust_uri);
+		$_url_para=str_replace(URI_BASE,'',$_url_para);
+		$_app_arr=explode('/', $_url_para);
+		if ($_url_para!='' && $_url_para!='/') {
+			if (file_exists(BASE_DIR.$_app_arr[0].'/'.NAME_FILE_INF)) {
+				$_arr_return['app']=$_app_arr[0];
+				$_app_arr_count=count($_app_arr);
+				switch ($_app_arr_count){
+					case 0:
+						$_arr_return['app']=NAME_APP_404;
+					break;
+					case 1:
+					case 2:
+					break;
+					case 3:
+						$_arr_return['web']=$_app_arr['2'];
+						$_arr_return['mdl']=$_app_arr['1'];
+					break;
+					default:
+						$_arr_tmp=array_slice($_app_arr,-1,1);
+						$_arr_return['web']=$_arr_tmp['0'];
+						$_arr_return['mdl']=$_app_arr['1'];
+						$_para_arr=array_slice(array_slice($_app_arr,2), -2,$_app_arr_count-3);
+					break;
+				}
+			}else{
+				$_arr_return['app']=NAME_APP_404;
+			}
+		} else {
+			$_arr_return['app']=NAME_APP_404;
+		}
+		return $_arr_return;
 	}	
 	
 /**
