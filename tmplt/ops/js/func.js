@@ -1,10 +1,11 @@
 $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
-			var url_ajx='http://www.youn9php.com/rtjs.php';
+			var url_ajx='{url_js_ajx}';
+			var url_404='{url_js_404}';
 			$('#form_login').on('click','button',function(){
 				alert('z');
-				$.ajx(url_ajx,'m=login&b=2');
+				$.ajx(url_ajx,'m=login&f=login');
 			});
 		});
 	}
@@ -82,6 +83,9 @@ $.extend({
 								$.each(htmlArr,function(htmlID,htmlContent){
 										$('#'+htmlContent).focus();
 								})
+							break;
+							case('404'):
+								location.herf=''
 							break;
 							default:
 								alert(data);

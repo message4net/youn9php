@@ -6,7 +6,7 @@ class Init {
 	*参数:$app_name app的名称
 	*返回:TRUE OR FALSE
 	*/
-	public function init_app($app_name='404') {
+	public function init_app($app_tmplt_arr=array(),$app_name='404') {
 		//构造app常量路径参数
 		//eval("\$tmplt_dir_tmp=TMPLT_DIR_$app_name;");
 		
@@ -22,16 +22,16 @@ class Init {
 			if(file_exists(RUNTIME_DIR.$app_name)){
 				unlink(RUNTIME_DIR.$app_name);
 			}
-			$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/');
+			$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/',$app_tmplt_arr);
 		} else {
 			if (file_exists(RUNTIME_DIR.$app_name.'/'.NAME_FILE_TMPLT_VRSN)) {
 				if(file_get_contents(RUNTIME_DIR.$app_name.'/'.NAME_FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
 					$this->remove_directory(RUNTIME_DIR.$app_name);
-					$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/');
+					$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/',$app_tmplt_arr);
 				}
 			}else{
 				$this->remove_directory(RUNTIME_DIR.$app_name);
-				$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/');
+				$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/',$app_tmplt_arr);
 			}
 		}
 	}
@@ -42,22 +42,16 @@ class Init {
  *	  $dst 目标拷贝的文件夹绝对路径
  *返回:网页html内容
  */
-	public function print_html($html_arr='',$html_file_name=''){
-		//if ($html_file_name==''){
-		//	$html_file_name=TMPLT_DIR_404.NAME_FILE_TMPLT_404;
-		//	$html_arr=array();
-		//	$html_arr['url_rel']=URL_REL.DIR_404;
-		//	$html_arr['url_index']='http://'.URL_REL.DIR_404.NAME_FILE_TMPLT_404;
-		//}
+	public function print_html($html_arr=array(),$html_file_name=''){
+//	public function print_html($html_file_name=''){
 		if(!file_exists($html_file_name) || is_dir($html_file_name)){
-			$html_file_name=TMPLT_DIR_404.NAME_FILE_TMPLT_404;
-			$html_arr=array();
-			$html_arr['url_rel']=URL_REL.DIR_404;
-			$html_arr['url_index']='http://'.URL_REL.DIR_404.NAME_FILE_TMPLT_404;
+			$html_file_name=RUNTIME_DIR.DIR_404.NAME_FILE_TMPLT_404;
 		}
 		$html_content=file_get_contents($html_file_name);
-		foreach ($html_arr as $key=>$val) {
-			$html_content=str_replace('{'.$key.'}', $val, $html_content);
+		if ($html_arr) {
+			foreach ($html_arr as $key=>$val) {
+				$html_content=str_replace('{'.$key.'}', $val, $html_content);
+			}
 		}
 		return $html_content;
 	}
@@ -68,17 +62,26 @@ class Init {
 	*	  $dst 目标拷贝的文件夹绝对路径
 	*返回:无
 	*/
-	public function copy_dir($src,$dst) {
+	public function copy_dir($src,$dst,$app_tmplt_arr=array()) {
 		$dir = opendir($src);
 		@mkdir($dst);
 		while(false !== ( $file = readdir($dir)) ) {
 			if (( $file != '.' ) && ( $file != '..' )) {
 				if ( is_dir($src.$file) ) {
-					$this->copy_dir($src.$file.'/',$dst.$file.'/');
+					$this->copy_dir($src.$file.'/',$dst.$file.'/',$app_tmplt_arr);
 					continue;
-				}
-				else {
-					copy($src.$file,$dst.$file);
+				}else{
+					if ($app_tmplt_arr){
+						$html_content=file_get_contents($src.$file);
+						//echo $file.'#<br/>';
+						foreach ($app_tmplt_arr as $key=>$val){
+							//echo $key.'<br/>';
+							$html_content=str_replace('{'.$key.'}', $val, $html_content);
+						}
+						file_put_contents($dst.$file, $html_content);
+					}else{
+						copy($src.$file,$dst.$file);
+					}
 				}
 			}
 		}

@@ -6,4 +6,12 @@ a.部署注意事项
 		</VirtualHost>
 		Alias /youn9php "F:\workspace\test\http\youn9php\runtime"
 	二级域名及一级域名 均需定义 public/index.php中的 BASE_URI
+
+b.self.cfg.php配置
+	//定义起始URL
+	define('URI_BASE', '/index.php');
+	define('URL_REL', 'http://www.youn9php.com/youn9php/');
 	
+	//定义app 模版参数
+	$html_tmplt_arr['ops']['url_js_ajx']='http://www.youn9php.com/rtjs.php';
+	$html_tmplt_arr['ops']['url_js_404']='http://www.youn9php.com/index.php/404';
