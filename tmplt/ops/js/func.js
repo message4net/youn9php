@@ -2,10 +2,19 @@ $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
 			var url_ajx='{url_js_ajx}';
-			var url_404='{url_js_404}';
 			$('#form_login').on('click','button',function(){
-				alert('z');
-				$.ajx(url_ajx,'m=login&f=login');
+				//alert('z');
+				if($('input#username').val()==''){
+					alert('用户名不能为空');
+					$('input#username').focus();
+					return false;
+				};
+				if($('input#userpassword').val()==''){
+					alert('密码不能为空');
+					$('input#userpassword').focus();
+					return false;
+				};
+				$.ajx(url_ajx,'m=user&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val());
 			});
 		});
 	}
@@ -85,11 +94,15 @@ $.extend({
 								})
 							break;
 							case('404'):
-								location.herf=''
+								//alert(htmlArr);
+								location.href=htmlArr;
 							break;
 							default:
-								alert(data);
-								alert(htmlArr);
+								$.each(htmlArr,function(htmlID,htmlContent){
+									alert('#'+htmlID+'#'+htmlContent);
+								})
+								//alert(data);
+								//alert(htmlArr);
 							break;
 						}
 					});
