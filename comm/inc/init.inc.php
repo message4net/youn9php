@@ -1,6 +1,29 @@
 <?php
 class Init {
-	
+//	private $env_relpath_file_name=array(
+//			'comm/cfg/init.cfg.php',
+//			'comm/cfg/self.cfg.php',
+//			'comm/int/init.inc.php'
+//	);
+
+///**
+// *功能:构造函数，连接数据库
+// */
+//	public function __construct($app_name=''){
+//		if ($app_name!='') {
+//			$this->init_app_env($app_name);
+//		}
+//	}
+///**
+// * 加载app下初始cfg、inc
+// */
+//	public function init_app_env($app_name){
+//		foreach ($this->env_relpath_file_name as $val){
+//			if (file_exists(BASE_DIR.$app_name.'/'.$val) && !is_dir(BASE_DIR.$app_name.'/'.$val)){
+//				require BASE_DIR.$app_name.'/'.$val;
+//			}
+//		}
+//	}
 /**
 	*功能:初始化app模版页面
 	*参数:$app_name app的名称

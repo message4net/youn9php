@@ -7,19 +7,16 @@ a.部署注意事项
 		Alias /youn9php "F:\workspace\test\http\youn9php\runtime"
 	二级域名及一级域名 均需定义 public/index.php中的 BASE_URI
 
-b.public/cfg/self.cfg.php配置
+b.public/comm/cfg/self.cfg.php配置
 	//定义起始URL
-	define('URI_BASE', '/index.php');
 	define('URL_REL', 'http://www.youn9php.com/youn9php/');
+	define('URL_BASE', 'http://www.youn9php.com/');
+	define('URL_ALIS','');
+	//define('URL_ALIS','public/');
 	
-	//定义app 模版参数
-	$html_tmplt_arr['ops']['url_js_ajx']='http://www.youn9php.com/rtjs.php';
-	//$html_tmplt_arr['ops']['url_js_404']='http://www.youn9php.com/index.php/404';
-
-c.ops/cfg/self.cfg.php配置
-	define(DB_NAME,'manager_news_weather');
+	//定义数据库
+	define(DB_NAME,'yd_ops');
 	define(DB_HOST,'www.youn9php.com');
 	define(DB_PORT,'3306');
 	define(DB_USER,'devuser');
 	define(DB_PASSWD,'devuser_@sys.1243.com');
-	

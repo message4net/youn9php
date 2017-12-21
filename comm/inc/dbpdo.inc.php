@@ -27,26 +27,29 @@ class DbSqlPdo{
 	 *返回:二维数组或FALSE
 	 */
 	public function select($sql){
-		if(empty($sql)) return false;//{$returnarr=array(1);return $returnarr;}////如果SQL语句为空，则返回FALSE
-		if(empty($this->CONN)) return false;//{$returnarr=array(2);return $returnarr;}////如果连接为空，则放回FALSE
+		echo DB_NAME;
+//		if(empty($sql)) return false;//{$returnarr=array(1);return $returnarr;}////如果SQL语句为空，则返回FALSE
+//		if(empty($this->CONN)) return false;//{$returnarr=array(2);return $returnarr;}////如果连接为空，则放回FALSE
 		$results=$this->CONN->query($sql);
-		if((!$results)or(empty($results))){//如果查询结果空则释放结果并返回FALSE
+		//$datas=$results->fetchAll(pdo::FETCH_ASSOC);
+//		$datas=$results->fetchAll();
+//		if((!$datas)or(empty($datas))){//如果查询结果空则释放结果并返回FALSE
 		//if((!$this->CONN->query($sql))or(empty($this->CONN->query($sql)))){//如果查询结果空则释放结果并返回FALSE
 			//@mysqli_free_result($results);
-			return false;//$returnarr=array(3);
+//			return false;//$returnarr=array(3);
 			//return $returnarr;
-		}
-		$count=0;
-		$data=array();
-		//while($row=@mysqli_fetch_assoc($results)){//把查询结果重组成一个而为数组
-		foreach ($results as $row){//把查询结果重组成一个而为数组
-			$data[$count]=$row;
-			$count++;
-		}
-		//@mysqli_free_result($results);
-		unset($results);
+//		}
+		//$count=0;
+		//$data=array();
+		////while($row=@mysqli_fetch_assoc($results)){//把查询结果重组成一个而为数组
+		//foreach ($results as $row){//把查询结果重组成一个而为数组
+		//	$data[$count]=$row;
+		//	$count++;
+		//}
+		////@mysqli_free_result($results);
+		//unset($results);
 		//var_dump($data);
-		return $data;
+		return $results;
 	}
 //	/**
 //	 *功能:数据插入函数

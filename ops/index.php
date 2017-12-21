@@ -12,6 +12,8 @@ define('NAME_FILE_TMPLT_OPS', 'index.html');
 
 $init_ops=new Init();
 
+//$init_ops->init_app_env($url_para_arr['app']);
+
 if (!isset($url_para_arr['web'])){
 	$url_para_arr['web']=NAME_FILE_TMPLT_OPS;
 }
