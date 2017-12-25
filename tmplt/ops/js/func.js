@@ -3,7 +3,7 @@ $.extend({
 		$(document).ready(function(){
 			var url_ajx='{url_js_ajx}';
 			$('#form_login').on('click','button',function(){
-				//alert('z');
+				//alert('m=user&f=login1&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val());
 				if($('input#username').val()==''){
 					alert('用户名不能为空');
 					$('input#username').focus();
@@ -14,7 +14,8 @@ $.extend({
 					$('input#userpassword').focus();
 					return false;
 				};
-				$.ajx(url_ajx,'m=user&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val());
+				data='m=user&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val();
+				$.ajx(url_ajx,data);
 			});
 		});
 	}
@@ -48,9 +49,19 @@ $.extend({
 		$(document).ready(function(){
 			$.ajax({
 				type: "POST",
+				//type: "GET",
+				//dataType: "jsonp",
+				//crossDomain: true,
 				url: url,
 				data: data,
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                    //console.log(data);
+                },
 				success: function(msg){
+					//alert('aaaaa');
 					var data=eval('('+msg+')');
 					$.each(data,function(htmlFlag,htmlArr){
 						switch(htmlFlag){

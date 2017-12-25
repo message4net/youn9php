@@ -4,4 +4,4 @@
 
 //$init_ops_router=new Init();
 
-require $app_base_dir.DIR_MDL.$_POST['m'].'/'.$_POST['f'].POSTFIX_MDL;
+require BASE_DIR.DIR_OPS.DIR_MDL.$_POST['m'].'/'.$_POST['f'].POSTFIX_MDL;
