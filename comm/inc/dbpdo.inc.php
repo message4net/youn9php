@@ -27,16 +27,18 @@ class DbSqlPdo{
 	 *返回:二维数组或FALSE
 	 */
 	public function select($sql_pre='',$sql_para_arr=array()){
-		if(empty($sql)) return false;//如果SQL语句为空，则返回FALSE
+		if(empty($sql_pre)) return false;//如果SQL语句为空，则返回FALSE
 		if(empty($this->CONN)) return false;//如果连接为空，则放回FALSE
 		$this->CONN->query('set names utf8');
 		//$results=$this->CONN->query($sql);
-		$results=$this->CONN->prepare($sql_pre,$sql_para_arr);
-		$datas=$results->execute($sql_para);
+		$results=$this->CONN->prepare($sql_pre);
+		$datas=$results->execute($sql_para_arr);
 		if((!$datas)or(empty($datas))){//如果查询结果空则释放结果并返回FALSE
 			return false;
+			//return 'A';
 		}else{
 			$datas=$results->fetchAll();
+			//return 'B';
 		}
 		return $datas;
 	}

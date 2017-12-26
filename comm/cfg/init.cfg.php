@@ -16,7 +16,6 @@ define('POSTFIX_MDL', '.mdl.php');
 define('POSTFIX_INC', '.inc.php');
 define('INC_DBPDO', 'dbpdo');
 define('NAME_APP_404', '404');
-define('NAME_APP_OPS', 'ops');
 define('NAME_FILE_INF', 'index.php');
 define('NAME_FILE_RTJS', 'rtjs.php');
 define('NAME_FILE_LOG', 'log.log');
@@ -30,7 +29,9 @@ define('VRSN_TMPLT','0.0.1');
 //定义app ops配置
 define('OPS_MDL_MENU', 'menu');
 define('OPS_MDL_LOGIN', 'login');
+define('OPS_INC_MAIN', 'main');
 define('OPS_INC_RETURN', 'return');
+define('NAME_APP_OPS', 'ops');
 
 $html_tmplt_arr['ops']['title']='ops_sys';
 $html_tmplt_arr['ops']['logo']='ops_sys';

@@ -14,7 +14,7 @@ $.extend({
 					$('input#userpassword').focus();
 					return false;
 				};
-				data='m=user&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val();
+				data='m=login&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val();
 				$.ajx(url_ajx,data);
 			});
 		});
