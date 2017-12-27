@@ -2,6 +2,9 @@ $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
 			var url_ajx='{url_js_ajx}';
+			
+			//登录模块
+			//登入
 			$('#form_login').on('click','button',function(){
 				//alert('m=user&f=login1&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val());
 				if($('input#username').val()==''){
@@ -17,6 +20,30 @@ $.extend({
 				data='m=login&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val();
 				$.ajx(url_ajx,data);
 			});
+			
+			//登出			
+			$('#info').on('click','a',function(){
+				data='m=login&f=logout';
+				$.ajx(url_ajx,data);
+			});
+			
+			//菜单导航模块
+			$('#menu_nav').on('click','a',function(){
+				//alert('baab');
+				data='m=menu&f=menusub&id='+$(this).attr('id');
+				$.ajx(url_ajx,data);
+			});
+			
+			//子菜单模块
+			$('#menu_sub').on('click','a',function(){
+				data='m='+$(this).attr('name')+'&f=view&id='+$(this).attr('id');
+				$.ajx(url_ajx,data);
+			});
+			
+			
+			
+			
+			
 		});
 	}
 });

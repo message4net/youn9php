@@ -28,6 +28,8 @@ define('VRSN_TMPLT','0.0.1');
 
 //定义app ops配置
 define('OPS_MDL_MENU', 'menu');
+define('OPS_FUNC_MENU', 'menu');
+define('OPS_FUNC_MENUSUB', 'menusub');
 define('OPS_MDL_LOGIN', 'login');
 define('OPS_INC_MAIN', 'main');
 define('OPS_INC_RETURN', 'return');
