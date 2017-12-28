@@ -45,16 +45,16 @@ class Init {
 			if(file_exists(RUNTIME_DIR.$app_name)){
 				unlink(RUNTIME_DIR.$app_name);
 			}
-			$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/',$app_tmplt_arr);
+			$this->copy_dir(TMPLT_DIR.$app_name.DIRECTORY_SEPARATOR,RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 		} else {
-			if (file_exists(RUNTIME_DIR.$app_name.'/'.NAME_FILE_TMPLT_VRSN)) {
-				if(file_get_contents(RUNTIME_DIR.$app_name.'/'.NAME_FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
+			if (file_exists(RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR.NAME_FILE_TMPLT_VRSN)) {
+				if(file_get_contents(RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR.NAME_FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
 					$this->remove_directory(RUNTIME_DIR.$app_name);
-					$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/',$app_tmplt_arr);
+					$this->copy_dir(TMPLT_DIR.$app_name.DIRECTORY_SEPARATOR,RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 				}
 			}else{
 				$this->remove_directory(RUNTIME_DIR.$app_name);
-				$this->copy_dir(TMPLT_DIR.$app_name.'/',RUNTIME_DIR.$app_name.'/',$app_tmplt_arr);
+				$this->copy_dir(TMPLT_DIR.$app_name.DIRECTORY_SEPARATOR,RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 			}
 		}
 	}
@@ -91,7 +91,7 @@ class Init {
 		while(false !== ( $file = readdir($dir)) ) {
 			if (( $file != '.' ) && ( $file != '..' )) {
 				if ( is_dir($src.$file) ) {
-					$this->copy_dir($src.$file.'/',$dst.$file.'/',$app_tmplt_arr);
+					$this->copy_dir($src.$file.DIRECTORY_SEPARATOR,$dst.$file.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 					continue;
 				}else{
 					if ($app_tmplt_arr){
@@ -120,10 +120,10 @@ class Init {
 		if($handle=opendir("$dir")){
 			while(false!==($item=readdir($handle))){
 				if($item!="."&&$item!=".."){
-					if(is_dir("$dir/$item")){
-						$this->remove_directory("$dir/$item");
+					if(is_dir($dir.DIRECTORY_SEPARATOR.$item)){
+						$this->remove_directory($dir.DIRECTORY_SEPARATOR.$item);
 					}else{
-						unlink("$dir/$item");
+						unlink($dir.DIRECTORY_SEPARATOR.$item);
 					}
 				}
 			}

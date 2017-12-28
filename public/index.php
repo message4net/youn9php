@@ -1,8 +1,8 @@
 <?php session_start();
 
-require __DIR__.'/../comm/cfg/init.cfg.php';
-require __DIR__.'/../comm/cfg/self.cfg.php';
-require __DIR__.'/../comm/cfg/rel.cfg.php';
+require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'comm'.DIRECTORY_SEPARATOR.'cfg'.DIRECTORY_SEPARATOR.'init.cfg.php';
+require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'comm'.DIRECTORY_SEPARATOR.'cfg'.DIRECTORY_SEPARATOR.'self.cfg.php';
+require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'comm'.DIRECTORY_SEPARATOR.'cfg'.DIRECTORY_SEPARATOR.'rel.cfg.php';
 
 //require INC_DBPDO_FILE_PATH;
 

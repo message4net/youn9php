@@ -1,7 +1,6 @@
 <?php
 //基于起始路径 或 常参 定义2阶常参
-define('DIR_404', NAME_APP_404.'/');
-define('DIR_OPS', NAME_APP_OPS.'/');
+define('DIR_404', NAME_APP_404.DIRECTORY_SEPARATOR);
 define('URI_BASE', '/'.URL_ALIS.NAME_FILE_INF);
 define('CFG_DIR',BASE_DIR.DIR_COMM.DIR_CFG);
 define('LOG_DIR',BASE_DIR.DIR_LOG);
@@ -13,6 +12,8 @@ define('RUNTIME_DIR', BASE_DIR.DIR_RUNTIME);
 define('TMPLT_DIR', BASE_DIR.DIR_TMPLT);
 define('INC_DBPDO_FILE_PATH',BASE_DIR.DIR_COMM.DIR_INC.INC_DBPDO.POSTFIX_INC);
 
+//app基于其实路径 或 常参 定义2阶常参
+define('DIR_OPS', NAME_APP_OPS.DIRECTORY_SEPARATOR);
 
 //基于 2阶常参及以上参数 定义常参
 define('TMPLT_DIR_404', BASE_DIR.DIR_TMPLT.DIR_404);

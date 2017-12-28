@@ -12,5 +12,5 @@ $init_ops=new Init();
 	
 	$init_ops->init_app($html_tmplt_arr[$url_para_arr['app']],$url_para_arr['app']);
 	
-	echo $init_ops->print_html(array(),RUNTIME_DIR.$url_para_arr['app'].'/'.$url_para_arr['web']);
+	echo $init_ops->print_html(array(),RUNTIME_DIR.$url_para_arr['app'].DIRECTORY_SEPARATOR.$url_para_arr['web']);
 //}
