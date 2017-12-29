@@ -1,42 +1,37 @@
 <?php
 //定义起始路径
-//$basedir=str_replace('\\','/',dirname(dirname(__DIR__))).'/';
-//define('BASE_DIR',$basedir);
-//unset($basedir);
-
 define('BASE_DIR',dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR);
 
 //定义常参
-define('DIR_COMM', 'comm'.DIRECTORY_SEPARATOR);
-define('DIR_INC', 'inc'.DIRECTORY_SEPARATOR);
-define('DIR_CFG', 'cfg'.DIRECTORY_SEPARATOR);
-define('DIR_MDL', 'mdl'.DIRECTORY_SEPARATOR);
-define('DIR_TMPLT', 'tmplt'.DIRECTORY_SEPARATOR);
-define('DIR_RUNTIME', 'runtime'.DIRECTORY_SEPARATOR);
-define('DIR_LOG', 'log'.DIRECTORY_SEPARATOR);
+define('NAME_COMM', 'comm');
+define('NAME_INC', 'inc');
+define('NAME_CFG', 'cfg');
+define('NAME_MDL', 'mdl');
+define('NAME_TMPLT', 'tmplt');
+define('NAME_RUNTIME', 'runtime');
+define('NAME_LOG', 'log');
 define('POSTFIX_MDL', '.mdl.php');
 define('POSTFIX_INC', '.inc.php');
 define('INC_DBPDO', 'dbpdo');
-define('NAME_APP_404', '404');
-define('NAME_FILE_INF', 'index.php');
-define('NAME_FILE_RTJS', 'rtjs.php');
-define('NAME_FILE_LOG', 'log.log');
-define('NAME_FILE_ROUTER', 'router.php');
-define('NAME_FILE_INC_INIT', 'init.inc.php');
-define('NAME_FILE_CFG_SELF', 'self.cfg.php');
-define('NAME_FILE_TMPLT_404', '404.html');
-define('NAME_FILE_TMPLT_VRSN', '.vrsn');
 define('VRSN_TMPLT','0.0.1');
+define('APP_404', '404');
+define('APP_OPS', 'ops');
+define('FILE_INF', 'index.php');
+define('FILE_RTJS', 'rtjs.php');
+define('FILE_LOG', 'log.log');
+define('FILE_ROUTER', 'router.php');
+define('FILE_INC_INIT', 'init.inc.php');
+define('FILE_CFG_SELF', 'self.cfg.php');
+define('FILE_TMPLT_404', '404.html');
+define('FILE_TMPLT_VRSN', '.vrsn');
 
 //定义app ops配置
-define('NAME_APP_OPS', 'ops');
-define('OPS_MDL_MENU', 'menu');
+define('OPS_MDL_MAIN', 'main');
 define('OPS_FUNC_MENU', 'menu');
 define('OPS_FUNC_MENUSUB', 'menusub');
-define('OPS_MDL_LOGIN', 'login');
-define('OPS_INC_MAIN', 'main');
 define('OPS_INC_RETURN', 'return');
-
+define('OPS_INC_VIEW', 'view');
+define('OPS_FILE_TMPLT', 'index.html');
 
 define('PERPAGENO','5');
 

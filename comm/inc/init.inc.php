@@ -31,30 +31,30 @@ class Init {
 	*/
 	public function init_app($app_tmplt_arr=array(),$app_name='404') {
 		//构造app常量路径参数
-		//eval("\$tmplt_dir_tmp=TMPLT_DIR_$app_name;");
+		//eval("\$BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR_tmp=BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR_$app_name;");
 		
 		//确认app参数路径非文件
-		if (file_exists(RUNTIME_DIR.$app_name)){
-			if (!is_dir(RUNTIME_DIR.$app_name)){
-				unlink(RUNTIME_DIR.$app_name);
+		if (file_exists(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
+			if (!is_dir(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
+				unlink(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
 			}
 		}
 
 		//判断模版是否在硬盘缓存，并确认模版版本，否创建缓存
-		if (!is_dir(RUNTIME_DIR.$app_name)){
-			if(file_exists(RUNTIME_DIR.$app_name)){
-				unlink(RUNTIME_DIR.$app_name);
+		if (!is_dir(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
+			if(file_exists(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
+				unlink(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
 			}
-			$this->copy_dir(TMPLT_DIR.$app_name.DIRECTORY_SEPARATOR,RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
+			$this->copy_dir(BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 		} else {
-			if (file_exists(RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR.NAME_FILE_TMPLT_VRSN)) {
-				if(file_get_contents(RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR.NAME_FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
-					$this->remove_directory(RUNTIME_DIR.$app_name);
-					$this->copy_dir(TMPLT_DIR.$app_name.DIRECTORY_SEPARATOR,RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
+			if (file_exists(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN)) {
+				if(file_get_contents(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
+					$this->remove_directory(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
+					$this->copy_dir(BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 				}
 			}else{
-				$this->remove_directory(RUNTIME_DIR.$app_name);
-				$this->copy_dir(TMPLT_DIR.$app_name.DIRECTORY_SEPARATOR,RUNTIME_DIR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
+				$this->remove_directory(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
+				$this->copy_dir(BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 			}
 		}
 	}
@@ -68,7 +68,7 @@ class Init {
 	public function print_html($html_arr=array(),$html_file_name=''){
 //	public function print_html($html_file_name=''){
 		if(!file_exists($html_file_name) || is_dir($html_file_name)){
-			$html_file_name=RUNTIME_DIR.DIR_404.NAME_FILE_TMPLT_404;
+			$html_file_name=BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.APP_404.DIRECTORY_SEPARATOR.FILE_TMPLT_404;
 		}
 		$html_content=file_get_contents($html_file_name);
 		if ($html_arr) {
@@ -142,12 +142,12 @@ class Init {
 		$_url_para=str_replace(URI_BASE,'',$_url_para);
 		$_app_arr=explode('/', $_url_para);
 		if ($_url_para!='' && $_url_para!='/') {
-			if (file_exists(BASE_DIR.$_app_arr[0].'/'.NAME_FILE_INF)) {
+			if (file_exists(BASE_DIR.$_app_arr[0].'/'.FILE_INF)) {
 				$_arr_return['app']=$_app_arr[0];
 				$_app_arr_count=count($_app_arr);
 				switch ($_app_arr_count){
 					case 0:
-						$_arr_return['app']=NAME_APP_404;
+						$_arr_return['app']=APP_404;
 					break;
 					case 1:
 					case 2:
@@ -164,10 +164,10 @@ class Init {
 					break;
 				}
 			}else{
-				$_arr_return['app']=NAME_APP_404;
+				$_arr_return['app']=APP_404;
 			}
 		} else {
-			$_arr_return['app']=NAME_APP_404;
+			$_arr_return['app']=APP_404;
 		}
 		return $_arr_return;
 	}	

@@ -1,14 +1,25 @@
 <?php
-class X{
-	public function _inc(){
-		return include t1.php;
-	}
+$a=array(1,2,3);
+
+foreach ($a as $val){
+	echo $val.'<br/>';
 }
 
-$t= new X();
+foreach ($a as $val){
+	echo $val.'<br/>';
+}
 
-echo $a;
-echo BBB;
+
+//class X{
+//	public function _inc(){
+//		return include t1.php;
+//	}
+//}
+//
+//$t= new X();
+//
+//echo $a;
+//echo BBB;
 
 //session_start();
 ////session_start();

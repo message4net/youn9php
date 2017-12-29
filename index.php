@@ -1,4 +1,4 @@
 <?php 
 
-require FILE_DIR_ROUTER;
+require BASE_DIR.FILE_ROUTER;
 

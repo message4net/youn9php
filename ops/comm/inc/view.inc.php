@@ -3,6 +3,8 @@
 class ViewMain extends DbSqlPdo {
 //class ViewMain {
 	private $rec_init_arr=array();
+	private $rec_word_search='';
+	
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
 	 */
@@ -18,6 +20,23 @@ class ViewMain extends DbSqlPdo {
 			$this->rec_word_search=$rec_col_search.' like \'%'.$rec_word_search.'%\' ';
 		}
 		$this->rec_init_arr=$this->init_recarr();
+	}
+	
+	/**
+	 * 功能:解析传入参数
+	 */
+	public function parse_para_arr($para_arr=array()){
+		if (is_array($para_arr)){
+			foreach ($para_arr as $key=>$val){
+				switch ($key){
+					case search:
+						$_arr['search']=$val['col'].' like \'%'.$val['word'].'%\' ';
+					break;
+					default:
+					break;
+				}
+			}
+		}
 	}
 	/**
 	 * 功能:生成当前pagenum
@@ -103,15 +122,18 @@ class ViewMain extends DbSqlPdo {
 	}
 
 	public function gen_view_content_html(){
-		$sql_head_user='select * from user_col where user_id='.$this->login_user_id;
+		$sql_head_user='select * from user_col where user_id='.$this->login_user_id.' and menu_sub_id='.$this->menu_sub_id;
 		$result_head_user=parent::select($sql_head_user);
 		if($result_head_user){
 			$rec_head_sql='select * from wordbook wb, role_func rf, user_col uc where role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and type=1 and wb.menu_sub_id='.$this->menu_sub_id.' order by seq';
+			$rec_odr_sql='select * from wordbook wb, role_func rf, user_col uc where role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
 		}else{
 			$rec_head_sql='select * from wordbook wb, role_func rf where role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and type=1 and wb.menu_sub_id='.$this->menu_sub_id.' order by seq';
+			$rec_odr_sql='select * from wordbook wb, role_func rf where role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
 		}
 		$rec_head_result=parent::select($rec_head_sql);
-
+		$rec_odr_result=parent::select($sql_rec_odr_result);
+		
 		if ($rec_head_result){
 			$func_content_sql='select * from wordbook wb, role_func rf where rf.role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and type=5 and wb.menu_sub_id='.$this->menu_sub_id.' order by seq';
 			$func_content_result=parent::select($func_content_sql);
@@ -147,6 +169,8 @@ class ViewMain extends DbSqlPdo {
 							$arr_1s[$vala['id']][$valb['mainid']]=$valb['name'];
 						}
 						$arr_1s[$vala['id']][-1]=$vala['colnameid'];
+					}else{
+						$arr_1s=array();
 					}
 				}
 			}
@@ -160,12 +184,22 @@ class ViewMain extends DbSqlPdo {
 							$arr_1m[$val1['id']][$val2['mainid']][$val2['subid']]=$val2['name'];
 						}
 						//$arr_1m[$vala[id]][$val2[mainid]][-1]=$val1[colnameid];
+					}else{
+						$arr_1m=array();
 					}
 				}
 			}else{
 				$arr_1m=array();
 			}
 
+		
+		
+		
+//#####################		
+//return $arr_1m;
+//}
+//	}
+//#####################
 			$rec_body_column_sql_part=substr($rec_body_column_sql_part,0,strlen($rec_body_column_sql_part)-1).' ';
 			$rec_head_html.='</tr>';
 			if($this->rec_word_search==''){

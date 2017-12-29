@@ -41,7 +41,7 @@ if ($result_login && $result_login_count==1){
 	$_SESSION['loginduration']=time()+86400;
 	$_SESSION['loginflag']=1;
 	//require BASE_DIR.DIR_OPS.DIR_COMM.DIR_INC.OPS_INC_MAIN.POSTFIX_INC;
-	require BASE_DIR.DIR_OPS.DIR_MDL.OPS_MDL_MENU.'/'.OPS_MDL_MENU.POSTFIX_MDL;
+	require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_MENU.POSTFIX_MDL;
 }else{
 	$return_arr['hide']=array('main_right','main_left');
 	$return_arr['show']=array('main_login');

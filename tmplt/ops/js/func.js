@@ -17,26 +17,27 @@ $.extend({
 					$('input#userpassword').focus();
 					return false;
 				};
-				data='m=login&f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val();
+				data='f=login&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val();
 				$.ajx(url_ajx,data);
 			});
 			
 			//登出			
 			$('#info').on('click','a',function(){
-				data='m=login&f=logout';
+				data='f=logout';
 				$.ajx(url_ajx,data);
 			});
 			
 			//菜单导航模块
 			$('#menu_nav').on('click','a',function(){
 				//alert('baab');
-				data='m=menu&f=menusub&id='+$(this).attr('id');
+				data='f=menusub&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			});
 			
 			//子菜单模块
 			$('#menu_sub').on('click','a',function(){
-				data='m='+$(this).attr('name')+'&f=view&id='+$(this).attr('id');
+				alert($(this).attr('name')+$(this).attr('id'));
+				data='mr='+$(this).attr('name')+'&f=view&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			});
 			

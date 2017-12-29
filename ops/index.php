@@ -1,5 +1,4 @@
 <?php
-define('NAME_FILE_TMPLT_OPS', 'index.html');
 
 $init_ops=new Init();
 
@@ -7,10 +6,10 @@ $init_ops=new Init();
 //	require BASE_DIR.DIR_OPS.DIR_MDL.OPS_MDL_MENU.'/'.OPS_MDL_MENU.POSTFIX_MDL;;	
 //}else{
 	if (!isset($url_para_arr['web'])){
-		$url_para_arr['web']=NAME_FILE_TMPLT_OPS;
+		$url_para_arr['web']=OPS_FILE_TMPLT;
 	}
 	
 	$init_ops->init_app($html_tmplt_arr[$url_para_arr['app']],$url_para_arr['app']);
 	
-	echo $init_ops->print_html(array(),RUNTIME_DIR.$url_para_arr['app'].DIRECTORY_SEPARATOR.$url_para_arr['web']);
+	echo $init_ops->print_html(array(),BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$url_para_arr['app'].DIRECTORY_SEPARATOR.$url_para_arr['web']);
 //}
