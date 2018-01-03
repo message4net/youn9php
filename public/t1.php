@@ -1,3 +1,4 @@
 <?php
-$a='AAA';
-define('BBB', 'CCCC');
+//return $a='AAA';
+//return $b['b']['b']='zzzzz';
+return define('BBB', 'CCCC');

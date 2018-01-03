@@ -8,20 +8,20 @@
 	</head>
 	<body>
 		<div id="main">
-			<div id="main_left">
+			<div id="main_left" style="display:{nodis}">
 				<div id="logo">{logo}</div>
 				<div id="menu_sub"></div>
 			</div>
-			<div id="main_right">
-				<div id="info" style="display: none">hi,<span id="span_info"></span><a id='logout' href="javascript:void(0);"><span style="font-size:14px;color:yellow"><i>注销</i></span></a></div>
-				<div id="menu_nav"></div>
+			<div id="main_right" style="display:{nodis}">
+				<div id="info">hi,<span id="span_info">{span_info}</span><a id='logout' href="javascript:void(0);"><span style="font-size:14px;color:yellow"><i>注销</i></span></a></div>
+				<div id="menu_nav">{menu_nav}</div>
 				<div id="menu_func"></div>
 				<div id="tips_nav"></div>
 				<div id="tips"></div>
 				<div id="content"></div>
 				<div id="page_bar"></div>
 			</div>
-			<div id="main_login">
+			<div id="main_login" style="display:{dis}">
 				<form id="form_login" method="post">
 					<table id="table_login">
 						<tr>

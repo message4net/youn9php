@@ -37,5 +37,8 @@ define('PERPAGENO','5');
 
 $html_tmplt_arr['ops']['title']='ops_sys';
 $html_tmplt_arr['ops']['logo']='ops_sys';
-
+$html_tmplt_arr['ops']['nodis']='none';
+$html_tmplt_arr['ops']['dis']='inline';
+$html_tmplt_arr['ops']['sapn_info']='';
+$html_tmplt_arr['ops']['menu_nav']='';
 
