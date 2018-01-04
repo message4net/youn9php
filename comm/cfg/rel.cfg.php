@@ -9,12 +9,13 @@ define('URI_BASE', '/'.URL_ALIS.FILE_INF);
 //基于常参定义app模版参数
 $html_tmplt_arr['404']=array(
 		'url_rel'=>URL_REL.APP_404.'/',
-		'url_index'=>'http://'.$_SERVER['SERVER_NAME']
+		//'url_index'=>'http://'.$_SERVER['SERVER_NAME']
+		'url_index'=>URI_BASE
 );
 
-if ($_SERVER['SERVER_PORT']!='80'){
-	$html_tmplt_arr['404']['url_index'].=':'.$_SERVER['SERVER_PORT'].'/'.$_SERVER['REQUEST_URI'];
-}
+//if ($_SERVER['SERVER_PORT']!='80'){
+//	$html_tmplt_arr['404']['url_index'].=':'.$_SERVER['SERVER_PORT'].'/'.$_SERVER['REQUEST_URI'];
+//}
 
 $html_tmplt_arr['ops']['url_js_ajx']=URL_BASE.FILE_RTJS;
 $html_tmplt_arr['ops']['url_rel']=URL_REL.APP_OPS.'/';

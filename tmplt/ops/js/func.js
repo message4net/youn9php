@@ -36,7 +36,7 @@ $.extend({
 			
 			//子菜单模块
 			$('#menu_sub').on('click','a',function(){
-				alert($(this).attr('name')+$(this).attr('id'));
+				//alert($(this).attr('name')+$(this).attr('id'));
 				data='mr='+$(this).attr('name')+'&f=view&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			});

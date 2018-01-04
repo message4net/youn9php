@@ -30,33 +30,24 @@ class Init {
 	*返回:TRUE OR FALSE
 	*/
 	public function init_app($app_tmplt_arr=array(),$app_name='404') {
-		//构造app常量路径参数
-		//eval("\$BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR_tmp=BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR_$app_name;");
-		
 		//确认app参数路径非文件
-		if (file_exists(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
-			if (!is_dir(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
-				unlink(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
-			}
-		}
+		$app_runtime_path=BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name;
+		$app_tmplt_path=BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name;
 
 		//判断模版是否在硬盘缓存，并确认模版版本，否创建缓存
-		if (!is_dir(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
-			if(file_exists(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name)){
-				unlink(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
+		if (!is_dir($app_runtime_path)){
+			if(file_exists($app_runtime_path)){
+				unlink($app_runtime_path);
 			}
-			$this->copy_dir(BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
+			$this->copy_dir($app_tmplt_path.DIRECTORY_SEPARATOR,$app_runtime_path.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 		} else {
-			if (file_exists(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN)) {
-				if(file_get_contents(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
-					$this->remove_directory(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
-					$this->copy_dir(BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
-				}
-			}else{
-				$this->remove_directory(BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name);
-				$this->copy_dir(BASE_DIR.NAME_TMPLT.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,BASE_DIR.NAME_RUNTIME.DIRECTORY_SEPARATOR.$app_name.DIRECTORY_SEPARATOR,$app_tmplt_arr);
+			if (!file_exists($app_runtime_path.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN) || is_dir(($app_runtime_path.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN)) || file_get_contents($app_runtime_path.DIRECTORY_SEPARATOR.FILE_TMPLT_VRSN)!=VRSN_TMPLT) {
+				$this->remove_directory($app_runtime_path);
+				$this->copy_dir($app_tmplt_path.DIRECTORY_SEPARATOR,$app_runtime_path.DIRECTORY_SEPARATOR,$app_tmplt_arr);
 			}
 		}
+		
+		unset($app_runtime_path,$app_tmplt_path);
 	}
 
 /**
