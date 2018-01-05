@@ -1,7 +1,6 @@
 <?php
 
-$sql_rec_body_query_suffix='select * from role ';
-$rec_table='role';
+$rec_table='user';
 $rec_col='*';
 if ($_SESSION['loginroleid']==1){
 	$rec_sql_suffix='select '.$rec_col.' from '.$rec_table.' ';

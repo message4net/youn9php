@@ -23,16 +23,18 @@ b.public/comm/cfg/self.cfg.php配置
 
 c.wordbook表 type含义
 	a)type [0-1000) 表示view相关的列表字段头名称
-		a.type=1 对应表(如role)已存在的字段  等 角色元素, 通过main.mdl.php 展示  flag_set=1代表编辑时不显示
-		b.type=2 存储 对应1对多关系模式(如role的具体权限) 等 菜单元素,通过main.mdl.php 展示
-		g.type=7 存储html id=content 中 记录 对应1对1关系模式creator名称 等 信息元素,通过main.mdl.php 展示
+		a.type=1 对应表(如role)已存在的字段  等 角色元素, 通过view.mdl.php 展示  flag_set=1代表编辑时不显示
+		b.type=2 存储 对应1对多关系模式(如role的具体权限) 等 菜单元素,通过view.mdl.php 展示
+		g.type=6 存储html id=content 中 记录 对应1对1关系模式creator名称 等 信息元素,通过main.mdl.php 展示
 	b)type [1000-2000) 表示view表中相关功能
 		e.type=5 存储html id=content 中 记录 纪录功能,通过main.mdl.php展示 flag=1对应modify.mdl.php, flag=0对应view.mdl.php		
-	c)type [2000-3000) 表示menu_func左侧相关功能
+	c)type [2000-2500) 表示menu_func左侧相关功能
 		c.type=3 存储html id=menu_func 中 删除、修改、批设置、批撤销、字段设置 等 菜单功能，通过main.mdl.php展示
-	d)type [3000-4000) 表示menu_func右侧相关功能
+	d)type [2500-3000) 表示menu_func右侧相关功能
 		d.type=4 存储html id=menu_func 中 搜索 等 菜单功能，通过main.mdl.php展示
-	f.type=6 存储html id=content 中 记录 菜单元素,通过modify_view.mdl.php展示
+	e)type 3000 搜索功能对应的下拉选项
+	
+	f.type=7 存储html id=content 中 记录 菜单元素,通过modify_view.mdl.php展示
 	h.type=8 存储html id=content 中 radio 对应1对1关系模式role名称 等 信息元素,通过modify_view.mdl.php 展示
 
 d.menu新增功能，需关联至role_menu表中
