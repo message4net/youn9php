@@ -28,9 +28,13 @@ define('FILE_TMPLT_VRSN', '.vrsn');
 //定义app ops配置
 define('OPS_MDL_MAIN', 'main');
 define('OPS_FUNC_MENU', 'menu');
+define('OPS_FUNC_VIEW', 'view');
+define('OPS_FUNC_MAIN', 'main');
+define('OPS_FUNC_SEARCH', 'search');
 define('OPS_FUNC_MENUSUB', 'menusub');
 define('OPS_INC_RETURN', 'return');
 define('OPS_INC_VIEW', 'view');
+define('OPS_INC_MAIN', 'main');
 define('OPS_FILE_TMPLT', 'index.html');
 
 define('PERPAGENO','5');

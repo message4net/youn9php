@@ -41,6 +41,54 @@ $.extend({
 				$.ajx(url_ajx,data);
 			});
 			
+			//page
+			$('#page_bar').on('click','a',function(){
+				data='f=page&id='+$(this).attr('id');
+				$.ajx(url_ajx,data);
+			})
+			
+			$('#page_bar').on('click','button',function(){
+				if(isNaN($('#pageinput').val()) || $('#pageinput').val()==''){
+					alert('页码必须为输入法半角数字');
+					$('#pageinput').focus();
+					return false;
+				}
+				data='f=page&id='+$('#pageinput').val();
+				$.ajx(url_ajx,data);
+			})
+			
+			//批处理选择
+			$('#content').on('click','input[name="contentall"]',function(){
+				if($('input[name="contentall"]').prop('checked')){
+					$('input[name="contentlist"]').each(function(){
+						$(this).prop('checked',true);
+					})
+				}else{
+					$('input[name="contentlist"]').each(function(){
+						$(this).prop('checked',false);
+					})
+				}
+			});
+			
+			//搜索
+			$('#menu_func').on('click','#word_search',function(){
+				if($('#search_word').val()==''){
+					alert('关键词不能为空');
+					$('#search_word').focus();
+					return false;
+				}
+				data='f=search&searchword='+$('#search_word').val()+'&searchcol='+$('#search_bar').val();
+				$.ajx(url_ajx,data);
+			})	
+			
+			$('#menu_func').on('click','#word_reset',function(){
+				data='f=reset';
+				$.ajx(url_ajx,data);
+			})
+
+			
+			
+			
 			
 			
 			

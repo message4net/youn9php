@@ -211,7 +211,7 @@ class ViewMain extends DbSqlPdo {
 			$_return_html_body='';
 			$_count=1;
 			foreach ($rec_result_body as $val01){
-				//$_return_html_body.='<tr>';
+				$_return_html_body.='<tr>';
 				foreach ($rec_odr_result as $val){
 					if ($_count==1){
 						$_return_html_head_suffix='';
@@ -255,17 +255,20 @@ class ViewMain extends DbSqlPdo {
 							$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
 						break;
 						case '1':
-							$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
+							if (isset($rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]])){
+								$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
+							}else{
+								$_return_html_body.='<td></td>';
+							}
 						break;
 						default:
 						break;
 					}
 				}
-				$_return_html_body='<tr>'.$_return_html_body.'</tr>';
+				$_return_html_body.='</tr>';
 				$_count++;
 			}
 			$_return_html_head.='</tr>';
-			//$_return_html_body='<tr>'.$_return_html_body.'</tr>';
 			$_return_html='<table>'.$_return_html_head.$_return_html_body.'</table>';
 				
 		}else{
