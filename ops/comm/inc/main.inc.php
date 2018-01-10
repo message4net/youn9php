@@ -15,6 +15,9 @@ switch ($_POST['f']){
 		$return_arr['content']['page_bar']=$main_view->gen_pagebar_html();
 		$return_arr['content']['content']=$main_view->gen_view_content_html();
 		break;
+	case 'search':
+		$return_arr['content']['content']=$main_view->gen_view_content_html();
+		break;
 	default:
 		break;
 }

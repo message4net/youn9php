@@ -1,7 +1,8 @@
 <?php
 
-$rec_table='role';
-$rec_col='*';
+//$rec_table='role';
+//$rec_col='*';
+$_SESSION['searchword']='';
 //if ($_SESSION['loginroleid']==1){
 //	$rec_sql_suffix='select '.$rec_col.' from '.$rec_table.' ';
 //}else{

@@ -336,14 +336,15 @@ class ViewMain extends DbSqlPdo {
 			foreach ($func_right_result as $val){
 				switch ($val['type']) {
 					case '2999':
-						$_sql_tmp='select * from wordbook where parent_id='.$val['id'].' and type=3000 ';
+						$_sql_tmp='select * from wordbook where parent_id='.$val['id'].' and type=3000 and menu_sub_id='.$this->menu_sub_id;
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
 							$func_html.='<select id="search_bar" style="font-size:11px;width:70px;height:20px">';
 							foreach ($_result_tmp as $val1){
 								$func_html.='<option value="'.$val1['id'].'">'.$val1['name'].'</option>';
 							}
-							$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button><button id="word_reset" style="font-size:11px;width:44px;height:22px">重置</button>';
+							//$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button><button id="word_reset" style="font-size:11px;width:44px;height:22px">重置</button>';
+							$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button>';
 						}
 					break;
 				}

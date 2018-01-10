@@ -86,7 +86,20 @@ $.extend({
 				$.ajx(url_ajx,data);
 			})
 
-			
+			//修改
+			$('#menu_func,#content').on('click','[id^=func_]',function(){
+				arr=$(this).attr('id').split('_');
+				data='f=modvw&fr='+arr[1];
+				switch(arr[1]){
+					case ('mod'):
+						data+='&id='+arr[2];
+						break;
+					case ('set'):
+						data+='&id='+arr[2];
+						break;
+				}
+				$.ajx(url_ajx,data);
+			})
 			
 			
 			
