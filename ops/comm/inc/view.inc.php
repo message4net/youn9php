@@ -26,11 +26,126 @@ class ViewMain extends DbSqlPdo {
 		$this->rec_pagenum_post_tmp=$rec_pagenum_post_tmp;
 		$this->rec_table=$rec_table;
 		$this->rec_col=$rec_col;
-		$this->rec_sql_suffix=$rec_sql_suffix;
+		$this->rec_sql_suffix='select '.$rec_col.$rec_sql_suffix;
+		$this->rec_sql_suffix1=$rec_sql_suffix;
 		//if ($rec_word_search!=''){
 		//	$this->rec_word_search=$rec_col_search.' like \'%'.$rec_word_search.'%\' ';
 		//}
 		$this->rec_init_arr=$this->init_recarr();
+	}
+	
+	/**
+	 * 功能:生成修改相关功能的浏览html
+	 */
+	public function gen_mod_view_html(){
+		$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+		$rec_odr_result=parent::select($rec_odr_sql);
+		
+		$rec_view_spcial_arr=array();
+		foreach ($rec_odr_result as $val){
+			if ($val['flag_mod']==0){
+				switch ($val['type']){
+					default:
+						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
+						$_sql_tmp=$val['sql_main'].$val['sql_main1'];
+						$_result_tmp=parent::select($_sql_tmp);
+						if ($_result_tmp){
+							foreach ($_result_tmp as $val2){
+								$rec_view_spcial_arr[$val2[$_arr_colname_tmp[0]]]=$val2[$_arr_colname_tmp[1]];
+							}
+						}
+						break;
+				}
+			}
+		}
+		
+		//return $_sql_tmp;
+		//$z=$rec_view_spcial_arr;
+		//if ($z){
+		//	$r='';
+		//	foreach ($z as $key=>$val){
+		//		foreach ($val as $key1=>$val1){
+		//			$r.='#K#'.$key1.'#V#'.$val1;
+		//		}
+		//		$r.='<br/>';
+		//	}
+		//}else{
+		//	$r='ERR';
+		//}
+		//return $r;
+		
+		if ($rec_odr_result && $rec_result_body){
+			$_return_html_head='<tr>';
+			$_return_html_body='';
+			$_count=1;
+			foreach ($rec_result_body as $val01){
+				$_return_html_body.='<tr>';
+				foreach ($rec_odr_result as $val){
+					if ($_count==1){
+						$_return_html_head_suffix='';
+						$_return_html_head_postfix='';
+						if ($val['colnameid']=='id' && $val['type']==0){
+							if ($rec_result_func_menu){
+								$_return_html_head_suffix='<th><input type="checkbox" id="0" name="contentall"/></th>';
+							}
+							if ($rec_result_func){
+								$_return_html_head_postfix='<th style="text-align:center">操作</th>';
+							}
+						}
+						$_return_html_head.=$_return_html_head_suffix.'<th>'.$val['name'].'</th>'.$_return_html_head_postfix;
+					}
+					switch ($val['type']){
+						case '0':
+							if ($val['colnameid']=='id'){
+								$_return_html_body_tmp='<td>'.$_count.'</td>';
+								if ($rec_result_func_menu){
+									$_return_html_body_suffix='<td><input type="checkbox" id="'.$val01[$val['colnameid']].'" name="contentlist"/></td>';
+								}else{
+									$_return_html_body_suffix='';
+								}
+								if ($rec_result_func){
+									$_return_html_body_tmp.='<td>';
+									foreach ($rec_result_func as $val02){
+										if ($val02['flag']==1){
+											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);" onclick="if(confirm(\'确实要删除此条记录吗？\')) return true;else return false;">'.$val02['name'].'</a>|';
+										}else{
+											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);">'.$val02['name'].'</a>|';
+										}
+									}
+									$_return_html_body_tmp.='</td>';
+								}
+								$_return_html_body.=$_return_html_body_suffix.$_return_html_body_tmp;
+							}else{
+								$_return_html_body.='<td>'.$val01[$val['colnameid']].'</td>';
+							}
+							break;
+						case '6':
+							$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
+							break;
+						case '1':
+							if (isset($rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]])){
+								$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
+							}else{
+								$_return_html_body.='<td></td>';
+							}
+							break;
+						default:
+							break;
+					}
+				}
+				$_return_html_body.='</tr>';
+				$_count++;
+			}
+			$_return_html_head.='</tr>';
+			$_return_html='<table>'.$_return_html_head.$_return_html_body.'</table>';
+		
+		}else{
+			$_return_html='oops:<,暂无相关记录';
+		}
+		
+		return $_return_html;
+		return $_return_arr;
+		//}
 	}
 	
 	/**
@@ -75,21 +190,11 @@ class ViewMain extends DbSqlPdo {
 	 * 生成$this->rec_init_arr[rec_pagenum_total]
 	 */
 	public function gen_rec_pagenum_total(){
-		if($this->rec_word_search==''){
-			//如果非user ,role 表，可能需要使用注释的语句
-			//$rec_count_sql='select count(*) ct from '.$this->rec_init_arr[rec_tablename].';';
-			$rec_count_sql='select count(*) ct from '.$this->rec_table.' where creator='.$this->login_role_id.';';
-		}else{
-			//$rec_count_sql='select count(*) ct from '.$this->rec_init_arr[rec_tablename].' where '.$this->rec_word_search.';';
-			$rec_count_sql='select count(*) ct from '.$this->rec_table.' where '.$this->rec_word_search.' and creator='.$this->login_role_id.';';
-		}
-
+		$rec_count_sql='select count(*) ct '.$this->rec_sql_suffix1;
 		$rec_count_result=parent::select($rec_count_sql);
 		$rec_count_result[0]['ct']==0?$rec_pagenum_total=1:$rec_pagenum_total=ceil($rec_count_result[0]['ct']/$this->pagenum_per);
 		$rec['count']=$rec_count_result[0]['ct'];
 		$rec['pagenum_total']=$rec_pagenum_total;
-
-		//$rec[sql_tmp]=$rec_count_sql;
 
 		return $rec;
 	}
@@ -128,7 +233,7 @@ class ViewMain extends DbSqlPdo {
 			else $pagebar_html.='<a href="javascript:void(0);" id="1">首页</a>&nbsp;&nbsp;<a href="javascript:void(0);" id="'.($this->rec_init_arr['rec_pagenum_post']-1).'">上一页</a>&nbsp;&nbsp;下一页&nbsp;&nbsp;尾页&nbsp;&nbsp;';
 		}
 		$pagebar_html.='跳转至<input id="pageinput" type="text" style="width:25px;"/>页';
-		$pagebar_html.='<button id="pagebutton" type="button"><span style="width:50px;font-size:9px">点击跳转</span></button></div>';
+		$pagebar_html.='<button id="pagebutton" type="button"><span style="width:50px;font-size:9px">跳转</span></button></div>';
 
 		return $pagebar_html;
 	}
@@ -164,7 +269,7 @@ class ViewMain extends DbSqlPdo {
 						$_str_tmp.='\''.$val1[$val['colnameid']].'\',';
 					}
 					$_str_tmp=substr($_str_tmp,0,strlen($_str_tmp)-1);
-					$_sql_tmp=$val['sql_suffix'].$_str_tmp.$val['sql_postfix'];
+					$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$_str_tmp.$val['sql_postfix'].$val['sql_main1'];
 					$_result_tmp=parent::select($_sql_tmp);
 					if ($_result_tmp){
 						foreach ($_result_tmp as $val2){
@@ -175,7 +280,7 @@ class ViewMain extends DbSqlPdo {
 				case '1':
 					$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 					foreach ($rec_result_body as $val1){
-						$_sql_tmp=$val['sql_suffix'].$val1[$val['colnameid']].' '.$val['sql_postfix'];
+						$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$val1[$val['colnameid']].' '.$val['sql_postfix'].$val['sql_main1'];
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
 							$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]]='';
@@ -336,15 +441,15 @@ class ViewMain extends DbSqlPdo {
 			foreach ($func_right_result as $val){
 				switch ($val['type']) {
 					case '2999':
-						$_sql_tmp='select * from wordbook where parent_id='.$val['id'].' and type=3000 and menu_sub_id='.$this->menu_sub_id;
+						$_sql_tmp='select * from wordbook where parent_id='.$val['id'].' and type>=3000 and type<3100 and menu_sub_id='.$this->menu_sub_id;
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
 							$func_html.='<select id="search_bar" style="font-size:11px;width:70px;height:20px">';
 							foreach ($_result_tmp as $val1){
 								$func_html.='<option value="'.$val1['id'].'">'.$val1['name'].'</option>';
 							}
-							//$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button><button id="word_reset" style="font-size:11px;width:44px;height:22px">重置</button>';
-							$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button>';
+							$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button><button id="word_reset" style="font-size:11px;width:44px;height:22px">重置</button>';
+							//$func_html.='</select><input id="search_word" type="text" style="font-size:11px;width:110px;height:15px"/><button id="word_search" style="font-size:11px;width:44px;height:22px">搜索</button>';
 						}
 					break;
 				}

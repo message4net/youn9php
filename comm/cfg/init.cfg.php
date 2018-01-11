@@ -35,6 +35,7 @@ define('OPS_FUNC_MENUSUB', 'menusub');
 define('OPS_INC_RETURN', 'return');
 define('OPS_INC_VIEW', 'view');
 define('OPS_INC_MAIN', 'main');
+define('OPS_SQL_VIEW', 'vwsql');
 define('OPS_FILE_TMPLT', 'index.html');
 
 define('PERPAGENO','5');

@@ -37,13 +37,13 @@ $.extend({
 			//子菜单模块
 			$('#menu_sub').on('click','a',function(){
 				//alert($(this).attr('name')+$(this).attr('id'));
-				data='mr='+$(this).attr('name')+'&f=view&id='+$(this).attr('id');
+				data='mr='+$(this).attr('name')+'&f=view&fr=view&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			});
 			
 			//page
 			$('#page_bar').on('click','a',function(){
-				data='f=page&id='+$(this).attr('id');
+				data='f=view&fr=page&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			})
 			
@@ -53,7 +53,7 @@ $.extend({
 					$('#pageinput').focus();
 					return false;
 				}
-				data='f=page&id='+$('#pageinput').val();
+				data='f=view&fr=page&id='+$('#pageinput').val();
 				$.ajx(url_ajx,data);
 			})
 			
@@ -77,19 +77,19 @@ $.extend({
 					$('#search_word').focus();
 					return false;
 				}
-				data='f=search&searchword='+$('#search_word').val()+'&searchcol='+$('#search_bar').val();
-				$.ajx(url_ajx,data);
-			})	
-			
-			$('#menu_func').on('click','#word_reset',function(){
-				data='f=reset';
+				data='f=view&fr=search&searchword='+$('#search_word').val()+'&searchcol='+$('#search_bar').val();
 				$.ajx(url_ajx,data);
 			})
-
+			
+			$('#menu_func').on('click','#word_reset',function(){
+				data='f=view&fr=reset';
+				$.ajx(url_ajx,data);
+			})
+			
 			//修改
 			$('#menu_func,#content').on('click','[id^=func_]',function(){
 				arr=$(this).attr('id').split('_');
-				data='f=modvw&fr='+arr[1];
+				data='f=view&fr=vw'+arr[1];
 				switch(arr[1]){
 					case ('mod'):
 						data+='&id='+arr[2];

@@ -41,3 +41,11 @@ d.menu新增功能，需关联至role_menu表中
 e.默认role表中id=1的记录含所有menu中parent_id<>0的记录
 f.默认user_role表中id=1的记录含所有menu中parent_id<>0的记录
 g.默认role,user两表中都有id=1的记录
+f.ajax路由过程
+	1.ajax传入参数 参数_名称f(模块) 等 至 模块:main_功能:名称f 
+	2.模块:main_功能:名称f (组装拼接参数后) 传入 模块:main_功能:main (加载 模块:名称f_功能:main,模块:名称f_功能:名称f,comm:main)
+		I  .模块:名称f_功能:main (组装拼接sql参数)
+		II .模块:名称f_功能:名称f (组装拼接sql)
+		III.comm:inc:main  (生成ajax返回显示内容)
+h.各模块的main功能
+	存放、加载该模块的公共数据

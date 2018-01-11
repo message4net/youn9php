@@ -116,6 +116,7 @@ CREATE TABLE `wordbook` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` int(11) NOT NULL,
   `flag` int(11) NOT NULL,
+  `flag_mod` int(11) DEFAULT '0',
   `name` varchar(50) DEFAULT NULL,
   `colnameid` varchar(50) DEFAULT NULL,
   `keyid` varchar(30) DEFAULT NULL,
@@ -124,6 +125,8 @@ CREATE TABLE `wordbook` (
   `menu_sub_id` int(11) DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
   `flag_set` int(11) NOT NULL DEFAULT '0',
+  `sql_main` varchar(300) DEFAULT NULL,
+  `sql_main1` varchar(300) DEFAULT NULL,
   `sql_suffix` varchar(1000) DEFAULT NULL,
   `sql_postfix` varchar(1000) DEFAULT NULL,
   `sql_col_str` varchar(100) DEFAULT NULL,
@@ -132,7 +135,7 @@ CREATE TABLE `wordbook` (
 
 /*Data for the table `wordbook` */
 
-insert  into `wordbook`(`id`,`type`,`flag`,`name`,`colnameid`,`keyid`,`seq`,`odr`,`menu_sub_id`,`parent_id`,`flag_set`,`sql_suffix`,`sql_postfix`,`sql_col_str`) values (1,0,0,'序号','id',NULL,1,0,4,0,1,NULL,NULL,NULL),(2,0,0,'权限名称','name',NULL,2,1,4,0,0,NULL,NULL,NULL),(3,1,0,'权限明细','id','id',3,3,4,0,0,'select m.id,name from menu m,role_menu rm where m.id=rm.menu_sub_id and role_id=',' group by m.id','id,name'),(4,2003,0,'新增','func_add',NULL,1,0,4,0,0,NULL,NULL,NULL),(5,2003,0,'批删除','func_delall',NULL,2,1,4,0,0,NULL,NULL,NULL),(7,1005,0,'编辑','func_mod_',NULL,1,0,4,0,0,NULL,NULL,NULL),(8,1005,1,'删除','func_del_',NULL,3,2,4,0,0,NULL,NULL,NULL),(10,2003,0,'字段设置','func_setcol',NULL,3,2,4,0,1,NULL,NULL,NULL),(11,1005,0,'设置','func_set_',NULL,2,1,4,0,0,NULL,NULL,NULL),(12,6,0,'创建者','creator','creator',0,2,4,0,0,'select id,name from role where id in (',') ','id,name'),(13,2003,0,'批换权','func_setall',NULL,4,3,4,0,0,NULL,NULL,NULL),(15,3000,0,'权限名称',NULL,NULL,0,NULL,4,17,0,NULL,NULL,NULL),(16,3000,0,'创建者',NULL,NULL,0,NULL,4,17,0,NULL,NULL,NULL),(17,2999,0,'搜索',NULL,NULL,0,NULL,4,0,0,NULL,NULL,NULL),(18,0,0,'序号','id',NULL,1,0,4,0,1,NULL,NULL,NULL),(19,0,0,'用户名称','name',NULL,2,1,5,0,0,NULL,NULL,NULL),(21,2003,0,'新增','func_add',NULL,1,0,5,0,0,NULL,NULL,NULL),(22,2003,0,'批删除','func_delall',NULL,2,1,5,0,0,NULL,NULL,NULL),(24,1005,0,'编辑','func_mod_',NULL,1,0,5,0,0,NULL,NULL,NULL),(25,1005,1,'删除','func_del_',NULL,3,2,5,0,0,NULL,NULL,NULL),(27,2003,0,'字段设置','func_setcol',NULL,3,2,5,0,1,NULL,NULL,NULL),(29,6,0,'创建者','creator','creator',0,2,5,0,0,'select id,name from role where id in (',') ','id,name'),(20,0,0,'所属组','role_id','id',2,1,5,0,0,NULL,NULL,NULL),(32,3000,0,'用户名称',NULL,NULL,0,NULL,5,17,0,NULL,NULL,NULL),(33,3000,0,'创建者',NULL,NULL,0,NULL,5,17,0,NULL,NULL,NULL),(34,2999,0,'搜索',NULL,NULL,0,NULL,5,0,0,NULL,NULL,NULL);
+insert  into `wordbook`(`id`,`type`,`flag`,`flag_mod`,`name`,`colnameid`,`keyid`,`seq`,`odr`,`menu_sub_id`,`parent_id`,`flag_set`,`sql_main`,`sql_main1`,`sql_suffix`,`sql_postfix`,`sql_col_str`) values (1,0,0,0,'序号','id',NULL,1,0,4,0,1,NULL,NULL,NULL,NULL,NULL),(2,0,0,0,'权限名称','name',NULL,2,1,4,0,0,NULL,NULL,NULL,NULL,NULL),(3,1,0,0,'权限明细','id','id',3,3,4,0,0,'select m.id,name from menu m,role_menu rm where m.id=rm.menu_sub_id ',' group by m.id',' and role_id=','','id,name'),(4,2003,0,0,'新增','func_add',NULL,1,0,4,0,0,NULL,NULL,NULL,NULL,NULL),(5,2003,0,0,'批删除','oprt_delall',NULL,2,1,4,0,0,NULL,NULL,NULL,NULL,NULL),(7,1005,0,0,'编辑','func_mod_',NULL,1,0,4,0,0,NULL,NULL,NULL,NULL,NULL),(8,1005,1,0,'删除','oprt_del_',NULL,3,2,4,0,0,NULL,NULL,NULL,NULL,NULL),(10,2003,0,0,'字段设置','func_setcol',NULL,3,2,4,0,1,NULL,NULL,NULL,NULL,NULL),(11,1005,0,0,'设置','func_set_',NULL,2,1,4,0,0,NULL,NULL,NULL,NULL,NULL),(12,6,0,1,'创建者','creator','creator',0,2,4,0,0,'select id,name from role ','','where id in (',')','id,name'),(13,2003,0,0,'批换权','func_setall',NULL,4,3,4,0,0,NULL,NULL,NULL,NULL,NULL),(15,3000,0,0,'权限名称','name',NULL,0,NULL,4,17,0,NULL,NULL,NULL,NULL,NULL),(16,3001,0,0,'创建者','creator',NULL,0,NULL,4,17,0,NULL,NULL,'select id from role where name like \'%','%\'',NULL),(17,2999,0,0,'搜索',NULL,NULL,0,NULL,4,0,0,NULL,NULL,NULL,NULL,NULL),(18,0,0,0,'序号','id',NULL,1,0,5,0,1,NULL,NULL,NULL,NULL,NULL),(19,0,0,0,'用户名称','name',NULL,2,1,5,0,0,NULL,NULL,NULL,NULL,NULL),(21,2003,0,0,'新增','func_add',NULL,1,0,5,0,0,NULL,NULL,NULL,NULL,NULL),(22,2003,0,0,'批删除','oprt_delall',NULL,2,1,5,0,0,NULL,NULL,NULL,NULL,NULL),(24,1005,0,0,'编辑','func_mod_',NULL,1,0,5,0,0,NULL,NULL,NULL,NULL,NULL),(25,1005,1,0,'删除','oprt_del_',NULL,3,2,5,0,0,NULL,NULL,NULL,NULL,NULL),(27,2003,0,0,'字段设置','func_setcol',NULL,3,2,5,0,1,NULL,NULL,NULL,NULL,NULL),(29,6,0,1,'创建者','creator','creator',0,2,5,0,0,NULL,NULL,'select id,name from role where id in (',') ','id,name'),(20,6,0,0,'所属组','role_id','id',2,1,5,0,0,NULL,NULL,NULL,NULL,NULL),(32,3000,0,0,'用户名称','name',NULL,0,NULL,5,34,0,NULL,NULL,NULL,NULL,NULL),(33,3001,0,0,'创建者','creator',NULL,0,NULL,5,34,0,NULL,NULL,'select id from role where name like \'%','%\'',NULL),(34,2999,0,0,'搜索',NULL,NULL,0,NULL,5,0,0,NULL,NULL,NULL,NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
