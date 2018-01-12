@@ -41,111 +41,37 @@ class ViewMain extends DbSqlPdo {
 		$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
 		$rec_odr_result=parent::select($rec_odr_sql);
 		
-		$rec_view_spcial_arr=array();
+		//$rec_view_spcial_arr=array();
+		$_return_html='<table>';
 		foreach ($rec_odr_result as $val){
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
-					default:
+					case '0':
+						$_return_html.='<tr><td>'.$val['name'].'</td><td><input id="'.$val['colnameid'].'" type="text"/></td></tr>';
+						break;
+					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 						$_sql_tmp=$val['sql_main'].$val['sql_main1'];
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
+							$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
 							foreach ($_result_tmp as $val2){
-								$rec_view_spcial_arr[$val2[$_arr_colname_tmp[0]]]=$val2[$_arr_colname_tmp[1]];
+								$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
+								if ($val2['flag_set']==1){
+									$_return_html.='checked="checked" disabled="disabled"';
+								}
+								$_return_html.='"/>'.$val2[$_arr_colname_tmp[1]];
 							}
+							$_return_html.='</td></tr>';
 						}
+						break;
+					default:
 						break;
 				}
 			}
 		}
-		
-		//return $_sql_tmp;
-		//$z=$rec_view_spcial_arr;
-		//if ($z){
-		//	$r='';
-		//	foreach ($z as $key=>$val){
-		//		foreach ($val as $key1=>$val1){
-		//			$r.='#K#'.$key1.'#V#'.$val1;
-		//		}
-		//		$r.='<br/>';
-		//	}
-		//}else{
-		//	$r='ERR';
-		//}
-		//return $r;
-		
-		if ($rec_odr_result && $rec_result_body){
-			$_return_html_head='<tr>';
-			$_return_html_body='';
-			$_count=1;
-			foreach ($rec_result_body as $val01){
-				$_return_html_body.='<tr>';
-				foreach ($rec_odr_result as $val){
-					if ($_count==1){
-						$_return_html_head_suffix='';
-						$_return_html_head_postfix='';
-						if ($val['colnameid']=='id' && $val['type']==0){
-							if ($rec_result_func_menu){
-								$_return_html_head_suffix='<th><input type="checkbox" id="0" name="contentall"/></th>';
-							}
-							if ($rec_result_func){
-								$_return_html_head_postfix='<th style="text-align:center">操作</th>';
-							}
-						}
-						$_return_html_head.=$_return_html_head_suffix.'<th>'.$val['name'].'</th>'.$_return_html_head_postfix;
-					}
-					switch ($val['type']){
-						case '0':
-							if ($val['colnameid']=='id'){
-								$_return_html_body_tmp='<td>'.$_count.'</td>';
-								if ($rec_result_func_menu){
-									$_return_html_body_suffix='<td><input type="checkbox" id="'.$val01[$val['colnameid']].'" name="contentlist"/></td>';
-								}else{
-									$_return_html_body_suffix='';
-								}
-								if ($rec_result_func){
-									$_return_html_body_tmp.='<td>';
-									foreach ($rec_result_func as $val02){
-										if ($val02['flag']==1){
-											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);" onclick="if(confirm(\'确实要删除此条记录吗？\')) return true;else return false;">'.$val02['name'].'</a>|';
-										}else{
-											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);">'.$val02['name'].'</a>|';
-										}
-									}
-									$_return_html_body_tmp.='</td>';
-								}
-								$_return_html_body.=$_return_html_body_suffix.$_return_html_body_tmp;
-							}else{
-								$_return_html_body.='<td>'.$val01[$val['colnameid']].'</td>';
-							}
-							break;
-						case '6':
-							$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
-							break;
-						case '1':
-							if (isset($rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]])){
-								$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
-							}else{
-								$_return_html_body.='<td></td>';
-							}
-							break;
-						default:
-							break;
-					}
-				}
-				$_return_html_body.='</tr>';
-				$_count++;
-			}
-			$_return_html_head.='</tr>';
-			$_return_html='<table>'.$_return_html_head.$_return_html_body.'</table>';
-		
-		}else{
-			$_return_html='oops:<,暂无相关记录';
-		}
-		
+		$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
 		return $_return_html;
-		return $_return_arr;
-		//}
 	}
 	
 	/**
@@ -312,42 +238,47 @@ class ViewMain extends DbSqlPdo {
 //return $r;
 
 		if ($rec_odr_result && $rec_result_body){
-			$_return_html_head='<tr>';
+			$_return_html_head='';
 			$_return_html_body='';
 			$_count=1;
 			foreach ($rec_result_body as $val01){
 				$_return_html_body.='<tr>';
 				foreach ($rec_odr_result as $val){
 					if ($_count==1){
-						$_return_html_head_suffix='';
+						$_return_html_head_suffix='<th>';
 						$_return_html_head_postfix='';
 						if ($val['colnameid']=='id' && $val['type']==0){
+							//$_return_html_head_suffix.='<th>';
 							if ($rec_result_func_menu){
-								$_return_html_head_suffix='<th><input type="checkbox" id="0" name="contentall"/></th>';
+								//$_return_html_head_suffix='<th><input type="checkbox" id="0" name="contentall"/></th>';
+								$_return_html_head_suffix.='<input type="checkbox" id="0" name="ckall0"/>';
 							}
 							if ($rec_result_func){
 								$_return_html_head_postfix='<th style="text-align:center">操作</th>';
 							}
 						}
-						$_return_html_head.=$_return_html_head_suffix.'<th>'.$val['name'].'</th>'.$_return_html_head_postfix;
+						$_return_html_head.=$_return_html_head_suffix.$val['name'].'</th>'.$_return_html_head_postfix;
 					}
 					switch ($val['type']){
 						case '0':
 							if ($val['colnameid']=='id'){
-								$_return_html_body_tmp='<td>'.$_count.'</td>';
+								$_return_html_body_suffix='<td>';
+								$_return_html_body_tmp=$_count.'</td>';
 								if ($rec_result_func_menu){
-									$_return_html_body_suffix='<td><input type="checkbox" id="'.$val01[$val['colnameid']].'" name="contentlist"/></td>';
+									$_return_html_body_suffix.='<input type="checkbox" id="'.$val01[$val['colnameid']].'" name="cksub0"/>';
 								}else{
-									$_return_html_body_suffix='';
+									$_return_html_body_suffix.='';
 								}
 								if ($rec_result_func){
 									$_return_html_body_tmp.='<td>';
 									foreach ($rec_result_func as $val02){
+										$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);"';
 										if ($val02['flag']==1){
-											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);" onclick="if(confirm(\'确实要删除此条记录吗？\')) return true;else return false;">'.$val02['name'].'</a>|';
-										}else{
-											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);">'.$val02['name'].'</a>|';
+											$_return_html_body_tmp.=' onclick="if(confirm(\'确实要删除此条记录吗？\')) return true;else return false;"';
+//										}else{
+//											$_return_html_body_tmp.='<a id="'.$val02['colnameid'].$val01[$val['colnameid']].'" href="javascript:void(0);">'.$val02['name'].'</a>|';
 										}
+										$_return_html_body_tmp.='>'.$val02['name'].'</a>|';
 									}
 									$_return_html_body_tmp.='</td>';
 								}
@@ -387,7 +318,7 @@ class ViewMain extends DbSqlPdo {
 	/**
 	 *功能:生成htmlid="tips_nav"中 对应导航位置的 html
 	 */
-	public function gen_navpos_html($menusub_parent_id=-1,$tailname='',$strtips=''){
+	public function gen_navpos_html($tailname='',$menusub_parent_id=-1,$strtips=''){
 		if($menusub_parent_id==-1) $menusub_parent_id=$this->menu_sub_id;
 		if($menusub_parent_id!=0){
 			$_sql_tmp="select * from menu where id=".$menusub_parent_id;
@@ -397,7 +328,7 @@ class ViewMain extends DbSqlPdo {
 			}else{
 				$strtips=$navpos_result_tmp[0]['name'].'->'.$strtips;
 			}
-			return $this->gen_navpos_html($navpos_result_tmp[0]['parent_id'],$tailname,$strtips);
+			return $this->gen_navpos_html($tailname,$navpos_result_tmp[0]['parent_id'],$strtips);
 		}else{
 			if($tailname==''){
 				$strtips='<div style="float:left"><b>当前位置:<i>'.$strtips.'</i></b></div>';

@@ -42,6 +42,25 @@ class DbSqlPdo{
 		}
 		return $datas;
 	}
+	
+	/**
+	 *功能:数据库插入函数
+	 *参数:$sqlSQL语句
+	 *返回:TRUE或FALSE
+	 */
+	public function insert($sql_pre='',$sql_para_arr=array()){
+		if(empty($sql_pre)) return false;//如果SQL语句为空，则返回FALSE
+		if(empty($this->CONN)) return false;//如果连接为空，则放回FALSE
+		$this->CONN->query('set names utf8');
+		$results=$this->CONN->prepare($sql_pre);
+		$datas=$results->execute($sql_para_arr);
+		if((!$datas)){//如果查询结果空则释放结果并返回FALSE
+			return false;
+			//return 'A';
+		}else{
+			return true;
+		}
+	}
 //	/**
 //	 *功能:数据插入函数
 //	 *参数:$sqlSQL语句

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>{title}</title>
+		<link href="{url_rel}css/default.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{url_rel}js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="{url_rel}js/func.js"></script>
+	</head>
+	<body>
+		<div id="main">
+			<div id="main_left" style="display:{nodis}">
+				<div id="logo">{logo}</div>
+				<div id="menu_sub"></div>
+			</div>
+			<div id="main_right" style="display:{nodis}">
+				<div id="info">hi,<span id="span_info">{span_info}</span><a id='logout' href="javascript:void(0);"><span style="font-size:14px;color:yellow"><i>注销</i></span></a></div>
+				<div id="menu_nav">{menu_nav}</div>
+				<div id="menu_func"></div>
+				<div id="tips_nav"></div>
+				<div id="tips"></div>
+				<div id="content"></div>
+				<div id="page_bar"></div>
+			</div>
+			<div id="main_login" style="display:{dis}">
+				<form id="form_login" method="post">
+					<table id="table_login">
+						<tr>
+							<th colspan="2" style="color: black; font-size: 15px; text-align: left">请输入用户名、密码后,</th>
+						</tr>
+						<tr>
+							<th colspan="2" style="color: black; font-size: 15px; text-align: right">点击按钮登录进入系统</th>
+						</tr>
+						<tr>
+							<td>用户名</td>
+							<td><input id="username" type="text" value="" /></td>
+						</tr>
+						<tr>
+							<td>密码</td>
+							<td><input id="userpassword" type="password" value="" /></td>
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align: center"><button id="button_login" type="button">登录</button></td>
+						</tr>
+					</table>
+				</form>
+				<div id='tips_login'></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$.firstinit();
+		</script>
+	</body>
+</html>

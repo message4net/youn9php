@@ -7,15 +7,24 @@ $sql_where_arr=array(
 );
 $sql_where_flag=0;
 
-$_SESSION['page']=1;
-
 //根据传参解析sql
 switch ($_POST['fr']){
 	case 'view':
-		$_SESSION['menu_sub_id']=$_POST['id'];
+		if (!isset($_SESSION['menu_sub_id'])){
+			$_SESSION['menu_sub_id']=$_POST['id'];
+			$_SESSION['searchword']='';
+			$_SESSION['page']=1;
+		}else{
+			if($_SESSION['menu_sub_id']!=$_POST['id']){
+				$_SESSION['searchword']='';
+				$_SESSION['page']=1;
+			}
+		}
 		$_SESSION['mr']=$_POST['mr'];
+		break;
 	case 'reset':
 		$_SESSION['searchword']='';
+		$_SESSION['page']=1;
 		break;
 	case 'page':
 		$_SESSION['page']=$_POST['id'];
@@ -60,4 +69,48 @@ if ($_SESSION['loginroleid']!=1 && $_SESSION['menu_sub_id']>3 && $_SESSION['menu
 	$sql_where_arr['default']='';
 }
 
-require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_MAIN.POSTFIX_MDL;
+//加载对应模块的功能f
+switch ($_POST['f']){
+	default:
+		$mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.$_POST['f'].POSTFIX_MDL;
+		break;
+}
+
+if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
+	require $mdl_path_file;
+	unset($mdl_path_file);
+}else{
+	$return_arr['content']['content']='(ง •̀_•́)ง努力<br/>拼命୧(๑•̀⌄•́๑)૭<br/>制作中。。。';
+}
+
+//选择性生成view_content的html，并输出 
+require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_VIEW.POSTFIX_INC;
+$main_view=new ViewMain($_SESSION['menu_sub_id'], $_SESSION['loginroleid'], $_SESSION['loginuserid'],$rec_sql_suffix,$rec_table,$rec_col,$_SESSION['page']);
+
+$return_arr['content']['tips']='';
+switch ($_POST['fr']){
+	case 'view':
+	case 'reset':
+		$return_arr['content']['page_bar']=$main_view->gen_pagebar_html();
+		$return_arr['content']['content']=$main_view->gen_view_content_html();
+		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html();
+		$return_arr['content']['menu_func']=$main_view->gen_func_html();
+		break;
+	case 'page':
+	case 'search':
+		$return_arr['content']['page_bar']=$main_view->gen_pagebar_html();
+		$return_arr['content']['content']=$main_view->gen_view_content_html();
+		break;
+	case 'vwadd':
+		$return_arr['content']['content']=$main_view->gen_mod_view_html();
+		$return_arr['content']['page_bar']='';
+		$return_arr['content']['menu_func']='';
+		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);
+		break;
+	default:
+		$return_arr[0][0]=$rec_sql_suffix;
+		break;
+}
+
+//替代comm main结束
+

@@ -1,4 +1,8 @@
 <?php
+//替代main 
+$rec_table='role';
+$rec_col='*';
+//替代结束
 
 $rec_sql_suffix=' from '.$rec_table;
 

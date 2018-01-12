@@ -1,8 +1,11 @@
 <head></head><script type="text/javascript" src="http://www.youn9php.com/youn9php/ops/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="http://www.youn9php.com/youn9php/ops/js/test.js"></script></head><body></body>
 <?php
-//$a['a']='A';
-//echo '<script type="text/javascript">$.test('.json_encode($a).')</script>';
+//$a='b';
+//$b=12;
+//echo $$a;
+////$a['a']='A';
+////echo '<script type="text/javascript">$.test('.json_encode($a).')</script>';
 echo '<script type="text/javascript">$.test()</script>';
 
 //require __DIR__.'\t1.php';

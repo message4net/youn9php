@@ -2,7 +2,10 @@ $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
 			var url_ajx='{url_js_ajx}';
-			
+			//var a='b';
+			//var b='d';
+			//eval('z='+a);
+			//alert(z);
 			//登录模块
 			//登入
 			$('#form_login').on('click','button',function(){
@@ -41,7 +44,8 @@ $.extend({
 				$.ajx(url_ajx,data);
 			});
 			
-			//page
+			//浏览
+			//浏览_page
 			$('#page_bar').on('click','a',function(){
 				data='f=view&fr=page&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
@@ -57,20 +61,7 @@ $.extend({
 				$.ajx(url_ajx,data);
 			})
 			
-			//批处理选择
-			$('#content').on('click','input[name="contentall"]',function(){
-				if($('input[name="contentall"]').prop('checked')){
-					$('input[name="contentlist"]').each(function(){
-						$(this).prop('checked',true);
-					})
-				}else{
-					$('input[name="contentlist"]').each(function(){
-						$(this).prop('checked',false);
-					})
-				}
-			});
-			
-			//搜索
+			//浏览_搜索
 			$('#menu_func').on('click','#word_search',function(){
 				if($('#search_word').val()==''){
 					alert('关键词不能为空');
@@ -86,10 +77,31 @@ $.extend({
 				$.ajx(url_ajx,data);
 			})
 			
+			//全选
+			$('#content').on('click','[name^=ckall]',function(){
+				//alert($(this).prop('name').substring(5));
+				ckid=$(this).prop('name').substring(5);
+				if($('input[name="ckall'+ckid+'"]').prop('checked')){
+					$('input[name="cksub'+ckid+'"]').each(function(){
+						if(!$(this).prop('disabled')){
+							$(this).prop('checked',true);
+						}
+					})
+				}else{
+					$('input[name="cksub'+ckid+'"]').each(function(){
+						if(!$(this).prop('disabled')){
+							$(this).prop('checked',false);
+						}
+					})
+				}
+			})
+			
 			//修改
+			//修改_浏览
 			$('#menu_func,#content').on('click','[id^=func_]',function(){
 				arr=$(this).attr('id').split('_');
-				data='f=view&fr=vw'+arr[1];
+				//alert($(this).val());
+				data='f=view&fr=vw'+arr[1]+'&navname='+$(this).html();
 				switch(arr[1]){
 					case ('mod'):
 						data+='&id='+arr[2];
@@ -101,8 +113,51 @@ $.extend({
 				$.ajx(url_ajx,data);
 			})
 			
+			//修改_执行
+			//修改_执行_新增
+			$('#content').on('click','[id^=vwmod_]',function(){
+				arr=$(this).attr('id').split('_');
+				data='f=modify&fr='+arr[1];
+				switch(arr[1]){
+					case ('add'):
+						if($('#name').val()==''){
+							alert('权限名称不能为空');
+							$('#name').focus();
+							return false;
+						}
+						data+='&name='+$('#name').val();
+						str1='&ckarrk=';
+						str='';
+						$('input[name^="ckall"]').each(function(){
+							ckid=$(this).prop('name').substring(5);
+							str1+=ckid+',';
+							str+='&ckarrv'+ckid+'=';
+							$('input[name^="cksub'+ckid+'"]').each(function(){
+								if($(this).prop('checked')){
+									str+=$(this).val()+',';
+								}
+							})
+							str=str.substring(0,str.length-1);
+						})
+						str1=str1.substring(0,str1.length-1);
+						data+=str+str1;
+						break;
+				}
+				//alert(data);
+				$.ajx(url_ajx,data);
+			})
 			
-			
+			//修改_执行_删除
+			$('#content').on('click','[id^=oprt_]',function(){
+				arr=$(this).attr('id').split('_');
+				data='f=modify&fr='+arr[1];
+				switch(arr[1]){
+					case ('del'):
+						data+='&id='+arr[2];
+						break;
+				}
+				$.ajx(url_ajx,data);
+			})
 			
 			
 			
