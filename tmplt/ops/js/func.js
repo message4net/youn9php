@@ -148,14 +148,32 @@ $.extend({
 			})
 			
 			//修改_执行_删除
-			$('#content').on('click','[id^=oprt_]',function(){
+			$('#content,#menu_func').on('click','[id^=oprt_]',function(){
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
 				switch(arr[1]){
 					case ('del'):
 						data+='&id='+arr[2];
 						break;
+					case ('delall'):
+						str='';
+						$('input[name="cksub0"]').each(function(){
+							if($(this).prop('checked')){
+								str+=$(this).attr('id')+',';
+							}
+						})
+						if(str==''){
+							alert('请选择需要删除的记录');
+							$('[name="ckall0"]').focus();
+							return false;
+						}
+						str=str.substring(0,str.length-1);
+						data+='&id='+str;
+						
+						//return false;
+						break;
 				}
+				//alert(data);
 				$.ajx(url_ajx,data);
 			})
 			

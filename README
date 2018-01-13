@@ -15,11 +15,11 @@ b.public/comm/cfg/self.cfg.php配置
 	//define('URL_ALIS','public/');
 	
 	//定义数据库
-	define(DB_NAME,'yd_ops');
-	define(DB_HOST,'www.youn9php.com');
-	define(DB_PORT,'3306');
-	define(DB_USER,'devuser');
-	define(DB_PASSWD,'devuser_@sys.1243.com');
+	define('DB_NAME','yd_ops');
+	define('DB_HOST','www.youn9php.com');
+	define('DB_PORT','3306');
+	define('DB_USER','devuser');
+	define('DB_PASSWD','devuser_@sys.1243.com');
 
 c.wordbook表 type含义
 	a)type [0-1000) 表示view相关的列表字段头名称
