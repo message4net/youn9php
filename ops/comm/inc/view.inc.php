@@ -37,9 +37,13 @@ class ViewMain extends DbSqlPdo {
 	/**
 	 * 功能:生成修改相关功能的浏览html
 	 */
-	public function gen_mod_view_html(){
+	public function gen_mod_view_html($rec_id=''){
 		$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
 		$rec_odr_result=parent::select($rec_odr_sql);
+		$rec_id_result=array();
+		if ($rec_id!=''){
+			$rec_id_result=parent::select($this->rec_sql_suffix);
+		}
 		
 		//$rec_view_spcial_arr=array();
 		$_return_html='<table>';
@@ -47,21 +51,32 @@ class ViewMain extends DbSqlPdo {
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
-						$_return_html.='<tr><td>'.$val['name'].'</td><td><input id="'.$val['colnameid'].'" type="text"/></td></tr>';
+						$_return_html.='<tr><td>'.$val['name'].'</td><td><input id="'.$val['colnameid'].'" type="text" value="';
+						if ($rec_id_result){
+							$_return_html.=$rec_id_result[0][$val['colnameid']];
+						}
+						$_return_html.='"/></td></tr>';
 						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 						$_sql_tmp=$val['sql_main'].$val['sql_main1'];
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
+		$t='';
 							$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
 							foreach ($_result_tmp as $val2){
+		$t.='#2_0#'.$val2[$_arr_colname_tmp[0]];
 								$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								if ($val2['flag_set']==1){
 									$_return_html.='checked="checked" disabled="disabled"';
+								}else{
+									if ($val2[$_arr_colname_tmp[0]]==$rec_id_result[0][$val['colnameid']]){
+										$_return_html.='checked="checked"';
+									}
 								}
 								$_return_html.='"/>'.$val2[$_arr_colname_tmp[1]];
 							}
+		$t.='#v#'.$rec_id_result[0][$val['colnameid']].'@';
 							$_return_html.='</td></tr>';
 						}
 						break;
@@ -71,7 +86,8 @@ class ViewMain extends DbSqlPdo {
 			}
 		}
 		$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
-		return $_return_html;
+		//return $_return_html;
+		return $t;
 	}
 	
 	/**

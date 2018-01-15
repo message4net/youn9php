@@ -57,6 +57,10 @@ switch ($_POST['fr']){
 				break;
 		}
 		break;
+	case 'vwmod':
+	case 'vwset':
+		$sql_1m='id='.$_POST['id'];
+		break;
 	default:
 		break;
 }
@@ -114,7 +118,12 @@ switch ($_POST['fr']){
 		$return_arr['content']['tips']='';
 		break;
 	case 'vwadd':
-		$return_arr['content']['content']=$main_view->gen_mod_view_html();
+	case 'vwmod':
+		if (isset($_POST['id'])){
+			$return_arr['content']['content']=$main_view->gen_mod_view_html($_POST['id']);
+		}else{
+			$return_arr['content']['content']=$main_view->gen_mod_view_html();
+		}
 		$return_arr['content']['page_bar']='';
 		$return_arr['content']['menu_func']='';
 		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);

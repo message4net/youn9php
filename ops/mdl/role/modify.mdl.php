@@ -21,6 +21,7 @@ switch ($_POST['fr']){
 	        $return_arr['content']['tips'].='权限批删除成功,';
 	        //$return_arr[0][0]=$sql_d;
 	        $db_modify->insert($sql_d);
+	        require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
 	    }
 	    break;
 	case 'add':
