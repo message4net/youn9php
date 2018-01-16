@@ -59,24 +59,31 @@ class ViewMain extends DbSqlPdo {
 						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
-						$_sql_tmp=$val['sql_main'].$val['sql_main1'];
+						$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$rec_id.$val['sql_postfix'].$val['sql_main1'];
 						$_result_tmp=parent::select($_sql_tmp);
-						if ($_result_tmp){
-		$t='';
+						$_sql_tmp_menu=$val['sql_relate'];
+						$_result_tmp_menu=parent::select($_sql_tmp_menu);
+						$_arr_menu=array();
+						foreach ($_result_tmp as $val3){
+							$_arr_menu[$val3[$_arr_colname_tmp[0]]]=$val3[$_arr_colname_tmp[1]];
+						}
+						if ($_result_tmp_menu){
+		//$t='';
 							$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
-							foreach ($_result_tmp as $val2){
-		$t.='#2_0#'.$val2[$_arr_colname_tmp[0]];
+							foreach ($_result_tmp_menu as $val2){
+		//$t.='#2_0#'.$val2[$_arr_colname_tmp[0]];
 								$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								if ($val2['flag_set']==1){
 									$_return_html.='checked="checked" disabled="disabled"';
 								}else{
-									if ($val2[$_arr_colname_tmp[0]]==$rec_id_result[0][$val['colnameid']]){
+									if (array_key_exists($val2[$_arr_colname_tmp[0]], $_arr_menu)){
+									//if ($val2[$_arr_colname_tmp[0]]==$val3[$_arr_colname_tmp[0]]){
 										$_return_html.='checked="checked"';
 									}
 								}
 								$_return_html.='"/>'.$val2[$_arr_colname_tmp[1]];
 							}
-		$t.='#v#'.$rec_id_result[0][$val['colnameid']].'@';
+		//$t.='#v#'..'@';
 							$_return_html.='</td></tr>';
 						}
 						break;
@@ -85,9 +92,14 @@ class ViewMain extends DbSqlPdo {
 				}
 			}
 		}
-		$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
-		//return $_return_html;
-		return $t;
+		if ($rec_id==''){
+			$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
+		}else{
+			$_return_html.='<tr><td colspan="2"><button id="vwmod_mod">保存</button></td></tr></table>';
+		}
+		return $_return_html;
+		//return $this->rec_sql_suffix;
+		//return $t;
 	}
 	
 	/**

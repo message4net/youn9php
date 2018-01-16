@@ -59,7 +59,8 @@ switch ($_POST['fr']){
 		break;
 	case 'vwmod':
 	case 'vwset':
-		$sql_1m='id='.$_POST['id'];
+		//$sql_1m='id='.$_POST['id'];
+		$sql_where_arr['add']='id='.$_POST['id'];
 		break;
 	default:
 		break;
