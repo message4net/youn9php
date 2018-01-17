@@ -38,9 +38,67 @@ class ViewMain extends DbSqlPdo {
 	 * 功能:生成设置相关功能的浏览html
 	 */
 	public function gen_set_view_html($rec_id=''){
-		$sql_role_q='select * from role where id='.$rec_id;
-		$sql_view_q='select * from wordbook where type>=0 and type<1000 and menu_sub_id='.$this->menu_sub_id;
-		$sql_func_q='select * from wordbook where type>=1000 and type<2000 and menu_sub_id='.$this->menu_sub_id;
+		$_sql_role_q='select * from role where id='.$rec_id;
+		$_result_role_q=parent::select($_sql_role_q);
+		if ($_result_role_q['0']['creator']==1){
+		  $_sql_menu_q='select * from menu where parent_id>0';
+		  $_sql_view_q='select * from wordbook where type>=0 and type<1000';
+		  $_sql_func_q='select * from wordbook where type>=1000 and type<3000';
+		}else{
+		  $_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_sub_id';
+		  $_sql_view_q='select wb.* from wordbook wb, role_menu rm, role_func rf where wb.menu_sub_id=rm.menu_sub_id and wb.menu_sub_id=rm.menu_sub_id and wb.id=rf.wordbook_id and wb.type>=0 and wb.type<1000';
+		  $_sql_func_q='select wb.* from wordbook wb, role_menu rm, role_func rf where wb.menu_sub_id=rm.menu_sub_id and wb.menu_sub_id=rm.menu_sub_id and wb.id=rf.wordbook_id and type>=1000 and type<3000';
+		}
+		$_result_menu_q=parent::select($_sql_menu_q);
+		$_result_view_q=parent::select($_sql_view_q);
+		$_result_func_q=parent::select($_sql_func_q);
+		$_arr_view=array();
+		$_arr_func=array();
+		if ($_result_view_q){
+		    foreach ($_result_view_q as $_val){
+		        $_arr_view[$_val['menu_sub_id']][$_val['id']]=$_val;
+		    }
+		}
+		if ($_result_func_q){
+		    foreach ($_result_func_q as $_val4){
+		        $_arr_func[$_val4['menu_sub_id']][$_val4['id']]=$_val4;
+		    }
+		}
+		$_return_html='<table><tr><th>名称</th><th>分类</th><th colspan="3">'.$_result_role_q['0']['name'].'</th></tr>';
+		if ($_result_menu_q){
+		    foreach ($_result_menu_q as $_val1){
+		        $_return_html.='<tr><td rowspan="2">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall"'.$_val1['id'].'"/>浏览</td><td>';
+		        $_count=0;
+		        if (isset($_arr_view[$_val1['id']])){
+		            foreach ($_arr_view[$_val1['id']] as $_val2){
+		                $_return_html.='<input type="checkbox" name="vwcksub'.$_val1['id'].'" id="'.$_val2['id'].'"/>'.$_val2['name'];
+		            }
+		            $_count++;
+		            if ($_count>5){
+		                $_return_html.='<br/>';
+		                $_count=0;
+		            }
+		        }else{
+		            $_return_html.='无';
+		        }
+		        $_return_html.='</td><td rowspan="2"><input type="button" id="vwset_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall"'.$_val1['id'].'"/>功能</td><td>';
+		        $_count=0;
+		        if (isset($_arr_func[$_val1['id']])){
+		            foreach ($_arr_func[$_val1['id']] as $_val3){
+		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'"/>'.$_val3['name'];
+		            }
+		            if ($_count>5){
+		                $_return_html.='<br/>';
+		                $_count=0;
+		            }
+		        }else{
+		            $_return_html.='无';
+		        }
+		        $_return_html.='</td></tr>';
+		    }
+		}
+		$_return_html.='<tr><td colspan="4"><input type="button" id="vwsetall" value="批保存"/></td></tr></table>';
+		return $_return_html;
 	}
 	
 	/**
