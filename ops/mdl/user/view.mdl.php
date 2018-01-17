@@ -1,20 +1,16 @@
 <?php
+$rec_table='user';
+$rec_col='*';
 
-//$rec_sql_suffix=' from '.$rec_table.' where creator='.$_SESSION['loginroleid'].$_SESSION['searchword'];
 $rec_sql_suffix=' from '.$rec_table;
-$sql_where_flag='aaaaaaaaaaaa';
+
 foreach ($sql_where_arr as $val){
 	if ($val!=''){
-		if ($sql_where_flag==1){
-			//$b.='true#';
+		if ($sql_where_flag==0){
 			$rec_sql_suffix.=' where '.$val;
-			$sql_where_flag=0;
+			$sql_where_flag=1;
 		}else{
-			//$b.='false#';
 			$rec_sql_suffix.=' and '.$val;
 		}
-	}else{
-		//$b.='A';
 	}
 }
-

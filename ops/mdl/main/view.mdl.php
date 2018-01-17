@@ -16,6 +16,7 @@ switch ($_POST['fr']){
 			$_SESSION['page']=1;
 		}else{
 			if($_SESSION['menu_sub_id']!=$_POST['id']){
+				$_SESSION['menu_sub_id']=$_POST['id'];
 				$_SESSION['searchword']='';
 				$_SESSION['page']=1;
 			}

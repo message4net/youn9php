@@ -35,6 +35,15 @@ class ViewMain extends DbSqlPdo {
 	}
 	
 	/**
+	 * 功能:生成设置相关功能的浏览html
+	 */
+	public function gen_set_view_html($rec_id=''){
+		$sql_role_q='select * from role where id='.$rec_id;
+		$sql_view_q='select * from wordbook where type>=0 and type<1000 and menu_sub_id='.$this->menu_sub_id;
+		$sql_func_q='select * from wordbook where type>=1000 and type<2000 and menu_sub_id='.$this->menu_sub_id;
+	}
+	
+	/**
 	 * 功能:生成修改相关功能的浏览html
 	 */
 	public function gen_mod_view_html($rec_id=''){
@@ -59,13 +68,17 @@ class ViewMain extends DbSqlPdo {
 						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
-						$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$rec_id.$val['sql_postfix'].$val['sql_main1'];
-						$_result_tmp=parent::select($_sql_tmp);
 						$_sql_tmp_menu=$val['sql_relate'];
 						$_result_tmp_menu=parent::select($_sql_tmp_menu);
 						$_arr_menu=array();
-						foreach ($_result_tmp as $val3){
-							$_arr_menu[$val3[$_arr_colname_tmp[0]]]=$val3[$_arr_colname_tmp[1]];
+						if ($rec_id!=''){
+							$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$rec_id.$val['sql_postfix'].$val['sql_main1'];
+							$_result_tmp=parent::select($_sql_tmp);
+							if ($_result_tmp){
+								foreach ($_result_tmp as $val3){
+									$_arr_menu[$val3[$_arr_colname_tmp[0]]]=$val3[$_arr_colname_tmp[1]];
+								}
+							}
 						}
 						if ($_result_tmp_menu){
 		//$t='';
