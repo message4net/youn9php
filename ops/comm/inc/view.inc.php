@@ -72,11 +72,12 @@ class ViewMain extends DbSqlPdo {
 		        if (isset($_arr_view[$_val1['id']])){
 		            foreach ($_arr_view[$_val1['id']] as $_val2){
 		                $_return_html.='<input type="checkbox" name="vwcksub'.$_val1['id'].'" id="'.$_val2['id'].'"/>'.$_val2['name'];
-		            }
-		            $_count++;
-		            if ($_count>5){
-		                $_return_html.='<br/>';
-		                $_count=0;
+		                $_count++;
+		                if ($_count>4){
+		                	$_return_html.='<br/>';
+		                	$_count=0;
+		                }
+		                
 		            }
 		        }else{
 		            $_return_html.='无';
@@ -86,10 +87,11 @@ class ViewMain extends DbSqlPdo {
 		        if (isset($_arr_func[$_val1['id']])){
 		            foreach ($_arr_func[$_val1['id']] as $_val3){
 		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'"/>'.$_val3['name'];
-		            }
-		            if ($_count>5){
-		                $_return_html.='<br/>';
-		                $_count=0;
+		                $_count++;
+		                if ($_count>4){
+		                	$_return_html.='<br/>';
+		                	$_count=0;
+		                }
 		            }
 		        }else{
 		            $_return_html.='无';
