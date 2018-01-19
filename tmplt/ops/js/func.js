@@ -78,17 +78,27 @@ $.extend({
 			})
 			
 			//全选
-			$('#content').on('click','[name^=ckall]',function(){
-				//alert($(this).prop('name').substring(5));
-				ckid=$(this).prop('name').substring(5);
-				if($('input[name="ckall'+ckid+'"]').prop('checked')){
-					$('input[name="cksub'+ckid+'"]').each(function(){
+			$('#content').on('click','[name^=ckall],[name^=vwckall],[name^=stckall]',function(){
+				alert($(this).prop('name').substring(0));
+				switch ($(this).prop('name').substring(0,5)){
+					case ('ckall'):
+						strname=$(this).prop('name').substring(0,2);
+						ckid=$(this).prop('name').substring(5);
+						break;
+					default:
+						strname=$(this).prop('name').substring(0,4);
+						ckid=$(this).prop('name').substring(7);
+						break;
+				};
+
+				if($('input[name="'+strname+'all'+ckid+'"]').prop('checked')){
+					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
 						if(!$(this).prop('disabled')){
 							$(this).prop('checked',true);
 						}
 					})
 				}else{
-					$('input[name="cksub'+ckid+'"]').each(function(){
+					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
 						if(!$(this).prop('disabled')){
 							$(this).prop('checked',false);
 						}
@@ -144,6 +154,64 @@ $.extend({
 						break;
 				}
 				//alert(data);
+				$.ajx(url_ajx,data);
+			})
+			
+			//修改_执行_设置
+			$('#content').on('click','[id^=vwset_]',function(){
+				role=$('[name="setid"]').attr('id');
+				arr=$(this).attr('id').split('_');
+				data='f=modify&fr='+arr[1]+'role='+role;
+				switch(arr[1]){
+					case ('set'):
+						data+='&id='+arr[2];
+						//str2='&stckarrk=';
+						//str1='&vwckarrk=';
+						str='';
+						//$('input[name="vwckall'+arr[2]+'"]').each(function(){
+							//ckid=$(this).prop('name').substring(7);
+							//str1+=ckid+',';
+						str+='&ckarrv'+ckid+'=';
+						$('input[name^="cksub'+arr[2]+'"]').each(function(){
+							if($(this).prop('checked')){
+								str+=$(this).val()+',';
+							}
+						})
+						str=str.substring(0,str.length-1);
+						//})
+						//str1=str1.substring(0,str1.length-1);
+						data+=str;
+						break;
+					case ('setall'):
+						data+='&id='+arr[2];
+						str_id='&vwidarr=';
+						str1='&vwckarrk=';
+						str='';
+						str2='';
+						$('input[name^="vwckall"]').each(function(){
+							ckid=$(this).prop('name').substring(7);
+							str1+=ckid+',';
+							str+='&vwckarrv'+ckid+'=';
+							str2+='&stckarrv'+ckid+'=';
+							$('input[name^="vwcksub'+ckid+'"]').each(function(){
+								if($(this).prop('checked')){
+									str+=$(this).val()+',';
+								}
+							})
+							str=str.substring(0,str.length-1);
+							$('input[name^="stcksub'+ckid+'"]').each(function(){
+								if($(this).prop('checked')){
+									str2+=$(this).val()+',';
+								}
+							})
+							str2=str2.substring(0,str2.length-1);
+						})
+						str1=str1.substring(0,str1.length-1);
+						str2=str2.substring(0,str2.length-1);
+						data+=str+str1+str2;
+						break;
+				}
+				alert(data);
 				$.ajx(url_ajx,data);
 			})
 			

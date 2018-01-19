@@ -1,6 +1,15 @@
 <?php
 $return_arr['content']['tips']='<div style="float:left">';
 switch ($_POST['fr']){
+	case 'set':
+		$sql_q_rm='select * from role_menu where role_id='.$_POST['role'].' and menu_sub_id='.$_POST['id'];
+		$result_q_rm=$db_modify->select($sql_q_rm);
+		if(!$result_q_rm){
+			$db_modify->insert('insert into role_menu ('.$_POST['role'].','.$_POST['id'].')');
+		}
+		break;
+	case 'setall':
+		break;
 	case 'del':
 		$sql_d='delete from role where id='.$_POST['id'];
 		$sql_d_m='delete from role_menu where role_id='.$_POST['id'];

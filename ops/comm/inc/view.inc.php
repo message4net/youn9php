@@ -64,25 +64,28 @@ class ViewMain extends DbSqlPdo {
 		        $_arr_func[$_val4['menu_sub_id']][$_val4['id']]=$_val4;
 		    }
 		}
-		$_return_html='<table><tr><th>名称</th><th>分类</th><th colspan="3">'.$_result_role_q['0']['name'].'</th></tr>';
+		$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$_result_role_q['0']['id'].'" name="setid" colspan="3">'.$_result_role_q['0']['name'].'</th></tr>';
 		if ($_result_menu_q){
 		    foreach ($_result_menu_q as $_val1){
-		        $_return_html.='<tr><td rowspan="2">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall"'.$_val1['id'].'"/>浏览</td><td>';
+		        $_return_html.='<tr><td rowspan="2">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
 		        $_count=0;
 		        if (isset($_arr_view[$_val1['id']])){
 		            foreach ($_arr_view[$_val1['id']] as $_val2){
-		                $_return_html.='<input type="checkbox" name="vwcksub'.$_val1['id'].'" id="'.$_val2['id'].'"/>'.$_val2['name'];
+		                $_return_html.='<input type="checkbox" name="vwcksub'.$_val1['id'].'" id="'.$_val2['id'].'" ';
+		                if ($_val2['flag_set']==1){
+		                	$_return_html.='checked="checked" disabled="disabled"';
+		                }
+		                $_return_html.='/>'.$_val2['name'];
 		                $_count++;
 		                if ($_count>4){
 		                	$_return_html.='<br/>';
 		                	$_count=0;
 		                }
-		                
 		            }
 		        }else{
 		            $_return_html.='无';
 		        }
-		        $_return_html.='</td><td rowspan="2"><input type="button" id="vwset_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall"'.$_val1['id'].'"/>功能</td><td>';
+		        $_return_html.='</td><td rowspan="2"><input type="button" id="vwset_set_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
 		        $_count=0;
 		        if (isset($_arr_func[$_val1['id']])){
 		            foreach ($_arr_func[$_val1['id']] as $_val3){
@@ -99,7 +102,7 @@ class ViewMain extends DbSqlPdo {
 		        $_return_html.='</td></tr>';
 		    }
 		}
-		$_return_html.='<tr><td colspan="4"><input type="button" id="vwsetall" value="批保存"/></td></tr></table>';
+		$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="vwset_setall" value="批保存"/></span></td></tr></table>';
 		return $_return_html;
 	}
 	
