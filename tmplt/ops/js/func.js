@@ -165,12 +165,7 @@ $.extend({
 				switch(arr[1]){
 					case ('set'):
 						data+='&id='+arr[2];
-						//str2='&stckarrk=';
-						//str1='&vwckarrk=';
 						str='';
-						//$('input[name="vwckall'+arr[2]+'"]').each(function(){
-							//ckid=$(this).prop('name').substring(7);
-							//str1+=ckid+',';
 						str+='&ckarrv'+ckid+'=';
 						$('input[name^="cksub'+arr[2]+'"]').each(function(){
 							if($(this).prop('checked')){
@@ -178,8 +173,6 @@ $.extend({
 							}
 						})
 						str=str.substring(0,str.length-1);
-						//})
-						//str1=str1.substring(0,str1.length-1);
 						data+=str;
 						break;
 					case ('setall'):
