@@ -75,21 +75,7 @@ if ($_SESSION['loginroleid']!=1 && $_SESSION['menu_sub_id']>3 && $_SESSION['menu
 	$sql_where_arr['default']='';
 }
 
-//加载对应模块的功能f
-//switch ($_POST['f']){
-//    case 'del':
-//    case 'delall':
-//        $mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
-//        $return_arr[0][0]='del';
-//        require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
-//        break;
-//	default:
-//		$mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.$_POST['f'].POSTFIX_MDL;
-//		break;
-//}
-
 $mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
-//require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 
 if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
 	require $mdl_path_file;
@@ -146,6 +132,3 @@ switch ($_POST['fr']){
 		$return_arr[0][0]=$rec_sql_suffix;
 		break;
 }
-
-//替代comm main结束
-

@@ -125,6 +125,7 @@ $.extend({
 			
 			//修改_执行
 			//修改_执行_新增
+			//	设置ckk以满足多个多选的情况
 			$('#content').on('click','[id^=vwmod_]',function(){
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
@@ -164,9 +165,9 @@ $.extend({
 				data='f=modify&fr='+arr[1]+'role='+role;
 				switch(arr[1]){
 					case ('set'):
-						data+='&id='+arr[2];
+						data+='&menu='+arr[2];
 						str='';
-						str+='&ckarrv'+ckid+'=';
+						str+='&ckarrv'+arr[2]+'=';
 						$('input[name^="cksub'+arr[2]+'"]').each(function(){
 							if($(this).prop('checked')){
 								str+=$(this).val()+',';
@@ -176,7 +177,7 @@ $.extend({
 						data+=str;
 						break;
 					case ('setall'):
-						data+='&id='+arr[2];
+						data+='&role='+arr[2];
 						str_id='&vwidarr=';
 						str1='&vwckarrk=';
 						str='';

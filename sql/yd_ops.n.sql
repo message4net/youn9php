@@ -77,6 +77,21 @@ CREATE TABLE `role_menu` (
 
 insert  into `role_menu`(`role_id`,`menu_sub_id`) values (1,4),(9,4),(12,4),(13,4),(19,4),(21,4),(35,4),(37,4),(38,4),(41,4),(1,5),(9,5),(11,5),(12,5),(20,5),(21,5),(34,5),(37,5),(41,5),(47,5),(1,7),(2,7),(38,7),(41,7),(47,7);
 
+/*Table structure for table `role_menu_func` */
+
+DROP TABLE IF EXISTS `role_menu_func`;
+
+CREATE TABLE `role_menu_func` (
+  `role_id` int(11) NOT NULL,
+  `menu_sub_id` int(11) NOT NULL,
+  `wordbook_id` int(11) NOT NULL,
+  PRIMARY KEY (`role_id`,`menu_sub_id`,`wordbook_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+/*Data for the table `role_menu_func` */
+
+insert  into `role_menu_func`(`role_id`,`menu_sub_id`,`wordbook_id`) values (1,4,1),(1,4,2),(1,4,3),(1,4,4),(1,4,5),(1,4,7),(1,4,8),(1,4,10),(1,4,11),(1,4,12),(1,4,13),(9,4,1),(9,4,2),(9,4,3),(9,4,4),(9,4,5),(9,4,7),(9,4,8),(9,4,10),(9,4,11),(9,4,12),(9,4,13),(35,4,1),(35,4,2),(35,4,3),(35,4,4),(35,4,5),(35,4,7),(35,4,8),(35,4,10),(35,4,11),(35,4,12),(35,4,13),(38,4,1),(38,4,2),(38,4,4),(38,4,10),(38,4,13),(41,4,1),(41,4,2),(41,4,3),(41,4,4),(41,4,5),(41,4,7),(41,4,8),(41,4,10),(41,4,11),(41,4,12),(41,4,13);
+
 /*Table structure for table `user` */
 
 DROP TABLE IF EXISTS `user`;

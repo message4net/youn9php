@@ -2,18 +2,21 @@
 $return_arr['content']['tips']='<div style="float:left">';
 switch ($_POST['fr']){
 	case 'set':
-		$sql_q_rm='select * from role_menu where role_id='.$_POST['role'].' and menu_sub_id='.$_POST['id'];
-		$result_q_rm=$db_modify->select($sql_q_rm);
-		if(!$result_q_rm){
-			$db_modify->insert('insert into role_menu ('.$_POST['role'].','.$_POST['id'].')');
-		}
+		//$sql_q_rm='select * from role_menu where role_id='.$_POST['role'].' and menu_sub_id='.$_POST['menu'];
+		//$result_q_rm=$db_modify->select($sql_q_rm);
+		//if(!$result_q_rm){
+		//	$db_modify->insert('insert into role_menu ('.$_POST['role'].','.$_POST['menu'].')');
+		//}
+		$sql_q_rf='select * from role_menu_func where role_id='.$_POST['role'].' and menu_sub_id='.$_POST['menu'];
+		$arr_v=explode(',', $_POST['ckarrv'.$_POST['menu']]);
 		break;
 	case 'setall':
 		break;
 	case 'del':
 		$sql_d='delete from role where id='.$_POST['id'];
-		$sql_d_m='delete from role_menu where role_id='.$_POST['id'];
-		$sql_d_f='delete from role_func where role_id='.$_POST['id'];
+		//$sql_d_m='delete from role_menu where role_id='.$_POST['id'];
+		//$sql_d_f='delete from role_func where role_id='.$_POST['id'];
+		$sql_d_f='delete from role_menu_func where role_id='.$_POST['id'];
 		$sql_q='select * from role where creator='.$_POST['id'];
 		$result_q=$db_modify->select($sql_q);
 		if ($result_q){
@@ -23,11 +26,9 @@ switch ($_POST['fr']){
 			}
 		}
 		$db_modify->insert($sql_d);
-		$db_modify->insert($sql_d_m);
+		//$db_modify->insert($sql_d_m);
 		$db_modify->insert($sql_d_f);
 		$return_arr['content']['tips'].='权限删除成功,';
-		//$return_arr[0][0]=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
-		//$return_arr[0][0]=$sql_d;
 		require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
 		break;
 	case 'delall':
@@ -47,29 +48,27 @@ switch ($_POST['fr']){
 	        }
 	        $str=substr($str,0,strlen($str)-1);
 	        $sql_d='delete from role where id in ('.$str.')';
-	        $sql_d_m='delete from role_menu where role_id in ('.$str.')';
-	        $sql_d_f='delete from role_func where role_id in ('.$str.')';
+	        //$sql_d_m='delete from role_menu where role_id in ('.$str.')';
+	        //$sql_d_f='delete from role_func where role_id in ('.$str.')';
+	        $sql_d_f='delete from role_menu_func where role_id in ('.$str.')';
 	        $return_arr['content']['tips'].='权限批删除成功,';
 	        //$return_arr[0][0]=$sql_d;
 	        $db_modify->insert($sql_d);
 	        $db_modify->insert($sql_d_f);
-	        $db_modify->insert($sql_d_m);
+	        //$db_modify->insert($sql_d_m);
 	        require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
 	    }
 	    break;
 	case 'add':
-		//$return_arr[0][0]='';
-
+		//此处并未区别ckk,若需要可以考虑wordbook新类别中加入表名
 		$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['name'].'\'';
 		$result_vrf=$db_modify->select($sql_vrf);
 		if ($result_vrf){
-			$return_arr['content']['tips']='<div style="float:left">用户名已存在</div>';
+			$return_arr['content']['tips']='<div style="float:left">权限名已存在</div>';
 			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 		}
 		$sql_i='insert into role (name,creator) values (\''.$_POST['name'].'\','.$_SESSION['loginroleid'].')';
 		$db_modify->insert($sql_i);
-//$return_arr[0][0].=$sql_i.';';
-		//$return_arr['content']['tips']='<div style="float:left">权限名新增成功,';
 		$return_arr['content']['tips']='权限名新增成功,';
 		$result_vrf=$db_modify->select($sql_vrf);
 		$arr_k=explode(',',$_POST['ckarrk']);
@@ -93,15 +92,16 @@ switch ($_POST['fr']){
 					$str=substr($str,0,strlen($str)-1);
 				}
 			}
-			if ($str!=''){
-				$sql_i='insert into role_menu values '.$str;
-				$db_modify->insert($sql_i);
-				$return_arr['content']['tips'].='权限新增成功,';
-			}
+			//if ($str!=''){
+			//	$sql_i='insert into role_menu values '.$str;
+			//	$db_modify->insert($sql_i);
+			//	$return_arr['content']['tips'].='权限新增成功,';
+			//}
 			if ($str_sql_i_f!=''){
-				$sql_i_f='insert into role_func '.$str_sql_i_f;
+				//$sql_i_f='insert into role_func '.$str_sql_i_f;
+				$sql_i_f='insert into role_menu_func '.$str_sql_i_f;
 				$db_modify->insert($sql_i_f);
-				$return_arr['content']['tips'].='默认功能新增成功,';
+				$return_arr['content']['tips'].='权限默认功能新增成功,';
 			}
 		}
 		//$return_arr['content']['tips'].='</div>';
