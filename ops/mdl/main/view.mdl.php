@@ -10,13 +10,13 @@ $sql_where_flag=0;
 //根据传参解析sql
 switch ($_POST['fr']){
 	case 'view':
-		if (!isset($_SESSION['menu_sub_id'])){
-			$_SESSION['menu_sub_id']=$_POST['id'];
+		if (!isset($_SESSION['menu_id'])){
+			$_SESSION['menu_id']=$_POST['id'];
 			$_SESSION['searchword']='';
 			$_SESSION['page']=1;
 		}else{
-			if($_SESSION['menu_sub_id']!=$_POST['id']){
-				$_SESSION['menu_sub_id']=$_POST['id'];
+			if($_SESSION['menu_id']!=$_POST['id']){
+				$_SESSION['menu_id']=$_POST['id'];
 				$_SESSION['searchword']='';
 				$_SESSION['page']=1;
 			}
@@ -69,7 +69,7 @@ switch ($_POST['fr']){
 
 //sql参数赋值
 $sql_where_arr['search']=$_SESSION['searchword'];
-if ($_SESSION['loginroleid']!=1 && $_SESSION['menu_sub_id']>3 && $_SESSION['menu_sub_id']<6){
+if ($_SESSION['loginroleid']!=1 && $_SESSION['menu_id']>3 && $_SESSION['menu_id']<6){
 	$sql_where_arr['default']='creator='.$_SESSION['loginroleid'];
 }else{
 	$sql_where_arr['default']='';
@@ -87,7 +87,7 @@ if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
 
 //选择性生成view_content的html，并输出 
 require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_VIEW.POSTFIX_INC;
-$main_view=new ViewMain($_SESSION['menu_sub_id'], $_SESSION['loginroleid'], $_SESSION['loginuserid'],$rec_sql_suffix,$rec_table,$rec_col,$_SESSION['page']);
+$main_view=new ViewMain($_SESSION['menu_id'], $_SESSION['loginroleid'], $_SESSION['loginuserid'],$rec_sql_suffix,$rec_table,$rec_col,$_SESSION['page']);
 
 
 switch ($_POST['fr']){
@@ -127,6 +127,7 @@ switch ($_POST['fr']){
 	case 'del':
 	case 'delall':
 	    $return_arr['content']['content']=$main_view->gen_view_content_html();
+	    $return_arr['content']['page_bar']=$main_view->gen_pagebar_html();
 	    break;
 	default:
 		$return_arr[0][0]=$rec_sql_suffix;

@@ -8,7 +8,7 @@ class ViewMain extends DbSqlPdo {
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
 	 *	必有参数:
-	 *		$menu_sub_id,$login_role_id,$login_user_id,$rec_sql_suffix,$rec_table,
+	 *		$menu_id,$login_role_id,$login_user_id,$rec_sql_suffix,$rec_table,
 	 *		//$rec_col,
 	 *	默认参数:
 	 *		$rec_pagenum_post_tmp,
@@ -16,10 +16,10 @@ class ViewMain extends DbSqlPdo {
 	 *		$para_arr['search']['col'],$para_arr['search']['word'],
 	 *
 	 */
-	public function __construct($menu_sub_id,$login_role_id,$login_user_id,$rec_sql_suffix,$rec_table='',$rec_col='',$rec_pagenum_post_tmp=1,$para_arr=array()){
+	public function __construct($menu_id,$login_role_id,$login_user_id,$rec_sql_suffix,$rec_table='',$rec_col='',$rec_pagenum_post_tmp=1,$para_arr=array()){
 		//public function __construct($menu_sub_id,$login_role_id,$rec_pagenum_post_tmp=1,$rec_word_search='',$rec_col_search=''){
 		parent::__construct();
-		$this->menu_sub_id=$menu_sub_id;
+		$this->menu_id=$menu_id;
 		$this->login_role_id=$login_role_id;
 		$this->login_user_id=$login_user_id;
 		$this->pagenum_per=PERPAGENO;
@@ -45,9 +45,12 @@ class ViewMain extends DbSqlPdo {
 		  $_sql_view_q='select * from wordbook where type>=0 and type<1000';
 		  $_sql_func_q='select * from wordbook where type>=1000 and type<3000';
 		}else{
-		  $_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_sub_id';
-		  $_sql_view_q='select wb.* from wordbook wb, role_menu rm, role_func rf where wb.menu_sub_id=rm.menu_sub_id and wb.menu_sub_id=rm.menu_sub_id and wb.id=rf.wordbook_id and wb.type>=0 and wb.type<1000';
-		  $_sql_func_q='select wb.* from wordbook wb, role_menu rm, role_func rf where wb.menu_sub_id=rm.menu_sub_id and wb.menu_sub_id=rm.menu_sub_id and wb.id=rf.wordbook_id and type>=1000 and type<3000';
+		  $_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_id';
+		  $_sql_view_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and wb.type>=0 and wb.type<1000';
+		  $_sql_func_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and type>=1000 and type<3000';
+		  //$_sql_menu_q='select m.* from menu m, role_menu_func rmf where m.parent_id>0 and m.id=rmf.menu_sub_id and rmf.role_id='.$rec_id.' group by m.id';
+		  //$_sql_view_q='select wb.* from wordbook wb, role_menu_func rmf where wb.menu_sub_id=rmf.menu_sub_id and wb.menu_sub_id=rmf.menu_sub_id and wb.type>=0 and wb.type<1000 and rmf.role_id='.$rec_id;
+		  //$_sql_func_q='select wb.* from wordbook wb, role_menu rmf where wb.menu_sub_id=rmf.menu_sub_id and wb.menu_sub_id=rmf.menu_sub_id type>=1000 and type<3000 and rmf.role_id='.$rec_id;
 		}
 		$_result_menu_q=parent::select($_sql_menu_q);
 		$_result_view_q=parent::select($_sql_view_q);
@@ -56,12 +59,12 @@ class ViewMain extends DbSqlPdo {
 		$_arr_func=array();
 		if ($_result_view_q){
 		    foreach ($_result_view_q as $_val){
-		        $_arr_view[$_val['menu_sub_id']][$_val['id']]=$_val;
+		        $_arr_view[$_val['menu_id']][$_val['id']]=$_val;
 		    }
 		}
 		if ($_result_func_q){
 		    foreach ($_result_func_q as $_val4){
-		        $_arr_func[$_val4['menu_sub_id']][$_val4['id']]=$_val4;
+		        $_arr_func[$_val4['menu_id']][$_val4['id']]=$_val4;
 		    }
 		}
 		$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$_result_role_q['0']['id'].'" name="setid" colspan="3">'.$_result_role_q['0']['name'].'</th></tr>';
@@ -110,7 +113,8 @@ class ViewMain extends DbSqlPdo {
 	 * 功能:生成修改相关功能的浏览html
 	 */
 	public function gen_mod_view_html($rec_id=''){
-		$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+		//$rec_odr_sql='select wb.* from wordbook wb, role_menu_func rmf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rmf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		$rec_odr_result=parent::select($rec_odr_sql);
 		$rec_id_result=array();
 		if ($rec_id!=''){
@@ -233,7 +237,7 @@ class ViewMain extends DbSqlPdo {
 	 *初始化数据
 	 */
 	public function init_recarr(){
-		$rec_tablename_sql='select * from menu where id='.$this->menu_sub_id;
+		$rec_tablename_sql='select * from menu where id='.$this->menu_id;
 		$rec_tablename_result=parent::select($rec_tablename_sql);
 		//$this->rec_table=$rec_tablename_result[0]['tablename'];
 		$this->rec_init_arr['menusub_parent_id']=$rec_tablename_result[0]['parent_id'];
@@ -267,16 +271,19 @@ class ViewMain extends DbSqlPdo {
 
 		return $pagebar_html;
 	}
-
+	
+	/**
+	 *生成content div 内的 html 内容
+	 */
 	public function gen_view_content_html(){
-		$sql_head_user='select * from user_col where user_id='.$this->login_user_id.' and menu_sub_id='.$this->menu_sub_id;
+		$sql_head_user='select * from user_wordbook where user_id='.$this->login_user_id;
 		$result_head_user=parent::select($sql_head_user);
 		if($result_head_user){
-			//$rec_head_sql='select * from wordbook wb, role_func rf, user_col uc where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and type=1 and wb.menu_sub_id='.$this->menu_sub_id.' order by seq';
-			$rec_odr_sql='select wb.* from wordbook wb, role_func rf, user_col uc where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+			//$rec_odr_sql='select wb.* from wordbook wb, role_func rf, user_col uc where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb, user_wordbook uwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uwb.user_id='.$this->login_user_id.' and uwb.wordbook_id=wb.id and wb.menu_id=rwb.menu_id and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		}else{
-			//$rec_head_sql='select * from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and type=1 and wb.menu_sub_id='.$this->menu_sub_id.' order by seq';
-			$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+			//$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		}
 		//$rec_head_result=parent::select($rec_head_sql);
 		$rec_odr_result=parent::select($rec_odr_sql);
@@ -284,16 +291,20 @@ class ViewMain extends DbSqlPdo {
 		$rec_sql_body=$this->rec_sql_suffix.' order by id desc limit '.$this->rec_init_arr['rec_num_start'].','.$this->pagenum_per.';';;
 		$rec_result_body=parent::select($rec_sql_body);
 		
-		$rec_sql_func='select * from wordbook wb, role_func rf where type>=1000 and type<2000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
-		$rec_sql_func_menu='select * from wordbook wb, role_func rf where type>=2000 and type<3000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+		//$rec_sql_func='select * from wordbook wb, role_func rf where type>=1000 and type<2000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+		//$rec_sql_func_menu='select * from wordbook wb, role_func rf where type>=2000 and type<3000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
+		$rec_sql_func='select wb.* from wordbook wb, role_wordbook rwb where type>=1000 and type<2000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+		$rec_sql_func_menu='select wb.* from wordbook wb, role_wordbook rwb where type>=2000 and type<3000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		$rec_result_func=parent::select($rec_sql_func);
 		$rec_result_func_menu=parent::select($rec_sql_func_menu);
 		
 		$rec_view_spcial_arr=array();
+////$r_sql_tmp='';
 		foreach ($rec_odr_result as $val){
 			$_str_tmp='';
 			switch ($val['type']){
 				case '6':
+////$r_sql_tmp.=$val['id'].'@';
 					$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 					foreach ($rec_result_body as $val1){
 						$_str_tmp.='\''.$val1[$val['colnameid']].'\',';
@@ -301,8 +312,14 @@ class ViewMain extends DbSqlPdo {
 					$_str_tmp=substr($_str_tmp,0,strlen($_str_tmp)-1);
 					$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$_str_tmp.$val['sql_postfix'].$val['sql_main1'];
 					$_result_tmp=parent::select($_sql_tmp);
+////$r_sql_tmp.=$_sql_tmp.';@';
 					if ($_result_tmp){
 						foreach ($_result_tmp as $val2){
+//////foreach ($_result_tmp as $k2=>$val2){
+//////$r_sql_tmp.=$k2.'#';
+//////foreach ($val2 as $k3=>$v3){
+//////	$r_sql_tmp.=$k3.'##'.$v3.'##';
+//////}
 							$rec_view_spcial_arr[$val['id']][$val2[$_arr_colname_tmp[0]]]=$val2[$_arr_colname_tmp[1]];
 						}
 					}
@@ -416,6 +433,7 @@ class ViewMain extends DbSqlPdo {
 		}
 
 		return $_return_html;
+////return $r_sql_tmp;
 
 	}
 
@@ -423,7 +441,7 @@ class ViewMain extends DbSqlPdo {
 	 *功能:生成htmlid="tips_nav"中 对应导航位置的 html
 	 */
 	public function gen_navpos_html($tailname='',$menusub_parent_id=-1,$strtips=''){
-		if($menusub_parent_id==-1) $menusub_parent_id=$this->menu_sub_id;
+		if($menusub_parent_id==-1) $menusub_parent_id=$this->menu_id;
 		if($menusub_parent_id!=0){
 			$_sql_tmp="select * from menu where id=".$menusub_parent_id;
 			$navpos_result_tmp=parent::select($_sql_tmp);
@@ -453,8 +471,8 @@ class ViewMain extends DbSqlPdo {
 		$func_html='';
 //		switch ($category_id){
 //			case 1:
-				$func_left_sql='select * from wordbook where type>=2000 and type<2500 and menu_sub_id='.$this->menu_sub_id.' order by odr';
-				$func_right_sql='select * from wordbook where type>=2500 and type<3000 and menu_sub_id='.$this->menu_sub_id.' order by odr';
+				$func_left_sql='select * from wordbook where type>=2000 and type<2500 and menu_id='.$this->menu_id.' order by odr';
+				$func_right_sql='select * from wordbook where type>=2500 and type<3000 and menu_id='.$this->menu_id.' order by odr';
 //				break;
 //			default:
 //				//$func_left_sql='select * from wordbook where type=8 and menu_sub_id='.$this->menu_sub_id.' order by seq';
@@ -476,7 +494,7 @@ class ViewMain extends DbSqlPdo {
 			foreach ($func_right_result as $val){
 				switch ($val['type']) {
 					case '2999':
-						$_sql_tmp='select * from wordbook where parent_id='.$val['id'].' and type>=3000 and type<3100 and menu_sub_id='.$this->menu_sub_id;
+						$_sql_tmp='select * from wordbook where parent_id='.$val['id'].' and type>=3000 and type<3100 and menu_id='.$this->menu_id;
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
 							$func_html.='<select id="search_bar" style="font-size:11px;width:70px;height:20px">';
