@@ -48,6 +48,7 @@ h.ajax路由过程
 		II .模块:名称f_功能:名称f (组装拼接sql)
 		III.comm:inc:main  (生成ajax返回显示内容)
 i.完善admin权限组语句
-	insert into role_menu_func select '1',wb.menu_sub_id,wb.id from role_menu_func rmf right join wordbook wb on wb.id=rmf.wordbook_id and wb.menu_sub_id=rmf.menu_sub_id and role_id=1 where type<3000 and role_id is null; 
+	insert into role_menu select '1',wb.menu_id from role_menu rm right join wordbook wb on wb.menu_id=rm.menu_id and role_id=1 where type<3000 and role_id is null group by wb.menu_id; 
+	insert into role_wordbook select '1',wb.id from role_wordbook rwb right join wordbook wb on wb.id=rwb.wordbook_id and role_id=1 where type<3000 and role_id is null;
 	
 	

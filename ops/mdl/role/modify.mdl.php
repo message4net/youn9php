@@ -74,12 +74,12 @@ switch ($_POST['fr']){
 		$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['name'].'\'';
 		$result_vrf=$db_modify->select($sql_vrf);
 		if ($result_vrf){
-			$return_arr['content']['tips']='<div style="float:left">权限名已存在</div>';
+			$return_arr['content']['tips']='<div style="float:left">权限名<i>'.$_POST['name'].'</i>已存在</div>';
 			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 		}
 		$sql_i='insert into role (name,creator) values (\''.$_POST['name'].'\','.$_SESSION['loginroleid'].')';
 		$db_modify->insert($sql_i);
-		$return_arr['content']['tips']='权限名新增成功,';
+		$return_arr['content']['tips']='<i>'.$_POST['name'].'</i>权限名新增成功,';
 		$result_vrf=$db_modify->select($sql_vrf);
 		$arr_k=explode(',',$_POST['ckarrk']);
 		if ($arr_k){
@@ -91,10 +91,11 @@ switch ($_POST['fr']){
 					foreach ($arr_v as $val1){
 						$str.='('.$result_vrf[0]['id'].','.$val1.'),';
 						$sql_q_f='select * from wordbook where flag_set=1 and menu_id='.$val1;
+					
 						$result_q_f=$db_modify->select($sql_q_f);
 						if ($result_q_f){
 							foreach ($result_q_f as $val2){
-								$str_sql_i_f.='('.$result_vrf[0]['id'].$val2['id'].'),';
+								$str_sql_i_f.='('.$result_vrf[0]['id'].','.$val2['id'].'),';
 							}
 						}
 					}
@@ -109,7 +110,7 @@ switch ($_POST['fr']){
 			}
 			if ($str_sql_i_f!=''){
 				//$sql_i_f='insert into role_func '.$str_sql_i_f;
-				$sql_i_f='insert into role_wordbook '.$str_sql_i_f;
+				$sql_i_f='insert into role_wordbook values '.$str_sql_i_f;
 				$db_modify->insert($sql_i_f);
 				$return_arr['content']['tips'].='权限默认功能新增成功,';
 			}
