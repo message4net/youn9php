@@ -79,7 +79,7 @@ $.extend({
 			
 			//全选
 			$('#content').on('click','[name^=ckall],[name^=vwckall],[name^=stckall]',function(){
-				alert($(this).prop('name').substring(0));
+				//alert($(this).prop('name').substring(0));
 				switch ($(this).prop('name').substring(0,5)){
 					case ('ckall'):
 						strname=$(this).prop('name').substring(0,2);
@@ -129,32 +129,56 @@ $.extend({
 			$('#content').on('click','[id^=vwmod_]',function(){
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
-				switch(arr[1]){
-					case ('add'):
-						if($('#name').val()==''){
-							alert('权限名称不能为空');
-							$('#name').focus();
-							return false;
+				if($('#name').val()==''){
+					alert('权限名称不能为空');
+					$('#name').focus();
+					return false;
+				}
+				data+='&name='+$('#name').val();
+				str1='&ckarrk=';
+				str='';
+				$('input[name^="ckall"]').each(function(){
+					ckid=$(this).prop('name').substring(5);
+					str1+=ckid+',';
+					str+='&ckarrv'+ckid+'=';
+					$('input[name^="cksub'+ckid+'"]').each(function(){
+						if($(this).prop('checked')){
+							str+=$(this).val()+',';
 						}
-						data+='&name='+$('#name').val();
-						str1='&ckarrk=';
-						str='';
-						$('input[name^="ckall"]').each(function(){
-							ckid=$(this).prop('name').substring(5);
-							str1+=ckid+',';
-							str+='&ckarrv'+ckid+'=';
-							$('input[name^="cksub'+ckid+'"]').each(function(){
-								if($(this).prop('checked')){
-									str+=$(this).val()+',';
-								}
-							})
-							str=str.substring(0,str.length-1);
-						})
-						str1=str1.substring(0,str1.length-1);
-						data+=str+str1;
+					})
+					str=str.substring(0,str.length-1);
+				})
+				str1=str1.substring(0,str1.length-1);
+				data+=str+str1;
+				switch(arr[1]){
+//					case ('add'):
+//						if($('#name').val()==''){
+//							alert('权限名称不能为空');
+//							$('#name').focus();
+//							return false;
+//						}
+//						data+='&name='+$('#name').val();
+//						str1='&ckarrk=';
+//						str='';
+//						$('input[name^="ckall"]').each(function(){
+//							ckid=$(this).prop('name').substring(5);
+//							str1+=ckid+',';
+//							str+='&ckarrv'+ckid+'=';
+//							$('input[name^="cksub'+ckid+'"]').each(function(){
+//								if($(this).prop('checked')){
+//									str+=$(this).val()+',';
+//								}
+//							})
+//							str=str.substring(0,str.length-1);
+//						})
+//						str1=str1.substring(0,str1.length-1);
+//						data+=str+str1;
+//						break;
+					case ('mod'):
+						data+='&id='+arr[2];
 						break;
 				}
-				//alert(data);
+				alert(data);
 				$.ajx(url_ajx,data);
 			})
 			

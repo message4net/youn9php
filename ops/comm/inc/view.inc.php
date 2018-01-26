@@ -172,11 +172,15 @@ class ViewMain extends DbSqlPdo {
 				}
 			}
 		}
+		$_return_html.='<tr><td colspan="2"><button id="vwmod_';
 		if ($rec_id==''){
-			$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
+			//$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
+			$_return_html.='add';
 		}else{
-			$_return_html.='<tr><td colspan="2"><button id="vwmod_mod">保存</button></td></tr></table>';
+			//$_return_html.='<tr><td colspan="2"><button id="vwmod_mod_'.$rec_id.'">保存</button></td></tr></table>';
+			$_return_html.='mod_'.$rec_id;
 		}
+		$_return_html.='">保存</button></td></tr></table>';
 		return $_return_html;
 		//return $this->rec_sql_suffix;
 		//return $t;
