@@ -70,7 +70,7 @@ class ViewMain extends DbSqlPdo {
 		$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$_result_role_q['0']['id'].'" name="setid" colspan="3">'.$_result_role_q['0']['name'].'</th></tr>';
 		if ($_result_menu_q){
 		    foreach ($_result_menu_q as $_val1){
-		        $_return_html.='<tr><td rowspan="2">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
+		        $_return_html.='<tr><td rowspan="2" name="ckall'.$_val1['id'].'">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
 		        $_count=0;
 		        if (isset($_arr_view[$_val1['id']])){
 		            foreach ($_arr_view[$_val1['id']] as $_val2){
@@ -92,7 +92,11 @@ class ViewMain extends DbSqlPdo {
 		        $_count=0;
 		        if (isset($_arr_func[$_val1['id']])){
 		            foreach ($_arr_func[$_val1['id']] as $_val3){
-		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'"/>'.$_val3['name'];
+		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'" ';
+		                if ($_val3['flag_set']==1){
+		                    $_return_html.='checked="checked" disabled="disabled"';
+		                }
+		                $_return_html.='/>'.$_val3['name'];
 		                $_count++;
 		                if ($_count>4){
 		                	$_return_html.='<br/>';
@@ -245,6 +249,7 @@ class ViewMain extends DbSqlPdo {
 		$rec_tablename_result=parent::select($rec_tablename_sql);
 		//$this->rec_table=$rec_tablename_result[0]['tablename'];
 		$this->rec_init_arr['menusub_parent_id']=$rec_tablename_result[0]['parent_id'];
+		$this->rec_init_arr['tailname']=$rec_tablename_result[0]['name'];
 		$rec=$this->gen_rec_pagenum_total();
 		$this->rec_init_arr['rec_pagenum_total']=$rec['pagenum_total'];
 		$this->rec_init_arr['rec_count']=$rec['count'];

@@ -184,48 +184,60 @@ $.extend({
 			
 			//修改_执行_设置
 			$('#content').on('click','[id^=vwset_]',function(){
-				role=$('[name="setid"]').attr('id');
 				arr=$(this).attr('id').split('_');
-				data='f=modify&fr='+arr[1]+'role='+role;
+				data='f=modify&fr='+arr[1];
 				switch(arr[1]){
 					case ('set'):
-						data+='&menu='+arr[2];
+						role=$('[name="setid"]').attr('id');
+						data+='&id='+role;
+						data+='&ckarrk='+arr[2];
+						//str='&vwckarrv'+arr[2]+'=';
+						//str1='&stckarrv'+arr[2]+'=';
 						str='';
-						str+='&ckarrv'+arr[2]+'=';
-						$('input[name^="cksub'+arr[2]+'"]').each(function(){
+						str1='';
+						$('input[name^="vwcksub'+arr[2]+'"]').each(function(){
 							if($(this).prop('checked')){
-								str+=$(this).val()+',';
+								str+=$(this).prop('id')+',';
 							}
 						})
-						str=str.substring(0,str.length-1);
-						data+=str;
+						$('input[name^="stcksub'+arr[2]+'"]').each(function(){
+							if($(this).prop('checked')){
+								str1+=$(this).prop('id')+',';
+							}
+						})
+						//str=str.substring(0,str.length-1);
+						//str1=str1.substring(0,str1.length-1);
+						str='&vwckarrv'+arr[2]+'='+str.substring(0,str.length-1);
+						str1='&stckarrv'+arr[2]+'='+str1.substring(0,str1.length-1);
+						data+=str+str1;
 						break;
 					case ('setall'):
-						data+='&role='+arr[2];
-						str_id='&vwidarr=';
-						str1='&vwckarrk=';
-						str='';
+						role=$('[name="setid"]').attr('id');
+						data+='&id='+role;
+						str='&ckarrk=';
+						str1='';
 						str2='';
-						$('input[name^="vwckall"]').each(function(){
-							ckid=$(this).prop('name').substring(7);
-							str1+=ckid+',';
-							str+='&vwckarrv'+ckid+'=';
+						$('[name^="ckall"]').each(function(){
+							ckid=$(this).prop('name').substring(5);
+							//alert($(this).prop('name'));
+							str+=ckid+',';
+							str1+='&vwckarrv'+ckid+'=';
 							str2+='&stckarrv'+ckid+'=';
 							$('input[name^="vwcksub'+ckid+'"]').each(function(){
 								if($(this).prop('checked')){
-									str+=$(this).val()+',';
+									str1+=$(this).prop('id')+',';
 								}
 							})
-							str=str.substring(0,str.length-1);
+							str1=str1.substring(0,str1.length-1);
 							$('input[name^="stcksub'+ckid+'"]').each(function(){
 								if($(this).prop('checked')){
-									str2+=$(this).val()+',';
+									str2+=$(this).prop('id')+',';
 								}
 							})
 							str2=str2.substring(0,str2.length-1);
 						})
-						str1=str1.substring(0,str1.length-1);
-						str2=str2.substring(0,str2.length-1);
+						//str1=str1.substring(0,str1.length-1);
+						//str2=str2.substring(0,str2.length-1);
 						data+=str+str1+str2;
 						break;
 				}

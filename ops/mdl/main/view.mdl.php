@@ -81,14 +81,17 @@ if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
 	require $mdl_path_file;
 	unset($mdl_path_file);
 }else{
-	$return_arr['content']['content']='(ง •̀_•́)ง努力<br/>拼命୧(๑•̀⌄•́๑)૭<br/>制作中。。。';
+	$return_arr['content']['content']='<span style="text-align:left;float:left">(ง •̀_•́)ง努力<br/>拼命୧(๑•̀⌄•́๑)૭<br/>制作中。。。</br>先逛逛别的呗：DDD</span>';
+	$return_arr['content']['page_bar']='';
+	$return_arr['content']['tips_nav']='';
+	$return_arr['content']['tips']='';
+	$return_arr['content']['menu_func']='';
 	require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 }
 
 //选择性生成view_content的html，并输出 
 require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_VIEW.POSTFIX_INC;
 $main_view=new ViewMain($_SESSION['menu_id'], $_SESSION['loginroleid'], $_SESSION['loginuserid'],$rec_sql_suffix,$rec_table,$rec_col,$_SESSION['page']);
-
 
 switch ($_POST['fr']){
 	case 'view':
