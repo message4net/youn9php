@@ -33,21 +33,69 @@ class ViewMain extends DbSqlPdo {
 		//}
 		$this->rec_init_arr=$this->init_recarr();
 	}
+	/**
+	 * 功能:生成 批设置 相关功能 的 浏览html
+	 */
+	public function gen_allset_view_html(){
+		if ($this->login_role_id==1){
+			$_sql_role_q='select * from role';
+			$_sql_menu_q='select * from menu where parent_id>0';
+		}else{
+			$_sql_role_q='select * from role where creator='.$this->login_role_id;
+			$_sql_menu_q='select m.* from menu m, role_menu rm where parent_id>0 and rm.menu_id=m.id and rm.role_id='.$this->login_role_id;
+		}
+		$_result_role_q=parent::select($_sql_role_q);
+		$_result_menu_q=parent::select($_sql_menu_q);
+		$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="allset_allset">批设置</button></td><td><button id="allset_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
+		if ($_result_role_q){
+			$count=0;
+			foreach ($_result_role_q as $val){
+				$_return_html.='<input type="checkbox" name="cksub0" value="'.$val['id'].'"/>'.$val['name'];
+				$count++;
+				if ($count>4){
+					$_return_html.='</br>';
+					$count=0;
+				}
+			}
+		}else{
+			$_return_html='请先新增权限后，再执行此操作';
+			return $_return_html;
+		}
+		$_return_html.='</td></tr><tr><td colspan="2">实权</td><td><select id="scg"><option id="0" selected="selected">未选择</option>';
+		if ($_result_menu_q){
+			foreach ($_result_menu_q as $val){
+				$_return_html.='<option id="'.$val['id'].'">'.$val['name'].'</option>';
+			}
+		}else{
+			$_return_html.='请先为权限关联实权，再执行此操作';
+			return $_return_html;
+		}
+		$_return_html.='</select></td></tr></table>';
+		return $_return_html;
+	}
 	
 	/**
 	 * 功能:生成设置相关功能的浏览html
 	 */
-	public function gen_set_view_html($rec_id=''){
-		$_sql_role_q='select * from role where id='.$rec_id;
-		$_result_role_q=parent::select($_sql_role_q);
-		if ($_result_role_q['0']['creator']==1){
+	public function gen_set_view_html($rec_id){
+		$_sql_rwb_q='select rwb.* from role_menu rm,role_wordbook rwb where rm.role_id=rwb.role_id and rwb.role_id='.$rec_id;
+		$_result_rwb_q=parent::select($_sql_rwb_q);
+		$_arr_rwb=array();
+		if($_result_rwb_q){
+			foreach ($_result_rwb_q as $val){
+				$_arr_rwb[]=$val['wordbook_id'];
+			}
+		}
+		$_sql_creator_q='select * from role where id='.$rec_id;
+		$_result_creator_q=parent::select($_sql_creator_q);
+		if ($rec_id==1){
 		  $_sql_menu_q='select * from menu where parent_id>0';
 		  $_sql_view_q='select * from wordbook where type>=0 and type<1000';
 		  $_sql_func_q='select * from wordbook where type>=1000 and type<3000';
 		}else{
-		  $_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_id';
-		  $_sql_view_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and wb.type>=0 and wb.type<1000';
-		  $_sql_func_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and type>=1000 and type<3000';
+		  $_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_id and rm.role_id='.$rec_id;
+		  $_sql_view_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and wb.type>=0 and wb.type<1000 and rwb.role_id='.$_result_creator_q['0']['creator'];
+		  $_sql_func_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and type>=1000 and type<3000 and rwb.role_id='.$_result_creator_q['0']['creator'];
 		  //$_sql_menu_q='select m.* from menu m, role_menu_func rmf where m.parent_id>0 and m.id=rmf.menu_sub_id and rmf.role_id='.$rec_id.' group by m.id';
 		  //$_sql_view_q='select wb.* from wordbook wb, role_menu_func rmf where wb.menu_sub_id=rmf.menu_sub_id and wb.menu_sub_id=rmf.menu_sub_id and wb.type>=0 and wb.type<1000 and rmf.role_id='.$rec_id;
 		  //$_sql_func_q='select wb.* from wordbook wb, role_menu rmf where wb.menu_sub_id=rmf.menu_sub_id and wb.menu_sub_id=rmf.menu_sub_id type>=1000 and type<3000 and rmf.role_id='.$rec_id;
@@ -67,7 +115,7 @@ class ViewMain extends DbSqlPdo {
 		        $_arr_func[$_val4['menu_id']][$_val4['id']]=$_val4;
 		    }
 		}
-		$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$_result_role_q['0']['id'].'" name="setid" colspan="3">'.$_result_role_q['0']['name'].'</th></tr>';
+		$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$rec_id.'" name="setid" colspan="3">'.$_result_creator_q['0']['name'].'</th></tr>';
 		if ($_result_menu_q){
 		    foreach ($_result_menu_q as $_val1){
 		        $_return_html.='<tr><td rowspan="2" name="ckall'.$_val1['id'].'">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
@@ -77,6 +125,10 @@ class ViewMain extends DbSqlPdo {
 		                $_return_html.='<input type="checkbox" name="vwcksub'.$_val1['id'].'" id="'.$_val2['id'].'" ';
 		                if ($_val2['flag_set']==1){
 		                	$_return_html.='checked="checked" disabled="disabled"';
+		                }else{
+		                	if (in_array($_val2['id'], $_arr_rwb)){
+		                		$_return_html.='checked="checked"';
+		                	}
 		                }
 		                $_return_html.='/>'.$_val2['name'];
 		                $_count++;
@@ -95,6 +147,10 @@ class ViewMain extends DbSqlPdo {
 		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'" ';
 		                if ($_val3['flag_set']==1){
 		                    $_return_html.='checked="checked" disabled="disabled"';
+		                }else{
+		                	if (in_array($_val3['id'], $_arr_rwb)){
+		                		$_return_html.='checked="checked"';
+		                	}
 		                }
 		                $_return_html.='/>'.$_val3['name'];
 		                $_count++;

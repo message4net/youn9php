@@ -9,7 +9,6 @@ $.extend({
 			//登录模块
 			//登入
 			$('#form_login').on('click','button',function(){
-				//alert('m=user&f=login1&username='+$('input#username').val()+'&userpassword='+$('input#userpassword').val());
 				if($('input#username').val()==''){
 					alert('用户名不能为空');
 					$('input#username').focus();
@@ -32,14 +31,12 @@ $.extend({
 			
 			//菜单导航模块
 			$('#menu_nav').on('click','a',function(){
-				//alert('baab');
 				data='f=menusub&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			});
 			
 			//子菜单模块
 			$('#menu_sub').on('click','a',function(){
-				//alert($(this).attr('name')+$(this).attr('id'));
 				data='mr='+$(this).attr('name')+'&f=view&fr=view&id='+$(this).attr('id');
 				$.ajx(url_ajx,data);
 			});
@@ -79,7 +76,6 @@ $.extend({
 			
 			//全选
 			$('#content').on('click','[name^=ckall],[name^=vwckall],[name^=stckall]',function(){
-				//alert($(this).prop('name').substring(0));
 				switch ($(this).prop('name').substring(0,5)){
 					case ('ckall'):
 						strname=$(this).prop('name').substring(0,2);
@@ -106,11 +102,32 @@ $.extend({
 				}
 			})
 			
+			//变选
+			//$('#content').bind('change',function(){
+			$('#content').on('change','#scg',function(){
+				//alert('baaaaaaaab##'+$('#scg option:selected').attr('id'));
+				//role='';
+				//$('input[name="cksub0"]').each(function(){
+				//	if($(this).prop('checked')){
+				//		role+=$(this).attr('id')+',';
+				//	}
+				//})
+				//role=role.substring(0,role.length-1);
+				//data='f=modify&fr=vwapd&id='+role;
+				if($('#scg option:selected').attr('id')==0){
+					alert('请选择实权');
+					$('#scg').focus();
+					return false;
+				}
+				data='f=modify&fr=vwapd&menu='+$('#scg option:selected').attr('id');
+				//alert(data);
+				$.ajx(url_ajx,data);
+			})
+			
 			//修改
 			//修改_浏览
 			$('#menu_func,#content').on('click','[id^=func_]',function(){
 				arr=$(this).attr('id').split('_');
-				//alert($(this).val());
 				data='f=view&fr=vw'+arr[1]+'&navname='+$(this).html();
 				switch(arr[1]){
 					case ('mod'):
@@ -151,29 +168,6 @@ $.extend({
 				str1=str1.substring(0,str1.length-1);
 				data+=str+str1;
 				switch(arr[1]){
-//					case ('add'):
-//						if($('#name').val()==''){
-//							alert('权限名称不能为空');
-//							$('#name').focus();
-//							return false;
-//						}
-//						data+='&name='+$('#name').val();
-//						str1='&ckarrk=';
-//						str='';
-//						$('input[name^="ckall"]').each(function(){
-//							ckid=$(this).prop('name').substring(5);
-//							str1+=ckid+',';
-//							str+='&ckarrv'+ckid+'=';
-//							$('input[name^="cksub'+ckid+'"]').each(function(){
-//								if($(this).prop('checked')){
-//									str+=$(this).val()+',';
-//								}
-//							})
-//							str=str.substring(0,str.length-1);
-//						})
-//						str1=str1.substring(0,str1.length-1);
-//						data+=str+str1;
-//						break;
 					case ('mod'):
 						data+='&id='+arr[2];
 						break;
@@ -191,8 +185,6 @@ $.extend({
 						role=$('[name="setid"]').attr('id');
 						data+='&id='+role;
 						data+='&ckarrk='+arr[2];
-						//str='&vwckarrv'+arr[2]+'=';
-						//str1='&stckarrv'+arr[2]+'=';
 						str='';
 						str1='';
 						$('input[name^="vwcksub'+arr[2]+'"]').each(function(){
@@ -205,8 +197,6 @@ $.extend({
 								str1+=$(this).prop('id')+',';
 							}
 						})
-						//str=str.substring(0,str.length-1);
-						//str1=str1.substring(0,str1.length-1);
 						str='&vwckarrv'+arr[2]+'='+str.substring(0,str.length-1);
 						str1='&stckarrv'+arr[2]+'='+str1.substring(0,str1.length-1);
 						data+=str+str1;
@@ -218,26 +208,26 @@ $.extend({
 						str1='';
 						str2='';
 						$('[name^="ckall"]').each(function(){
-							ckid=$(this).prop('name').substring(5);
-							//alert($(this).prop('name'));
+							ckid=$(this).attr('name').substring(5);
 							str+=ckid+',';
-							str1+='&vwckarrv'+ckid+'=';
-							str2+='&stckarrv'+ckid+'=';
+							str3='';
+							str4='';
 							$('input[name^="vwcksub'+ckid+'"]').each(function(){
 								if($(this).prop('checked')){
-									str1+=$(this).prop('id')+',';
+									str3+=$(this).prop('id')+',';
 								}
 							})
-							str1=str1.substring(0,str1.length-1);
+							str3='&vwckarrv'+ckid+'='+str3.substring(0,str3.length-1);
 							$('input[name^="stcksub'+ckid+'"]').each(function(){
 								if($(this).prop('checked')){
-									str2+=$(this).prop('id')+',';
+									str4+=$(this).prop('id')+',';
 								}
 							})
-							str2=str2.substring(0,str2.length-1);
+							str4='&stckarrv'+ckid+'='+str4.substring(0,str4.length-1);
+							str1+=str3;
+							str2+=str4;
+
 						})
-						//str1=str1.substring(0,str1.length-1);
-						//str2=str2.substring(0,str2.length-1);
 						data+=str+str1+str2;
 						break;
 				}
@@ -267,11 +257,8 @@ $.extend({
 						}
 						str=str.substring(0,str.length-1);
 						data+='&id='+str;
-						
-						//return false;
 						break;
 				}
-				//alert(data);
 				$.ajx(url_ajx,data);
 			})
 			
@@ -297,8 +284,6 @@ $.extend({
 	click:function(eid,ectxt,url,data){
 		$('#'+eid).on('click',ectxt,function(){
 			tmpdata=eval(data);
-			//alert(tmpdata);
-		//alert(eid+'###'+ectxt+'###'+url+'###'+tmpdata);
 			$.ajx(url,tmpdata);
 		});
 	}
@@ -309,19 +294,14 @@ $.extend({
 		$(document).ready(function(){
 			$.ajax({
 				type: "POST",
-				//type: "GET",
-				//dataType: "jsonp",
-				//crossDomain: true,
 				url: url,
 				data: data,
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest.status);
                     alert(XMLHttpRequest.readyState);
                     alert(textStatus);
-                    //console.log(data);
                 },
 				success: function(msg){
-					//alert('aaaaa');
 					var data=eval('('+msg+')');
 					$.each(data,function(htmlFlag,htmlArr){
 						switch(htmlFlag){
@@ -344,8 +324,8 @@ $.extend({
 								$.each(htmlArr,function(htmlID,htmlContent){
 									$.each(htmlContent,function(htmlIDsub,htmlContentsub){
 										if($('#'+htmlIDsub).length==0){
-											//$('#'+htmlID).remove('#'+htmlIDsub);
-											$('#'+htmlID).append('<div id="'+htmlIDsub+'" style="z-index:10001;width:800px;height:600px;margin-top:-30px;opacity:1;"></div>');
+											//$('#'+htmlID).append('<div id="'+htmlIDsub+'" style="z-index:10001;width:800px;height:600px;margin-top:-30px;opacity:1;"></div>');
+											$('#'+htmlID).append('<tr id="'+htmlIDsub+'"></tr>');
 										}
 										$('#'+htmlIDsub).empty();
 										$('#'+htmlIDsub).append(htmlContentsub+'aaaaaaaaaa<br/>aaaaaa<br/>aaaaaaa<br/>aaaaa<br/>aaaaaaaaaaaaaaaaaaa');
@@ -365,15 +345,12 @@ $.extend({
 								})
 							break;
 							case('404'):
-								//alert(htmlArr);
 								location.href=htmlArr;
 							break;
 							default:
 								$.each(htmlArr,function(htmlID,htmlContent){
 									alert('#'+htmlID+'#'+htmlContent);
 								})
-								//alert(data);
-								//alert(htmlArr);
 							break;
 						}
 					});
