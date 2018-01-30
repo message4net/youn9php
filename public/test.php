@@ -6,7 +6,8 @@
 //echo $$a;
 ////$a['a']='A';
 ////echo '<script type="text/javascript">$.test('.json_encode($a).')</script>';
-echo '<script type="text/javascript">$.test()</script>';
+//echo '<script type="text/javascript">$.test()</script>';
+phpinfo();
 
 //require __DIR__.'\t1.php';
 //echo $a;

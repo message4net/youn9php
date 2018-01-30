@@ -25,6 +25,9 @@ define('FILE_CFG_SELF', 'self.cfg.php');
 define('FILE_TMPLT_404', '404.html');
 define('FILE_TMPLT_VRSN', '.vrsn');
 
+define('PERPAGENO','5');
+define('PERROWNO','4');
+
 //定义app ops配置
 define('OPS_MDL_MAIN', 'main');
 define('OPS_FUNC_MENU', 'menu');
@@ -37,8 +40,6 @@ define('OPS_INC_VIEW', 'view');
 define('OPS_INC_MAIN', 'main');
 define('OPS_SQL_VIEW', 'vwsql');
 define('OPS_FILE_TMPLT', 'index.html');
-
-define('PERPAGENO','5');
 
 $html_tmplt_arr['ops']['title']='ops_sys';
 $html_tmplt_arr['ops']['logo']='ops_sys';

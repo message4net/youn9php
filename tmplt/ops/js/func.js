@@ -103,24 +103,13 @@ $.extend({
 			})
 			
 			//变选
-			//$('#content').bind('change',function(){
 			$('#content').on('change','#scg',function(){
-				//alert('baaaaaaaab##'+$('#scg option:selected').attr('id'));
-				//role='';
-				//$('input[name="cksub0"]').each(function(){
-				//	if($(this).prop('checked')){
-				//		role+=$(this).attr('id')+',';
-				//	}
-				//})
-				//role=role.substring(0,role.length-1);
-				//data='f=modify&fr=vwapd&id='+role;
 				if($('#scg option:selected').attr('id')==0){
 					alert('请选择实权');
 					$('#scg').focus();
 					return false;
 				}
 				data='f=modify&fr=vwapd&menu='+$('#scg option:selected').attr('id');
-				//alert(data);
 				$.ajx(url_ajx,data);
 			})
 			
@@ -140,47 +129,93 @@ $.extend({
 				$.ajx(url_ajx,data);
 			})
 			
-			//修改_执行
-			//修改_执行_新增
-			//	设置ckk以满足多个多选的情况
-			$('#content').on('click','[id^=vwmod_]',function(){
+			//权限修改_执行_修改
+			//mod add 设置ckk以满足多个多选的情况
+			//$('#content').on('click','[id^=vwset_]',function(){
+			$('#content').on('click','[id^=vwmod4_]',function(){
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
-				if($('#name').val()==''){
-					alert('权限名称不能为空');
-					$('#name').focus();
-					return false;
-				}
-				data+='&name='+$('#name').val();
-				str1='&ckarrk=';
-				str='';
-				$('input[name^="ckall"]').each(function(){
-					ckid=$(this).prop('name').substring(5);
-					str1+=ckid+',';
-					str+='&ckarrv'+ckid+'=';
-					$('input[name^="cksub'+ckid+'"]').each(function(){
-						if($(this).prop('checked')){
-							str+=$(this).val()+',';
-						}
-					})
-					str=str.substring(0,str.length-1);
-				})
-				str1=str1.substring(0,str1.length-1);
-				data+=str+str1;
 				switch(arr[1]){
 					case ('mod'):
-						data+='&id='+arr[2];
+					case ('add'):
+						if($('#name').val()==''){
+							alert('权限名称不能为空');
+							$('#name').focus();
+							return false;
+						}
+						data+='&name='+$('#name').val();
+						str1='&ckarrk=';
+						str='';
+						$('input[name^="ckall"]').each(function(){
+							ckid=$(this).prop('name').substring(5);
+							str1+=ckid+',';
+							str+='&ckarrv'+ckid+'=';
+							$('input[name^="cksub'+ckid+'"]').each(function(){
+								if($(this).prop('checked')){
+									str+=$(this).val()+',';
+								}
+							})
+							str=str.substring(0,str.length-1);
+						})
+						str1=str1.substring(0,str1.length-1);
+						data+=str+str1;
+						switch(arr[1]){
+							case ('mod'):
+								data+='&id='+arr[2];
+								break;
+						}
 						break;
-				}
-				alert(data);
-				$.ajx(url_ajx,data);
-			})
-			
-			//修改_执行_设置
-			$('#content').on('click','[id^=vwset_]',function(){
-				arr=$(this).attr('id').split('_');
-				data='f=modify&fr='+arr[1];
-				switch(arr[1]){
+					case ('allset'):
+						str='';
+						$('input[name="cksub0"]').each(function(){
+							if($(this).prop('checked')){
+								str+=$(this).val()+',';
+							}
+						})
+						str=str.substring(0,str.length-1);
+						if(str==''){
+							alert('请选择权限');
+							$('[name="ckall0"]').focus();
+							return false;
+						}
+						str='&id='+str;
+						menuid=$('#scg option:selected').attr('id');
+						//alert(menuid);
+						menu='&ckarrk='+menuid;
+						str1='';
+						str2=''
+						$('input[name^="vwcksub'+menuid+'"]').each(function(){
+							if($(this).prop('checked')){
+								str1+=$(this).val()+',';
+							}
+						})
+						$('input[name^="stcksub'+menuid+'"]').each(function(){
+							if($(this).prop('checked')){
+								str2+=$(this).val()+',';
+							}
+						})
+						str1='&vwckarrv='+str1.substring(0,str1.length-1);
+						str2='&stckarrv='+str2.substring(0,str2.length-1);
+						data+=str+menu+str1+str2;
+						break;
+					case ('alldel'):
+						str='';
+						$('input[name=cksub0]').each(function(){
+							if($(this).prop('checked')){
+								str+=$(this).val()+',';
+							}
+						})
+						str=str.substring(0,str.length-1);
+						if(str==''){
+							alert('请选择权限');
+							$('[name=ckall0]').focus();
+							return false;
+						}
+						str='&id='+str;
+						menuid=$('#scg option:selected').attr('id');
+						menu='&ckarrk='+menuid;
+						data+=str+menu
+						break;
 					case ('set'):
 						role=$('[name="setid"]').attr('id');
 						data+='&id='+role;
@@ -231,7 +266,7 @@ $.extend({
 						data+=str+str1+str2;
 						break;
 				}
-				alert(data);
+				//alert(data);
 				$.ajx(url_ajx,data);
 			})
 			
@@ -328,7 +363,8 @@ $.extend({
 											$('#'+htmlID).append('<tr id="'+htmlIDsub+'"></tr>');
 										}
 										$('#'+htmlIDsub).empty();
-										$('#'+htmlIDsub).append(htmlContentsub+'aaaaaaaaaa<br/>aaaaaa<br/>aaaaaaa<br/>aaaaa<br/>aaaaaaaaaaaaaaaaaaa');
+										//$('#'+htmlIDsub).append(htmlContentsub+'aaaaaaaaaa<br/>aaaaaa<br/>aaaaaaa<br/>aaaaa<br/>aaaaaaaaaaaaaaaaaaa');
+										$('#'+htmlIDsub).append(htmlContentsub);
 									})
 								})
 							break;

@@ -5,6 +5,7 @@ class ViewMain extends DbSqlPdo {
 	private $rec_init_arr=array();
 	private $rec_word_search='';
 	private $strtips_tmp='';
+	private $btnvwmod='vwmod';
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
 	 *	必有参数:
@@ -34,6 +35,63 @@ class ViewMain extends DbSqlPdo {
 		$this->rec_init_arr=$this->init_recarr();
 	}
 	/**
+	 * 功能:生成 user菜单显示列 相关功能 的 浏览html
+	 */
+	public function gen_setcol_view_html(){
+		$_sql_rwb_q='select wb.* from role_wordbook rwb, wordbook wb where rwb.wordbook_id=wb.id and wb.type>=0 and wb.type<1000 and rwb.role_id='.$this->login_role_id;
+		$_sql_m_q='select * from menu where parent_id>0';
+		$_sql_uwb_q='select * from user_wordbook where user_id='.$this->login_user_id;
+		$_result_uwb_q=parent::select($_sql_uwb_q);
+		$_result_m_q=parent::select($_sql_m_q);
+		$_result_rwb_q=parent::select($_sql_rwb_q);
+		$_arr_uwb=array();
+		$_arr_m=array();
+		$_arr_rwb=array();
+		if ($_result_uwb_q){
+			foreach ($_result_uwb_q as $val){
+				$_arr_uwb[]=$val['wordbook_id'];
+			}
+		}
+		if ($_result_m_q){
+			foreach ($_result_m_q as $val){
+				$_arr_m[$val['id']]=$val;
+			}
+		}
+		if ($_result_rwb_q){
+			foreach ($_result_rwb_q as $val){
+				$_arr_rwb[$val['menu_id']][$val['id']]=$val;
+			}
+		}
+		$_return_html='<table><tr><th>名称</th><th colspan="2">内容</th></tr>';
+		if ($_arr_rwb){
+			foreach ($_arr_rwb as $key=>$val){
+				$_return_html.='<tr><td><input type="checkbox" name="ckall'.$key.'" />'.$_arr_m[$key]['name'].'</td><td>';
+				$count=0;
+				foreach ($val as $key1=>$val1){
+					$_return_html.='<input type="checkbox" name="cksub'.$key.'" value="'.$key1.'" ';
+					if ($val1['flag_set']==1){
+						$_return_html.='disabled="disabled" checked="checked"';
+					}else{
+						if (in_array($key1, $_arr_uwb)){
+							$_return_html.='checked="checked"';
+						}
+					}
+					$_return_html.=' />'.$val1['name'];
+					$count++;
+					if ($count>PERROWNO){
+						$_return_html.='<br/>';
+						$count=0;
+					}
+				}
+				//$_return_html.='</td><td><button id="vwset_setcol_'.$key.'">保存</button></td>';
+				$_return_html.='</td><td><button id="'.$this->btnvwmod.'_setcol_'.$key.'">保存</button></td>';
+			}
+		}
+		//$_return_html.='<tr><td colspan="3"><button id="vwset_setcolall">批保存</button></td></tr></table>';
+		$_return_html.='<tr><td colspan="3"><button id="'.$this->btnvwmod.'_setcolall">批保存</button></td></tr></table>';
+		return $_return_html;
+	}
+	/**
 	 * 功能:生成 批设置 相关功能 的 浏览html
 	 */
 	public function gen_allset_view_html(){
@@ -46,7 +104,8 @@ class ViewMain extends DbSqlPdo {
 		}
 		$_result_role_q=parent::select($_sql_role_q);
 		$_result_menu_q=parent::select($_sql_menu_q);
-		$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="allset_allset">批设置</button></td><td><button id="allset_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
+		//$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="vwset_allset">批设置</button></td><td><button id="vwset_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
+		$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="'.$this->btnvwmod.'_allset">批设置</button></td><td><button id="'.$this->btnvwmod.'_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
 		if ($_result_role_q){
 			$count=0;
 			foreach ($_result_role_q as $val){
@@ -140,7 +199,8 @@ class ViewMain extends DbSqlPdo {
 		        }else{
 		            $_return_html.='无';
 		        }
-		        $_return_html.='</td><td rowspan="2"><input type="button" id="vwset_set_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
+		        //$_return_html.='</td><td rowspan="2"><input type="button" id="vwset_set_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
+		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
 		        $_count=0;
 		        if (isset($_arr_func[$_val1['id']])){
 		            foreach ($_arr_func[$_val1['id']] as $_val3){
@@ -165,7 +225,8 @@ class ViewMain extends DbSqlPdo {
 		        $_return_html.='</td></tr>';
 		    }
 		}
-		$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="vwset_setall" value="批保存"/></span></td></tr></table>';
+		//$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="vwset_setall" value="批保存"/></span></td></tr></table>';
+		$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="'.$this->btnvwmod.'_setall" value="批保存"/></span></td></tr></table>';
 		return $_return_html;
 	}
 	
@@ -173,7 +234,6 @@ class ViewMain extends DbSqlPdo {
 	 * 功能:生成修改相关功能的浏览html
 	 */
 	public function gen_mod_view_html($rec_id=''){
-		//$rec_odr_sql='select wb.* from wordbook wb, role_menu_func rmf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rmf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
 		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		$rec_odr_result=parent::select($rec_odr_sql);
 		$rec_id_result=array();
@@ -181,7 +241,6 @@ class ViewMain extends DbSqlPdo {
 			$rec_id_result=parent::select($this->rec_sql_suffix);
 		}
 		
-		//$rec_view_spcial_arr=array();
 		$_return_html='<table>';
 		foreach ($rec_odr_result as $val){
 			if ($val['flag_mod']==0){
@@ -208,10 +267,8 @@ class ViewMain extends DbSqlPdo {
 							}
 						}
 						if ($_result_tmp_menu){
-		//$t='';
 							$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
 							foreach ($_result_tmp_menu as $val2){
-		//$t.='#2_0#'.$val2[$_arr_colname_tmp[0]];
 								$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								if ($val2['flag_set']==1){
 									$_return_html.='checked="checked" disabled="disabled"';
@@ -223,16 +280,46 @@ class ViewMain extends DbSqlPdo {
 								}
 								$_return_html.='"/>'.$val2[$_arr_colname_tmp[1]];
 							}
-		//$t.='#v#'..'@';
 							$_return_html.='</td></tr>';
 						}
+						break;
+					case '6':
+						if ($val['id']==20){
+							if ($this->login_role_id==1){
+								$_sql_role_q='select * from role where id<>2';	
+							}else{
+								$_sql_role_q='select * from role r,role_menu rm where r.id=rm.role_id and id<>2';
+							}
+						}
+						$_result_role_q=parent::select($_sql_role_q);
+						$_return_html.='<tr><td>'.$val['name'].'</td><td><select id="s'.$val['id'].'">';
+						$_flag_select=0;
+						if ($_result_role_q){
+							foreach ($_result_role_q as $_val){
+								$_return_html.='<option value="'.$_val['id'].'" ';
+								if ($rec_id_result){
+									if ($rec_id_result['0'][$val['colnameid']]==$_val['id']){
+										$_return_html.='selected="selected"';
+										$_flag_select=0;
+									}
+								}
+								$_return_html.=' >'.$_val['name'].'</option>';
+							}
+							$_return_html.='<option value="2" ';
+							if ($_flag_select==0){
+								$_return_html.='selected="selected"';
+							}
+							$_return_html.='>init</option>';
+						}
+						$_return_html.='</td></tr>';
 						break;
 					default:
 						break;
 				}
 			}
 		}
-		$_return_html.='<tr><td colspan="2"><button id="vwmod_';
+		//$_return_html.='<tr><td colspan="2"><button id="vwmod_';
+		$_return_html.='<tr><td colspan="2"><button id="vwmod'.$this->menu_id.'_';
 		if ($rec_id==''){
 			//$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
 			$_return_html.='add';
