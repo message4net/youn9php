@@ -50,5 +50,8 @@ h.ajax路由过程
 i.完善admin权限组语句
 	insert into role_menu select '1',wb.menu_id from role_menu rm right join wordbook wb on wb.menu_id=rm.menu_id and role_id=1 where type<3000 and role_id is null group by wb.menu_id; 
 	insert into role_wordbook select '1',wb.id from role_wordbook rwb right join wordbook wb on wb.id=rwb.wordbook_id and role_id=1 where type<3000 and role_id is null;
+j.vwmod table 元素 tr id 含义
+	1.table id:t_vwmod 该table属于vwmod table
+	2.tr id:tr0_rowNo 该tr为单td赋值tr
 	
 	

@@ -129,10 +129,29 @@ $.extend({
 				$.ajx(url_ajx,data);
 			})
 			
+			//修改_统一
+			$('#content').on('click','[id^=vwmod4_]',function(){
+				arr=$(this).attr('id').split('_');
+				data='f=modify&fr='+arr[1];
+				$('table #t_vwmod').find('tr').each(function(){
+					arr_tr_id=$(this).split('_');
+					str0='';
+					switch(arr_tr_id[0]){
+						case ('r0'):
+							arr_td_id=$(this).find('td[id^="d0_"]').split('_');
+							data+='&r000='+$(this).find('td[id^="d0_"]').val();
+							break;
+						case ('r1'):
+							break;
+					}
+				})
+				alert(data);
+			})
+			
 			//权限修改_执行_修改
 			//mod add 设置ckk以满足多个多选的情况
 			//$('#content').on('click','[id^=vwset_]',function(){
-			$('#content').on('click','[id^=vwmod4_]',function(){
+			$('#content').on('click','[id^=vwmod45_]',function(){
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
 				switch(arr[1]){
