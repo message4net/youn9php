@@ -253,12 +253,13 @@ class ViewMain extends DbSqlPdo {
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
-						//$_return_html.='<tr id="ra_'.$val['id'].'"><td id="da_a_'.$val['id'].'">'.$val['name'].'</td><td><input id="'.$val['colnameid'].'" type="text" value="';
-						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" />';
+						//$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
+					    $_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" />';
 						if ($rec_id_result){
 							$_return_html.=$rec_id_result[0][$val['colnameid']];
 						}
 						$_return_html.='</td></tr>';
+						//$_return_html.='"/></td></tr>';
 						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);

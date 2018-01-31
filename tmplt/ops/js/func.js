@@ -135,6 +135,11 @@ $.extend({
 				//alert($('table#t_vwmod').attr('id'));
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
+				switch(arr[1]){
+					case ('mod'):
+						data+='&id='+arr[2];
+						break;
+				}
 				arr_para=new Array();
 				arr_tr=new Array('ra','rb');
 				$.each(arr_tr,function(k,v){
@@ -142,27 +147,34 @@ $.extend({
 					eval('ct_'+v+'=0;');
 				})
 				$('table#t_vwmod').find('tr').each(function(){
-					alert($(this).attr('id'));
-					arr_tr_id=$(this).attr('id').split('_');
+					//alert($(this).attr('id'));
+					if($(this).attr('id')!=undefined){
+						arr_tr_id=$(this).attr('id').split('_');
+					}else{
+						return true;
+					}
 					arr_para[arr_tr_id[0]][ct_ra]=new Array();
 					switch(arr_tr_id[0]){
 						case ('ra'):
-							arr_td_ra=new Array('a');
+							arr_td_ra=new Array('a','b');
 							str_td='da_';
 							str_ipt='ipt_'
 							postfix_td_id=$(this).find('td[id^="'+str_td+'"]:first').attr('id').substring(5);
 							$.each(arr_td_ra,function(k,v){
 								switch(v){
 									case ('a'):
-										arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+v+postfix_td_id+'"]').html();
+										//alert(str_td+v+'_'+postfix_td_id);
+										arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+v+'_'+postfix_td_id+'"]').html();
+										//arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+v+'_'+postfix_td_id+'"]').val();
 										break;
 									case ('b'):
-										arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+v+postfix_td_id;
-										arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+v+postfix_td_id).html()
+										//alert(str_ipt+v+'_'+postfix_td_id);
+										arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+v+'_'+postfix_td_id;
+										arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+v+'_'+postfix_td_id).val();
 										break;
 								}
 							})
-							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content'].length==0){
+							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
 								$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
 								alert(arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'不能为空');
 								return false;
