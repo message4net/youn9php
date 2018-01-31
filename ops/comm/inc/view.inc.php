@@ -6,6 +6,13 @@ class ViewMain extends DbSqlPdo {
 	private $rec_word_search='';
 	private $strtips_tmp='';
 	private $btnvwmod='vwmod';
+	private $id_table_vwmod='t_vwmod';
+	private $id_suffix_ra='ra_';
+	private $id_suffix_rb='rb_';
+	private $id_suffix_da='da_';
+	private $id_suffix_ipt='ipt_';
+	private $id_cat_da_a='a_';
+	private $id_cat_da_b='b_';
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
 	 *	必有参数:
@@ -241,16 +248,17 @@ class ViewMain extends DbSqlPdo {
 			$rec_id_result=parent::select($this->rec_sql_suffix);
 		}
 		
-		$_return_html='<table>';
+		$_return_html='<table id="'.$this->id_table_vwmod.'">';
 		foreach ($rec_odr_result as $val){
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
-						$_return_html.='<tr><td>'.$val['name'].'</td><td><input id="'.$val['colnameid'].'" type="text" value="';
+						//$_return_html.='<tr id="ra_'.$val['id'].'"><td id="da_a_'.$val['id'].'">'.$val['name'].'</td><td><input id="'.$val['colnameid'].'" type="text" value="';
+						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" />';
 						if ($rec_id_result){
 							$_return_html.=$rec_id_result[0][$val['colnameid']];
 						}
-						$_return_html.='"/></td></tr>';
+						$_return_html.='</td></tr>';
 						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);

@@ -131,21 +131,52 @@ $.extend({
 			
 			//修改_统一
 			$('#content').on('click','[id^=vwmod4_]',function(){
+				//alert('zzzzz');
+				//alert($('table#t_vwmod').attr('id'));
 				arr=$(this).attr('id').split('_');
 				data='f=modify&fr='+arr[1];
-				$('table #t_vwmod').find('tr').each(function(){
-					arr_tr_id=$(this).split('_');
-					str0='';
+				arr_para=new Array();
+				arr_tr=new Array('ra','rb');
+				$.each(arr_tr,function(k,v){
+					arr_para[v]=new Array();
+					eval('ct_'+v+'=0;');
+				})
+				$('table#t_vwmod').find('tr').each(function(){
+					alert($(this).attr('id'));
+					arr_tr_id=$(this).attr('id').split('_');
+					arr_para[arr_tr_id[0]][ct_ra]=new Array();
 					switch(arr_tr_id[0]){
-						case ('r0'):
-							arr_td_id=$(this).find('td[id^="d0_"]').split('_');
-							data+='&r000='+$(this).find('td[id^="d0_"]').val();
+						case ('ra'):
+							arr_td_ra=new Array('a');
+							str_td='da_';
+							str_ipt='ipt_'
+							postfix_td_id=$(this).find('td[id^="'+str_td+'"]:first').attr('id').substring(5);
+							$.each(arr_td_ra,function(k,v){
+								switch(v){
+									case ('a'):
+										arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+v+postfix_td_id+'"]').html();
+										break;
+									case ('b'):
+										arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+v+postfix_td_id;
+										arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+v+postfix_td_id).html()
+										break;
+								}
+							})
+							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content'].length==0){
+								$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
+								alert(arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'不能为空');
+								return false;
+							}else{
+								eval('data+=\'&ra'+arr_tr_id[0]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content']+'\';');
+							}
+							ct_ra++;
 							break;
-						case ('r1'):
+						case ('rb'):
 							break;
 					}
+					
 				})
-				alert(data);
+				alert('DT:'+data);
 			})
 			
 			//权限修改_执行_修改

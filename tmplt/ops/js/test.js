@@ -10,7 +10,7 @@ $.extend({
 			alert('#');
 			var a='b';
 			var b='c';
-			alert(a);
+			eval('alert('+a+')');
 		})
 	}
 });
