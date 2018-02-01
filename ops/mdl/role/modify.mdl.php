@@ -165,28 +165,33 @@ switch ($_POST['fr']){
 	case 'add':
 		//此处并未区别ckk,若需要可以考虑wordbook新类别中加入表名
 		$flag_name=0;
-		$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['name'].'\'';
+		//$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['name'].'\'';
+		$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['ra2'].'\'';
 		$result_vrf=$db_modify->select($sql_vrf);
 		switch ($_POST['fr']){
 			case 'mod':
 				if (!$result_vrf){
-					$sql_m='update role set name=\''.$_POST['name'].'\' where creator='.$_SESSION['loginroleid'].' and id='.$_POST['id'];
+					//$sql_m='update role set name=\''.$_POST['name'].'\' where creator='.$_SESSION['loginroleid'].' and id='.$_POST['id'];
+					$sql_m='update role set name=\''.$_POST['ra2'].'\' where creator='.$_SESSION['loginroleid'].' and id='.$_POST['id'];
 					$tips_tmp='修改';
 					$flag_name=1;
 				}
 				break;
 			case 'add':
 				if (!$result_vrf){
-					$sql_m='insert into role (name,creator) values (\''.$_POST['name'].'\','.$_SESSION['loginroleid'].')';
+					//$sql_m='insert into role (name,creator) values (\''.$_POST['name'].'\','.$_SESSION['loginroleid'].')';
+					$sql_m='insert into role (name,creator) values (\''.$_POST['ra2'].'\','.$_SESSION['loginroleid'].')';
 					$tips_tmp='新增';
 					$flag_name=1;
 				}else{
-					$return_arr['content']['tips']='<div style="float:left">权限名<i>'.$_POST['name'].'</i>已存在</div>';
+					//$return_arr['content']['tips']='<div style="float:left">权限名<i>'.$_POST['name'].'</i>已存在</div>';
+					$return_arr['content']['tips']='<div style="float:left">权限名<i>'.$_POST['ra2'].'</i>已存在</div>';
 					require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 				}
 				break;
 		}
-		$return_arr['content']['tips'].='<i>'.$_POST['name'].'</i>';
+		//$return_arr['content']['tips'].='<i>'.$_POST['name'].'</i>';
+		$return_arr['content']['tips'].='<i>'.$_POST['ra2'].'</i>';
 		if ($flag_name==1){
 			$return_arr['content']['tips'].='权限名'.$tips_tmp;
 			if($db_modify->update($sql_m)){

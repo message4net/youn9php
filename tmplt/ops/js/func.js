@@ -2,6 +2,7 @@ $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
 			var url_ajx='{url_js_ajx}';
+//			alert('a_b'.split('_')[1]);
 			//var a='b';
 			//var b='d';
 			//eval('z='+a);
@@ -101,6 +102,44 @@ $.extend({
 					})
 				}
 			})
+
+var id_cat_a='a';
+var id_cat_b='b';
+var id_suffix_ck='rb_';
+			
+			$('#content').on('click','input[id^=ckall],input[id^=vwckall],input[id^=stckall]',function(){
+			//$('#content').on('click','input#ckall3',function(){
+				switch ($(this).prop('id').substring(0,5)){
+				//switch ($(this).prop('id').split('_')[0]){
+					case ('ckall'):
+						strname=$(this).prop('id').substring(0,2);
+						ckid=$(this).prop('id').substring(5);
+						//ckid=$(this).prop('id').split('_')[1];
+						break;
+					default:
+						strname=$(this).prop('id').substring(0,4);
+						ckid=$(this).prop('id').substring(7);
+						//ckid=$(this).prop('id').split('_')[1];
+						break;
+				};
+
+//				if($('input[name="'+strname+'all'+ckid+'"]').prop('checked')){
+//					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
+				if($('input[id="'+strname+'all'+ckid+'"]').prop('checked')){
+					$('input[id="'+strname+'sub'+ckid+'"]').each(function(){
+						if(!$(this).prop('disabled')){
+							$(this).prop('checked',true);
+						}
+					})
+				}else{
+//					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
+					$('input[id="'+strname+'sub'+ckid+'"]').each(function(){
+						if(!$(this).prop('disabled')){
+							$(this).prop('checked',false);
+						}
+					})
+				}
+			})
 			
 			//变选
 			$('#content').on('change','#scg',function(){
@@ -130,7 +169,7 @@ $.extend({
 			})
 			
 			//修改_统一
-			$('#content').on('click','[id^=vwmod4_]',function(){
+			$('#content').on('click','[id^=vwmod_]',function(){
 				//alert('zzzzz');
 				//alert($('table#t_vwmod').attr('id'));
 				arr=$(this).attr('id').split('_');

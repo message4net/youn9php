@@ -253,13 +253,13 @@ class ViewMain extends DbSqlPdo {
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
-						//$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
-					    $_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" />';
+						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
+					    //$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" />';
 						if ($rec_id_result){
 							$_return_html.=$rec_id_result[0][$val['colnameid']];
 						}
-						$_return_html.='</td></tr>';
-						//$_return_html.='"/></td></tr>';
+						//$_return_html.='</td></tr>';
+						$_return_html.='"/></td></tr>';
 						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
@@ -276,9 +276,11 @@ class ViewMain extends DbSqlPdo {
 							}
 						}
 						if ($_result_tmp_menu){
-							$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
+							//$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
+							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'"><input type="checkbox" id="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
 							foreach ($_result_tmp_menu as $val2){
-								$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
+								//$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
+								$_return_html.='<input id="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								if ($val2['flag_set']==1){
 									$_return_html.='checked="checked" disabled="disabled"';
 								}else{
@@ -327,8 +329,8 @@ class ViewMain extends DbSqlPdo {
 				}
 			}
 		}
-		//$_return_html.='<tr><td colspan="2"><button id="vwmod_';
-		$_return_html.='<tr><td colspan="2"><button id="vwmod'.$this->menu_id.'_';
+		$_return_html.='<tr><td colspan="2"><button id="vwmod_';
+		//$_return_html.='<tr><td colspan="2"><button id="vwmod'.$this->menu_id.'_';
 		if ($rec_id==''){
 			//$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
 			$_return_html.='add';

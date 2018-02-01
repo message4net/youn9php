@@ -110,7 +110,6 @@ switch ($_POST['fr']){
 		break;
 	case 'vwadd':
 	case 'vwmod':
-		
 	case 'vwset':	
 	case 'vwallset':
 	case 'vwsetcol':
@@ -137,38 +136,6 @@ switch ($_POST['fr']){
 				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
 				break;
 		}
-		
-		
-//		if (isset($_POST['id'])){
-//			$return_arr['content']['content']=$main_view->gen_mod_view_html($_POST['id']);
-//		}else{
-//			$return_arr['content']['content']=$main_view->gen_mod_view_html();
-//		}
-//		$return_arr['content']['page_bar']='';
-//		$return_arr['content']['menu_func']='';
-//		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);
-//		$return_arr['content']['tips']='';
-//		break;
-//	case 'vwset':
-//        $return_arr['content']['content']=$main_view->gen_set_view_html($_POST['id']);
-//	    $return_arr['content']['page_bar']='';
-//	    $return_arr['content']['menu_func']='';
-//	    $return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);
-//	    $return_arr['content']['tips']='';
-//	    break;
-//	case 'vwallset':
-//		$return_arr['content']['content']=$main_view->gen_allset_view_html();
-//		$return_arr['content']['page_bar']='';
-//		$return_arr['content']['menu_func']='';
-//		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);
-//		$return_arr['content']['tips']='';
-//		break;
-//	case 'vwsetcol':
-//		$return_arr['content']['content']=$main_view->gen_setcol_view_html();
-//		$return_arr['content']['page_bar']='';
-//		$return_arr['content']['menu_func']='';
-//		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);
-//		$return_arr['content']['tips']='';
 		break;
 	case 'del':
 	case 'delall':
