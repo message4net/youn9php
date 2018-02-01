@@ -52,6 +52,10 @@ i.完善admin权限组语句
 	insert into role_wordbook select '1',wb.id from role_wordbook rwb right join wordbook wb on wb.id=rwb.wordbook_id and role_id=1 where type<3000 and role_id is null;
 j.vwmod table 元素 tr id 含义
 	1.table id:t_vwmod 该table属于vwmod table
-	2.tr id:tr0_rowNo 该tr为单td赋值tr
+	2.tr id:[ra|rb]_wordbookID 
+		ra 代表 输入类input信息 
+			td类别 a 代表输入名称 b代表输入内容
+		rb 代表选择类input信息
+			td类别 a 代表记录多选arr_k b 代表多选arr_v sub前缀   c代表多选arr_v所在td的ID d代表 select单选
 	
 	

@@ -107,24 +107,18 @@ var id_cat_a='a';
 var id_cat_b='b';
 var id_suffix_ck='rb_';
 			
-			$('#content').on('click','input[id^=ckall],input[id^=vwckall],input[id^=stckall]',function(){
-			//$('#content').on('click','input#ckall3',function(){
-				switch ($(this).prop('id').substring(0,5)){
-				//switch ($(this).prop('id').split('_')[0]){
-					case ('ckall'):
-						strname=$(this).prop('id').substring(0,2);
-						ckid=$(this).prop('id').substring(5);
-						//ckid=$(this).prop('id').split('_')[1];
-						break;
-					default:
-						strname=$(this).prop('id').substring(0,4);
-						ckid=$(this).prop('id').substring(7);
-						//ckid=$(this).prop('id').split('_')[1];
-						break;
-				};
+			$('#content').on('click','input[id^=alckall],input[id^=vwckall],input[id^=stckall]',function(){
+				//switch ($(this).attr('id').substring(0,5)){
+				//	case ('ckall'):
+				//		strname=$(this).attr('id').substring(0,2);
+				//		ckid=$(this).attr('id').substring(5);
+				//		break;
+				//	default:
+						strname=$(this).attr('id').substring(0,4);
+						ckid=$(this).attr('id').substring(7);
+				//		break;
+				//};
 
-//				if($('input[name="'+strname+'all'+ckid+'"]').prop('checked')){
-//					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
 				if($('input[id="'+strname+'all'+ckid+'"]').prop('checked')){
 					$('input[id="'+strname+'sub'+ckid+'"]').each(function(){
 						if(!$(this).prop('disabled')){
@@ -132,7 +126,6 @@ var id_suffix_ck='rb_';
 						}
 					})
 				}else{
-//					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
 					$('input[id="'+strname+'sub'+ckid+'"]').each(function(){
 						if(!$(this).prop('disabled')){
 							$(this).prop('checked',false);
@@ -186,46 +179,76 @@ var id_suffix_ck='rb_';
 					eval('ct_'+v+'=0;');
 				})
 				$('table#t_vwmod').find('tr').each(function(){
-					//alert($(this).attr('id'));
 					if($(this).attr('id')!=undefined){
 						arr_tr_id=$(this).attr('id').split('_');
+						if(arr_tr_id=='set'){
+							if(arr_tr_id[1]!=arr[2]){
+								return true;
+							}
+						}
+						eval('arr_para[arr_tr_id[0]][ct_'+arr_tr_id[0]+']=new Array();');
 					}else{
 						return true;
 					}
-					arr_para[arr_tr_id[0]][ct_ra]=new Array();
-					switch(arr_tr_id[0]){
-						case ('ra'):
-							arr_td_ra=new Array('a','b');
-							str_td='da_';
-							str_ipt='ipt_'
-							postfix_td_id=$(this).find('td[id^="'+str_td+'"]:first').attr('id').substring(5);
-							$.each(arr_td_ra,function(k,v){
-								switch(v){
+					str_td='da_';
+					str_ipt='ipt_'
+					$(this).find('td[id^="'+str_td+'"]').each(function(){
+						if($(this).attr('id')!=undefined){
+							arr_td_id=$(this).attr('id').split('_');
+							postfix_td_id=$(this).attr('id').substring(5);
+						}else{
+							return true;
+						}
+						switch(arr_tr_id[0]){
+							case ('ra'):
+								switch(arr_td_id[1]){
 									case ('a'):
-										//alert(str_td+v+'_'+postfix_td_id);
-										arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+v+'_'+postfix_td_id+'"]').html();
-										//arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+v+'_'+postfix_td_id+'"]').val();
+										arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+arr_td_id[1]+'_'+postfix_td_id+'"]').html();
 										break;
 									case ('b'):
-										//alert(str_ipt+v+'_'+postfix_td_id);
-										arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+v+'_'+postfix_td_id;
-										arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+v+'_'+postfix_td_id).val();
+										arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
+										arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
 										break;
 								}
-							})
+								break;
+							case ('rb'):
+								switch(arr_td_id[1]){
+								case('a'):
+									break;
+								case('b'):
+									switch ($(this).find('input').attr(id).substring(0,5)){
+										case ('ckall'):
+											strname=$(this).attr('id').substring(0,2);
+											//ckid=$(this).attr('id').substring(5);
+											break;
+										default:
+											strname=$(this).attr('id').substring(0,4);
+											//ckid=$(this).attr('id').substring(7);
+											break;
+									};
+									arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']=strname;
+									break;
+								case('c'):
+									arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']=$(this).attr('id');
+									break;
+								}
+								break;
+						}
+					})
+					switch(arr_tr_id[0]){
+						case ('ra'):
 							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
 								$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
 								alert(arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'不能为空');
 								return false;
 							}else{
-								eval('data+=\'&ra'+arr_tr_id[0]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content']+'\';');
+								eval('data+=\'&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content']+'\';');
 							}
-							ct_ra++;
 							break;
 						case ('rb'):
 							break;
 					}
-					
+					eval('ct_'+arr_tr_id[0]+'++;');
 				})
 				alert('DT:'+data);
 			})
@@ -381,14 +404,14 @@ var id_suffix_ck='rb_';
 						break;
 					case ('delall'):
 						str='';
-						$('input[name="cksub0"]').each(function(){
+						$('input[name="alcksub0"]').each(function(){
 							if($(this).prop('checked')){
-								str+=$(this).attr('id')+',';
+								str+=$(this).val()+',';
 							}
 						})
 						if(str==''){
 							alert('请选择需要删除的记录');
-							$('[name="ckall0"]').focus();
+							$('[name="alckall0"]').focus();
 							return false;
 						}
 						str=str.substring(0,str.length-1);

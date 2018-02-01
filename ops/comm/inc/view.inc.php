@@ -13,6 +13,7 @@ class ViewMain extends DbSqlPdo {
 	private $id_suffix_ipt='ipt_';
 	private $id_cat_da_a='a_';
 	private $id_cat_da_b='b_';
+	private $id_cat_da_c='c_';
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
 	 *	必有参数:
@@ -276,11 +277,11 @@ class ViewMain extends DbSqlPdo {
 							}
 						}
 						if ($_result_tmp_menu){
-							//$_return_html.='<tr><td><input type="checkbox" name="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
-							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'"><input type="checkbox" id="ckall'.$val['id'].'"/>'.$val['name'].'</td><td>';
-							foreach ($_result_tmp_menu as $val2){
+							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
+//							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td><input type="checkbox" id="ckall'.$val['id'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">';
+						    foreach ($_result_tmp_menu as $val2){
 								//$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
-								$_return_html.='<input id="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
+								$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								if ($val2['flag_set']==1){
 									$_return_html.='checked="checked" disabled="disabled"';
 								}else{
@@ -532,11 +533,9 @@ class ViewMain extends DbSqlPdo {
 						$_return_html_head_suffix='<th>';
 						$_return_html_head_postfix='';
 						if ($val['colnameid']=='id' && $val['type']==0){
-							//$_return_html_head_suffix.='<th>';
 							if ($rec_result_func_menu){
-								//$_return_html_head_suffix='<th><input type="checkbox" id="0" name="contentall"/></th>';
-								$_return_html_head_suffix.='<input type="checkbox" id="0" name="ckall0"/>';
-							}
+//								$_return_html_head_suffix.='<input type="checkbox" id="0" name="ckall0"/>';
+							    $_return_html_head_suffix.='<input type="checkbox" id="alckall0"/>';							}
 							if ($rec_result_func){
 								$_return_html_head_postfix='<th style="text-align:center">操作</th>';
 							}
@@ -549,8 +548,8 @@ class ViewMain extends DbSqlPdo {
 								$_return_html_body_suffix='<td>';
 								$_return_html_body_tmp=$_count.'</td>';
 								if ($rec_result_func_menu){
-									$_return_html_body_suffix.='<input type="checkbox" id="'.$val01[$val['colnameid']].'" name="cksub0"/>';
-								}else{
+//									$_return_html_body_suffix.='<input type="checkbox" id="'.$val01[$val['colnameid']].'" name="cksub0"/>';
+								    $_return_html_body_suffix.='<input type="checkbox" value="'.$val01[$val['colnameid']].'" id="alcksub0"/>';								}else{
 									$_return_html_body_suffix.='';
 								}
 								if ($rec_result_func){
