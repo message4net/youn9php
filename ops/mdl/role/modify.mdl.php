@@ -3,7 +3,8 @@ $return_arr['content']['tips']='<div style="float:left">';
 //$return_arr['0']['0']='test1';
 switch ($_POST['fr']){
 	case 'vwapd':
-		$return_html='<td rowspan="2">明细</td><td><input type="checkbox" name="vwckall'.$_POST['menu'].'"/>浏览</td><td>';
+		//$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['rb'].'"><input type="checkbox" name="vwckall'.$_POST['menu'].'"/>浏览</td><td>';
+		$return_html='<td rowspan="2" id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['b'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
 		//$return_arr['0']['0'].='vwapd';
 		$sql_rwb_v_q='select wb.* from role_menu rm, role_wordbook rwb, wordbook wb where wb.type>=0 and wb.type<1000 and rm.role_id=rwb.role_id and rm.menu_id=wb.menu_id and rwb.wordbook_id=wb.id and rm.role_id='.$_SESSION['loginroleid'].' and wb.menu_id='.$_POST['menu'];
 		$sql_rwb_f_q='select wb.* from role_menu rm, role_wordbook rwb, wordbook wb where wb.type>=1000 and wb.type<3000 and rm.role_id=rwb.role_id and rm.menu_id=wb.menu_id and rwb.wordbook_id=wb.id and rm.role_id='.$_SESSION['loginroleid'].' and wb.menu_id='.$_POST['menu'];
@@ -14,7 +15,7 @@ switch ($_POST['fr']){
 			$count=0;
 			foreach ($result_rwb_v_q as $val){
 				//$return_html.='<input type="checkbox" name="cksub'.$_POST['menu'].'" value="'.$val['id'].'"/>'.$val['name'];
-				$return_html.='<input type="checkbox" name="vwcksub'.$_POST['menu'].'" value="'.$val['id'];
+				$return_html.='<input type="checkbox" id="vwcksub'.$_POST['menu'].'" value="'.$val['id'];
 				if ($val['flag_set']==1){
 					$return_html.='" disabled="disabled" checked="checked"';
 				}
@@ -27,13 +28,13 @@ switch ($_POST['fr']){
 			}
 		}
 		$return_html.='</td>';
-		$return_html1='<td><input type="checkbox" name="stckall'.$_POST['menu'].'"/>功能</td><td>';
+		$return_html1='<td><input type="checkbox" id="stckall'.$_POST['menu'].'"/>功能</td><td>';
 		if ($result_rwb_f_q){
 			//$return_arr['0']['0'].='#T';
 			$count=0;
 			foreach ($result_rwb_f_q as $val){
 				//$return_html.='<input type="checkbox" name="cksub'.$_POST['menu'].'" value="'.$val['id'].'"/>'.$val['name'];
-				$return_html1.='<input type="checkbox" name="stcksub'.$_POST['menu'].'" value="'.$val['id'];
+				$return_html1.='<input type="checkbox" id="stcksub'.$_POST['menu'].'" value="'.$val['id'];
 				if ($val['flag_set']==1){
 					$return_html1.='" disabled="disabled" checked="checked"';
 				}
@@ -46,9 +47,10 @@ switch ($_POST['fr']){
 			}
 		}
 		$return_html1.='</td>';
-		//$return_arr['0']['0']=$return_html;
-		$return_arr['apd']['apd_t']['apd_tr']=$return_html;
-		$return_arr['apd']['apd_t']['apd_tr1']=$return_html1;
+		//$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].$_POST['menu']]=$return_html;
+		//$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].$_POST['menu'].'_a']=$return_html1;
+		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b']=$return_html;
+		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a']=$return_html1;
 		break;
     case 'set':
     case 'setall':
@@ -76,7 +78,8 @@ switch ($_POST['fr']){
                     $arr_rwb_init[$val][$val1['menu_id']][]=$val1['id'];
                 }
             }
-            $arr_k=explode(',',$_POST['ckarrk']);
+            //$arr_k=explode(',',$_POST['ckarrk']);
+            $arr_k=explode(',',$_POST['rbckarrk']);
             $arr_rwb_post=array();
             $arr_rwb_post[$val]=array();
             $arr_rwb_post_view=array();
@@ -87,13 +90,21 @@ switch ($_POST['fr']){
             foreach ($arr_k as $val1){
             	$arr_rwb_post_view[$val1]=array();
             	$arr_rwb_post_set[$val1]=array();
-                if (isset($_POST['vwckarrv'.$val1]) && $_POST['vwckarrv'.$val1]!=''){
-                    $arr_rwb_post_view[$val1]=explode(',', $_POST['vwckarrv'.$val1]);
+//                if (isset($_POST['vwckarrv'.$val1]) && $_POST['vwckarrv'.$val1]!=''){
+//                    $arr_rwb_post_view[$val1]=explode(',', $_POST['vwckarrv'.$val1]);
+//                }
+//                if (isset($_POST['stckarrv'.$val1]) && $_POST['stckarrv'.$val1]!=''){
+//                    $arr_rwb_post_set[$val1]=explode(',', $_POST['stckarrv'.$val1]);
+//                }
+                if (isset($_POST['rb'.$val1.'vwckarrv']) && $_POST['rb'.$val1.'vwckarrv']!=''){
+                    $arr_rwb_post_view[$val1]=explode(',', $_POST['rb'.$val1.'vwckarrv']);
                 }
-                if (isset($_POST['stckarrv'.$val1]) && $_POST['stckarrv'.$val1]!=''){
-                    $arr_rwb_post_set[$val1]=explode(',', $_POST['stckarrv'.$val1]);
+                if (isset($_POST['rb'.$val1.'stckarrv']) && $_POST['rb'.$val1.'stckarrv']!=''){
+                    $arr_rwb_post_set[$val1]=explode(',', $_POST['rb'.$val1.'stckarrv']);
                 }
-                $arr_rwb_post[$val][$val1]=array_merge($arr_rwb_post_view[$val1],$arr_rwb_post_set[$val1]);
+            	       
+            	
+            	$arr_rwb_post[$val][$val1]=array_merge($arr_rwb_post_view[$val1],$arr_rwb_post_set[$val1]);
                 if (!isset($arr_rwb_init[$val][$val1])){
                 	$arr_rwb_init[$val][$val1]=array();
                 }
@@ -122,7 +133,7 @@ switch ($_POST['fr']){
             if($db_modify->update($sql_rwb_add)){
                 $return_arr['content']['tips'].='成功';
             }else{
-                $return_arr['content']['tips'].='失败';
+                $return_arr['content']['tips'].=OPS_TIP_FAIL;
                 //$return_arr['0']['0'].='#'.$sql_rwb_add;
             }
             $return_arr['content']['tips'].=',';
@@ -139,7 +150,7 @@ switch ($_POST['fr']){
             	}
             }
             if ($flag_rwb_del==1){
-                $return_arr['content']['tips'].='失败';
+                $return_arr['content']['tips'].=OPS_TIP_FAIL;
             }else{
                 $return_arr['content']['tips'].='成功';
             }
@@ -154,7 +165,7 @@ switch ($_POST['fr']){
         		}
         	}
         	if ($flag_rm_i==1){
-        		$return_arr['content']['tips'].='失败';
+        		$return_arr['content']['tips'].=OPS_TIP_FAIL;
         	}else{
         		$return_arr['content']['tips'].='成功';
        		}
@@ -197,12 +208,14 @@ switch ($_POST['fr']){
 			if($db_modify->update($sql_m)){
 				$return_arr['content']['tips'].='成功,';
 			}else{
-				$return_arr['content']['tips'].='<b>失败</b>,';
+				$return_arr['content']['tips'].=OPS_TIP_FAIL;
 			}
 		}
 		$result_vrf=$db_modify->select($sql_vrf);
-		$arr_k=explode(',',$_POST['ckarrk']);
-		$sql_arr_init='select * from wordbook where id in ('.$_POST['ckarrk'].')';
+		//$arr_k=explode(',',$_POST['ckarrk']);
+		//$sql_arr_init='select * from wordbook where id in ('.$_POST['ckarrk'].')';
+		$arr_k=explode(',',$_POST['rb3ckarrk']);
+		$sql_arr_init='select * from wordbook where id in ('.$_POST['rb3ckarrk'].')';
 		$result_arr_init=$db_modify->select($sql_arr_init);
 		$arr_init=array();
 		if ($result_arr_init){
@@ -224,7 +237,8 @@ switch ($_POST['fr']){
 						}
 					}
 				}
-				$arr_v=explode(',', $_POST['ckarrv'.$val]);
+				//$arr_v=explode(',', $_POST['ckarrv'.$val]);
+				$arr_v=explode(',', $_POST['rb'.$val.'alckarrv']);
 				$arr_add=array_diff($arr_v, $arr_i);
 				$arr_del=array_diff($arr_i, $arr_v);
 				if ($arr_del){
@@ -243,11 +257,12 @@ switch ($_POST['fr']){
 							}
 							$str1=substr($str1,0,strlen($str1)-1);
 							if ($str1!=''){
-								$sql_d_f='delet from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id in ('.$str1.')';
+								$sql_d_f='delete from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id in ('.$str1.')';
+//$return_arr['0']['0']=$sql_d_f;
 								if ($db_modify->update($sql_d_f)){
 									$return_arr['content']['tips'].='成功';
 								}else{
-									$return_arr['content']['tips'].='失败';
+									$return_arr['content']['tips'].=OPS_TIP_FAIL;
 								}
 							}
 							$return_arr['content']['tips'].='菜单删除';
@@ -255,7 +270,7 @@ switch ($_POST['fr']){
 							if ($db_modify->update($sql_d_m)){
 								$return_arr['content']['tips'].='成功';
 							}else{
-								$return_arr['content']['tips'].='失败';
+								$return_arr['content']['tips'].=OPS_TIP_FAIL;
 							}
 						}
 					}
@@ -281,7 +296,7 @@ switch ($_POST['fr']){
 						if($db_modify->insert($sql_i)){
 							$return_arr['content']['tips'].='成功,';
 						}else{
-							$return_arr['content']['tips'].='<b>失败</b>,';
+							$return_arr['content']['tips'].=OPS_TIP_FAIL;
 						}
 					}
 					if ($str_sql_i_f!=''){
@@ -290,7 +305,7 @@ switch ($_POST['fr']){
 						if($db_modify->insert($sql_i_f)){
 							$return_arr['content']['tips'].='成功,';
 						}else{
-							$return_arr['content']['tips'].='<b>失败</b>,';
+							$return_arr['content']['tips'].=OPS_TIP_FAIL;
 						}
 					}
 				}
@@ -324,14 +339,14 @@ switch ($_POST['fr']){
 			if ($db_modify->update($sql_rwb_del)){
 				$return_arr['content']['tips'].='成功,';
 			}else{
-				$return_arr['content']['tips'].='<b>失败</b>,';
+				$return_arr['content']['tips'].=OPS_TIP_FAIL;
 			}
 		}
 		$return_arr['content']['tips'].='菜单删除';
 		if ($db_modify->update($sql_rm_d)){
 			$return_arr['content']['tips'].='成功,';
 		}else{
-			$return_arr['content']['tips'].='<b>失败</b>,';
+			$return_arr['content']['tips'].=OPS_TIP_FAIL;
 		}
 		break;
 	case 'del':
@@ -345,7 +360,7 @@ switch ($_POST['fr']){
 			if($db_modify->update($val)){
 				$return_arr['content']['tips'].='成功';
 			}else{
-				$return_arr['content']['tips'].='失败';
+				$return_arr['content']['tips'].=OPS_TIP_FAIL;
 			}
 		}
 		require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;

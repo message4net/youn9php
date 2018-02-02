@@ -54,8 +54,19 @@ j.vwmod table 元素 tr id 含义
 	1.table id:t_vwmod 该table属于vwmod table
 	2.tr id:[ra|rb]_wordbookID 
 		ra 代表 输入类input信息 
-			td类别 a 代表输入名称 b代表输入内容
+			td类别 
+				a 代表 输入框 的 名称 
+				b 代表输入内容
+				c 代表输入ID
+//		rc 代表选择类input信息
+//			td类别 
+//				a 代表记录多选arr_k
+//				其他与rb相同 
 		rb 代表选择类input信息
-			td类别 a 代表记录多选arr_k b 代表多选arr_v sub前缀   c代表多选arr_v所在td的ID d代表 select单选
-	
+			td类别
+				a 代表记录多选arr_k
+				b 代表多选arr_v sub前缀   
+				c代表多选arr_v所在td的ID 
+				d代表 select单选
+k.为避免多用户同时修改造成数据库混乱，需要加锁	
 	

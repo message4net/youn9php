@@ -1,7 +1,7 @@
 <?php
 
 class ViewMain extends DbSqlPdo {
-//class ViewMain {
+
 	private $rec_init_arr=array();
 	private $rec_word_search='';
 	private $strtips_tmp='';
@@ -9,11 +9,13 @@ class ViewMain extends DbSqlPdo {
 	private $id_table_vwmod='t_vwmod';
 	private $id_suffix_ra='ra_';
 	private $id_suffix_rb='rb_';
+	private $id_suffix_rc='rc_';
 	private $id_suffix_da='da_';
 	private $id_suffix_ipt='ipt_';
 	private $id_cat_da_a='a_';
 	private $id_cat_da_b='b_';
 	private $id_cat_da_c='c_';
+	
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
 	 *	必有参数:
@@ -42,8 +44,9 @@ class ViewMain extends DbSqlPdo {
 		//}
 		$this->rec_init_arr=$this->init_recarr();
 	}
+
 	/**
-	 * 功能:生成 user菜单显示列 相关功能 的 浏览html
+	 * 功能:生成 user菜单显示列 setcol 相关功能 的 浏览html
 	 */
 	public function gen_setcol_view_html(){
 		$_sql_rwb_q='select wb.* from role_wordbook rwb, wordbook wb where rwb.wordbook_id=wb.id and wb.type>=0 and wb.type<1000 and rwb.role_id='.$this->login_role_id;
@@ -99,8 +102,9 @@ class ViewMain extends DbSqlPdo {
 		$_return_html.='<tr><td colspan="3"><button id="'.$this->btnvwmod.'_setcolall">批保存</button></td></tr></table>';
 		return $_return_html;
 	}
+	
 	/**
-	 * 功能:生成 批设置 相关功能 的 浏览html
+	 * 功能:生成 批设置 allset 相关功能 的 浏览html
 	 */
 	public function gen_allset_view_html(){
 		if ($this->login_role_id==1){
@@ -112,12 +116,13 @@ class ViewMain extends DbSqlPdo {
 		}
 		$_result_role_q=parent::select($_sql_role_q);
 		$_result_menu_q=parent::select($_sql_menu_q);
-		//$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="vwset_allset">批设置</button></td><td><button id="vwset_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
-		$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="'.$this->btnvwmod.'_allset">批设置</button></td><td><button id="'.$this->btnvwmod.'_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
+//		$_return_html='<table id="apd_t"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="'.$this->btnvwmod.'_allset">批设置</button></td><td><button id="'.$this->btnvwmod.'_alldel">批删除</button></td></tr><tr><td colspan="2"><input type="checkbox" name="ckall0">权限名称</td><td>';
+		$_return_html='<table id="'.$this->id_table_vwmod.'"><tr><th>名称</th><th>分类</th><th>内容</th></tr><tr><td colspan="2"><button id="'.$this->btnvwmod.'_allset">批设置</button></td><td><button id="'.$this->btnvwmod.'_alldel">批删除</button></td></tr><tr id="'.$this->id_suffix_rb.'a"><td colspan="2" id="'.$this->id_suffix_da.$this->id_cat_da_b.'a"><input type="checkbox" id="alckalla">权限名称</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.'a">';
+// id="'.$this->id_suffix_rb.$id_cat_da_b'"  id="'.$this->id_suffix_da.$id_cat_da_b.'a"
 		if ($_result_role_q){
 			$count=0;
 			foreach ($_result_role_q as $val){
-				$_return_html.='<input type="checkbox" name="cksub0" value="'.$val['id'].'"/>'.$val['name'];
+				$_return_html.='<input type="checkbox" id="alcksub0" value="'.$val['id'].'"/>'.$val['name'];
 				$count++;
 				if ($count>4){
 					$_return_html.='</br>';
@@ -128,10 +133,10 @@ class ViewMain extends DbSqlPdo {
 			$_return_html='请先新增权限后，再执行此操作';
 			return $_return_html;
 		}
-		$_return_html.='</td></tr><tr><td colspan="2">实权</td><td><select id="scg"><option id="0" selected="selected">未选择</option>';
+		$_return_html.='</td></tr><tr id="'.$this->id_suffix_rc.'a"><td colspan="2">实权</td><td id="'.$this->id_suffix_da.$this->id_cat_da_a.'a"><select id="scg"><option value="FL" selected="selected">未选择</option>';
 		if ($_result_menu_q){
 			foreach ($_result_menu_q as $val){
-				$_return_html.='<option id="'.$val['id'].'">'.$val['name'].'</option>';
+				$_return_html.='<option value="'.$val['id'].'">'.$val['name'].'</option>';
 			}
 		}else{
 			$_return_html.='请先为权限关联实权，再执行此操作';
@@ -142,7 +147,7 @@ class ViewMain extends DbSqlPdo {
 	}
 	
 	/**
-	 * 功能:生成设置相关功能的浏览html
+	 * 功能:生成设置 set 相关功能的浏览html
 	 */
 	public function gen_set_view_html($rec_id){
 		$_sql_rwb_q='select rwb.* from role_menu rm,role_wordbook rwb where rm.role_id=rwb.role_id and rwb.role_id='.$rec_id;
@@ -182,15 +187,18 @@ class ViewMain extends DbSqlPdo {
 		        $_arr_func[$_val4['menu_id']][$_val4['id']]=$_val4;
 		    }
 		}
-		$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$rec_id.'" name="setid" colspan="3">'.$_result_creator_q['0']['name'].'</th></tr>';
+		//$_return_html='<table><tr><th>名称</th><th>分类</th><th id="'.$rec_id.'" name="setid" colspan="3">'.$_result_creator_q['0']['name'].'</th></tr>';
+		$_return_html='<table id="'.$this->id_table_vwmod.'"><tr><th>名称</th><th>分类</th><th colspan="3">'.$_result_creator_q['0']['name'].'</th></tr>';
 		if ($_result_menu_q){
 		    foreach ($_result_menu_q as $_val1){
-		        $_return_html.='<tr><td rowspan="2" name="ckall'.$_val1['id'].'">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
-		        $_count=0;
+//		        $_return_html.='<tr><td rowspan="2" name="ckall'.$_val1['id'].'">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
+		    	$_return_html.='<tr id="'.$this->id_suffix_rb.$_val1['id'].'"><td rowspan="2" id="'.$this->id_suffix_da.$this->id_cat_da_a.$_val1['id'].'">'.$_val1['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_val1['id'].'"><input type="checkbox" id="vwckall'.$_val1['id'].'"/>浏览</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_val1['id'].'">';
+		    	 $_count=0;
 		        if (isset($_arr_view[$_val1['id']])){
 		            foreach ($_arr_view[$_val1['id']] as $_val2){
-		                $_return_html.='<input type="checkbox" name="vwcksub'.$_val1['id'].'" id="'.$_val2['id'].'" ';
-		                if ($_val2['flag_set']==1){
+//		                $_return_html.='<input type="checkbox" id="vwcksub'.$_val1['id'].'" value="'.$_val2['id'].'" ';
+		            	$_return_html.='<input type="checkbox" id="vwcksub'.$_val1['id'].'" value="'.$_val2['id'].'" ';
+		            	if ($_val2['flag_set']==1){
 		                	$_return_html.='checked="checked" disabled="disabled"';
 		                }else{
 		                	if (in_array($_val2['id'], $_arr_rwb)){
@@ -207,13 +215,14 @@ class ViewMain extends DbSqlPdo {
 		        }else{
 		            $_return_html.='无';
 		        }
-		        //$_return_html.='</td><td rowspan="2"><input type="button" id="vwset_set_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
-		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$_val1['id'].'" value="保存"/></td></tr><tr><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
+//		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$rec_id.'_'.$_val1['id'].'" value="保存"/></td></tr><tr id="'.$this->$id_suffix_rb.$_val1['id'].'"><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
+		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$rec_id.'_'.$_val1['id'].'" value="保存"/></td></tr><tr id="'.$this->id_suffix_rb.$_val1['id'].'_a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_val1['id'].'_a"><input type="checkbox" id="stckall'.$_val1['id'].'"/>功能</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_val1['id'].'_a">';
 		        $_count=0;
 		        if (isset($_arr_func[$_val1['id']])){
 		            foreach ($_arr_func[$_val1['id']] as $_val3){
-		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'" ';
-		                if ($_val3['flag_set']==1){
+//		                $_return_html.='<input type="checkbox" name="stcksub'.$_val1['id'].'" id="'.$_val3['id'].'" ';
+		            	$_return_html.='<input type="checkbox" id="stcksub'.$_val1['id'].'" value="'.$_val3['id'].'" ';
+		            	 if ($_val3['flag_set']==1){
 		                    $_return_html.='checked="checked" disabled="disabled"';
 		                }else{
 		                	if (in_array($_val3['id'], $_arr_rwb)){
@@ -234,12 +243,12 @@ class ViewMain extends DbSqlPdo {
 		    }
 		}
 		//$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="vwset_setall" value="批保存"/></span></td></tr></table>';
-		$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="'.$this->btnvwmod.'_setall" value="批保存"/></span></td></tr></table>';
+		$_return_html.='<tr><td colspan="4" style="text-align:center"><span style="text-align:center"><input type="button" id="'.$this->btnvwmod.'_setall_'.$rec_id.'" value="批保存"/></span></td></tr></table>';
 		return $_return_html;
 	}
 	
 	/**
-	 * 功能:生成修改相关功能的浏览html
+	 * 功能:生成修改 mod add 相关功能的浏览html
 	 */
 	public function gen_mod_view_html($rec_id=''){
 		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
@@ -362,6 +371,7 @@ class ViewMain extends DbSqlPdo {
 		return $_return_arr;
 	//}
 	}
+
 	/**
 	 * 功能:生成当前pagenum
 	 */
@@ -383,6 +393,7 @@ class ViewMain extends DbSqlPdo {
 		return $rec_pagenum_post;
 
 	}
+
 	/**
 	 * 生成$this->rec_init_arr[rec_pagenum_total]
 	 */

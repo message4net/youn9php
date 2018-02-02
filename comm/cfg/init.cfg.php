@@ -40,6 +40,15 @@ define('OPS_INC_VIEW', 'view');
 define('OPS_INC_MAIN', 'main');
 define('OPS_SQL_VIEW', 'vwsql');
 define('OPS_FILE_TMPLT', 'index.html');
+define('OPS_TIP_FAIL', '<span style="color:yellow"><b>失败</b></span>,');
+
+$html_e['ops']['tr']['ra']='ra_';
+$html_e['ops']['tr']['rb']='rb_';
+$html_e['ops']['tr']['rc']='rc_';
+$html_e['ops']['td']['suffix']='da_';
+$html_e['ops']['td']['a']='a_';
+$html_e['ops']['td']['b']='b_';
+$html_e['ops']['td']['c']='c_';
 
 $html_tmplt_arr['ops']['title']='ops_sys';
 $html_tmplt_arr['ops']['logo']='ops_sys';
