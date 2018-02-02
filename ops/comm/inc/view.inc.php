@@ -122,7 +122,7 @@ class ViewMain extends DbSqlPdo {
 		if ($_result_role_q){
 			$count=0;
 			foreach ($_result_role_q as $val){
-				$_return_html.='<input type="checkbox" id="alcksub0" value="'.$val['id'].'"/>'.$val['name'];
+				$_return_html.='<input type="checkbox" id="alcksuba" value="'.$val['id'].'"/>'.$val['name'];
 				$count++;
 				if ($count>4){
 					$_return_html.='</br>';
@@ -192,7 +192,7 @@ class ViewMain extends DbSqlPdo {
 		if ($_result_menu_q){
 		    foreach ($_result_menu_q as $_val1){
 //		        $_return_html.='<tr><td rowspan="2" name="ckall'.$_val1['id'].'">'.$_val1['name'].'</td><td><input type="checkbox" name="vwckall'.$_val1['id'].'"/>浏览</td><td>';
-		    	$_return_html.='<tr id="'.$this->id_suffix_rb.$_val1['id'].'"><td rowspan="2" id="'.$this->id_suffix_da.$this->id_cat_da_a.$_val1['id'].'">'.$_val1['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_val1['id'].'"><input type="checkbox" id="vwckall'.$_val1['id'].'"/>浏览</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_val1['id'].'">';
+		        $_return_html.='<tr id="'.$this->id_suffix_rb.$this->id_cat_da_a.$_val1['id'].'"><td rowspan="2" id="'.$this->id_suffix_da.$this->id_cat_da_a.$_val1['id'].'">'.$_val1['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_val1['id'].'"><input type="checkbox" id="vwckall'.$_val1['id'].'"/>浏览</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_val1['id'].'">';
 		    	 $_count=0;
 		        if (isset($_arr_view[$_val1['id']])){
 		            foreach ($_arr_view[$_val1['id']] as $_val2){
@@ -216,7 +216,7 @@ class ViewMain extends DbSqlPdo {
 		            $_return_html.='无';
 		        }
 //		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$rec_id.'_'.$_val1['id'].'" value="保存"/></td></tr><tr id="'.$this->$id_suffix_rb.$_val1['id'].'"><td><input type="checkbox" name="stckall'.$_val1['id'].'"/>功能</td><td>';
-		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$rec_id.'_'.$_val1['id'].'" value="保存"/></td></tr><tr id="'.$this->id_suffix_rb.$_val1['id'].'_a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_val1['id'].'_a"><input type="checkbox" id="stckall'.$_val1['id'].'"/>功能</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_val1['id'].'_a">';
+		        $_return_html.='</td><td rowspan="2"><input type="button" id="'.$this->btnvwmod.'_set_'.$rec_id.'_'.$_val1['id'].'" value="保存"/></td></tr><tr id="'.$this->id_suffix_rb.$this->id_cat_da_a.$_val1['id'].'_a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_val1['id'].'_a"><input type="checkbox" id="stckall'.$_val1['id'].'"/>功能</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_val1['id'].'_a">';
 		        $_count=0;
 		        if (isset($_arr_func[$_val1['id']])){
 		            foreach ($_arr_func[$_val1['id']] as $_val3){
@@ -263,9 +263,10 @@ class ViewMain extends DbSqlPdo {
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
-						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
-					    //$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" />';
-						if ($rec_id_result){
+					    //$id_cat_da_a
+//						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
+					    $_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
+					    if ($rec_id_result){
 							$_return_html.=$rec_id_result[0][$val['colnameid']];
 						}
 						//$_return_html.='</td></tr>';
@@ -286,7 +287,7 @@ class ViewMain extends DbSqlPdo {
 							}
 						}
 						if ($_result_tmp_menu){
-							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
+						    $_return_html.='<tr id="'.$this->id_suffix_rb.$this->id_cat_da_a.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
 //							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td><input type="checkbox" id="ckall'.$val['id'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">';
 						    foreach ($_result_tmp_menu as $val2){
 								//$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';

@@ -179,14 +179,15 @@ $.extend({
 					arr_para[v]=new Array();
 					eval('ct_'+v+'=0;');
 				})
-				str_k='';
+				//str_k='';
+				str_k=new Array();
 				flag_k=0;
 				$('table#t_vwmod').find('tr').each(function(){
 					if($(this).attr('id')!=undefined){
 						arr_tr_id=$(this).attr('id').split('_');
 //						alert('#TRID:'+$(this).attr('id')+'#ARR1:'+arr[1]+'#ARR2:'+arr[3]+'#TRID1:'+arr_tr_id[1]);
 						if(arr[1]=='set'){
-							if(arr_tr_id[1]!=arr[3]){
+							if(arr_tr_id[2]!=arr[3]){
 								return true;
 							}
 						}
@@ -217,6 +218,9 @@ $.extend({
 								}
 								break;
 							case ('rb'):
+								if(str_k[arr_tr_id[1]]==undefined){
+									str_k[arr_tr_id[1]]='';
+								}
 								switch(arr_td_id[1]){
 								case('a'):
 									if(ct_rb%2==0){
@@ -266,14 +270,16 @@ $.extend({
 									str_v+=$(this).val()+',';
 								}
 							})
-							data+='&'+arr_tr_id[0]+arr_tr_id[1]+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'arrv='+str_v.substring(0,str_v.length-1);
+							data+='&'+arr_tr_id[0]+arr_tr_id[2]+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'arrv='+str_v.substring(0,str_v.length-1);
 							break;
 					}
 					eval('ct_'+arr_tr_id[0]+'++;');
 				})
-				if(str_k!=''){
+				if(str_k.length!=0){
 					//data+='&'+arr_tr_id[0]+arr_tr_id[1]+'ckarrk='+str_k.substring(0,str_k.length-1);
-					data+='&'+arr_tr_id[0]+'ckarrk='+str_k.substring(0,str_k.length-1);
+					$.each(str_k,function(k,v){
+						data+='&rb'+k+'ckarrk='+v.substring(0,v.length-1);
+					})
 				}
 				//alert('DT:'+data+'#STR_K:'+str_k);
 				alert('DT:'+data);
