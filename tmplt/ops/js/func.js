@@ -187,7 +187,7 @@ $.extend({
 						arr_tr_id=$(this).attr('id').split('_');
 //						alert('#TRID:'+$(this).attr('id')+'#ARR1:'+arr[1]+'#ARR2:'+arr[3]+'#TRID1:'+arr_tr_id[1]);
 						if(arr[1]=='set'){
-							if(arr_tr_id[2]!=arr[3]){
+							if(arr_tr_id[1]!=arr[3]){
 								return true;
 							}
 						}
@@ -218,16 +218,17 @@ $.extend({
 								}
 								break;
 							case ('rb'):
-								if(str_k[arr_tr_id[1]]==undefined){
-									str_k[arr_tr_id[1]]='';
+								if(str_k[arr_tr_id[2]]==undefined){
+									str_k[arr_tr_id[2]]='';
 								}
 								switch(arr_td_id[1]){
 								case('a'):
 									if(ct_rb%2==0){
-										arr_para[arr_tr_id[0]][ct_rb]['k_id_td']=$(this).attr('id').substring(5);
-									}else{
-										arr_para[arr_tr_id[0]][ct_rb]['k_id_td']='';
-									}
+										//arr_para[arr_tr_id[0]][ct_rb]['k_id_td']=$(this).attr('id').substring(5);
+										str_k[arr_tr_id[2]]+=$(this).attr('id').substring(5)+',';
+									}//else{
+										//arr_para[arr_tr_id[0]][ct_rb]['k_id_td']='';
+									//}
 									flag_k=1;
 									break;
 								case('b'):
