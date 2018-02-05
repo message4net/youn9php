@@ -4,7 +4,8 @@ $return_arr['content']['tips']='<div style="float:left">';
 switch ($_POST['fr']){
 	case 'vwapd':
 		//$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['rb'].'"><input type="checkbox" name="vwckall'.$_POST['menu'].'"/>浏览</td><td>';
-		$return_html='<td rowspan="2" id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['b'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
+		//$return_html='<td rowspan="2" id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['b'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
+		$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
 		//$return_arr['0']['0'].='vwapd';
 		$sql_rwb_v_q='select wb.* from role_menu rm, role_wordbook rwb, wordbook wb where wb.type>=0 and wb.type<1000 and rm.role_id=rwb.role_id and rm.menu_id=wb.menu_id and rwb.wordbook_id=wb.id and rm.role_id='.$_SESSION['loginroleid'].' and wb.menu_id='.$_POST['menu'];
 		$sql_rwb_f_q='select wb.* from role_menu rm, role_wordbook rwb, wordbook wb where wb.type>=1000 and wb.type<3000 and rm.role_id=rwb.role_id and rm.menu_id=wb.menu_id and rwb.wordbook_id=wb.id and rm.role_id='.$_SESSION['loginroleid'].' and wb.menu_id='.$_POST['menu'];
@@ -28,7 +29,7 @@ switch ($_POST['fr']){
 			}
 		}
 		$return_html.='</td>';
-		$return_html1='<td><input type="checkbox" id="stckall'.$_POST['menu'].'"/>功能</td><td>';
+		$return_html1='<td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'_a"><input type="checkbox" id="stckall'.$_POST['menu'].'"/>功能</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'_a">';
 		if ($result_rwb_f_q){
 			//$return_arr['0']['0'].='#T';
 			$count=0;
@@ -49,8 +50,8 @@ switch ($_POST['fr']){
 		$return_html1.='</td>';
 		//$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].$_POST['menu']]=$return_html;
 		//$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].$_POST['menu'].'_a']=$return_html1;
-		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b']=$return_html;
-		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a']=$return_html1;
+		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'a_a']=$return_html;
+		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'a_a_a']=$return_html1;
 		break;
     case 'set':
     case 'setall':
