@@ -3,20 +3,18 @@ $return_arr['content']['tips']='<div style="float:left">';
 //$return_arr['0']['0']='test1';
 switch ($_POST['fr']){
 	case 'vwapd':
-		//$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['rb'].'"><input type="checkbox" name="vwckall'.$_POST['menu'].'"/>浏览</td><td>';
-		//$return_html='<td rowspan="2" id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['b'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
-		$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
+//		$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'" value="浏览"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
+		$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].'b"><input type="checkbox" id="vwckallb" value="浏览"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].'b">';
 		//$return_arr['0']['0'].='vwapd';
 		$sql_rwb_v_q='select wb.* from role_menu rm, role_wordbook rwb, wordbook wb where wb.type>=0 and wb.type<1000 and rm.role_id=rwb.role_id and rm.menu_id=wb.menu_id and rwb.wordbook_id=wb.id and rm.role_id='.$_SESSION['loginroleid'].' and wb.menu_id='.$_POST['menu'];
 		$sql_rwb_f_q='select wb.* from role_menu rm, role_wordbook rwb, wordbook wb where wb.type>=1000 and wb.type<3000 and rm.role_id=rwb.role_id and rm.menu_id=wb.menu_id and rwb.wordbook_id=wb.id and rm.role_id='.$_SESSION['loginroleid'].' and wb.menu_id='.$_POST['menu'];
 		$result_rwb_v_q=$db_modify->select($sql_rwb_v_q);
 		$result_rwb_f_q=$db_modify->select($sql_rwb_f_q);
 		if ($result_rwb_v_q){
-			//$return_arr['0']['0'].='#T';
 			$count=0;
 			foreach ($result_rwb_v_q as $val){
-				//$return_html.='<input type="checkbox" name="cksub'.$_POST['menu'].'" value="'.$val['id'].'"/>'.$val['name'];
-				$return_html.='<input type="checkbox" id="vwcksub'.$_POST['menu'].'" value="'.$val['id'];
+//				$return_html.='<input type="checkbox" id="vwcksub'.$_POST['menu'].'" value="'.$val['id'];
+				$return_html.='<input type="checkbox" id="vwcksubb" value="'.$val['id'];
 				if ($val['flag_set']==1){
 					$return_html.='" disabled="disabled" checked="checked"';
 				}
@@ -29,13 +27,13 @@ switch ($_POST['fr']){
 			}
 		}
 		$return_html.='</td>';
-		$return_html1='<td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'_a"><input type="checkbox" id="stckall'.$_POST['menu'].'"/>功能</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'_a">';
+//		$return_html1='<td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'_a"><input type="checkbox" id="stckall'.$_POST['menu'].'" value="功能"/>功能</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'_a">';
+		$return_html1='<td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].'b_a"><input type="checkbox" id="stckall'.'b" value="功能"/>功能</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].'b_a">';
 		if ($result_rwb_f_q){
-			//$return_arr['0']['0'].='#T';
 			$count=0;
 			foreach ($result_rwb_f_q as $val){
-				//$return_html.='<input type="checkbox" name="cksub'.$_POST['menu'].'" value="'.$val['id'].'"/>'.$val['name'];
-				$return_html1.='<input type="checkbox" id="stcksub'.$_POST['menu'].'" value="'.$val['id'];
+//				$return_html1.='<input type="checkbox" id="stcksub'.$_POST['menu'].'" value="'.$val['id'];
+				$return_html1.='<input type="checkbox" id="stcksubb" value="'.$val['id'];
 				if ($val['flag_set']==1){
 					$return_html1.='" disabled="disabled" checked="checked"';
 				}
@@ -48,15 +46,20 @@ switch ($_POST['fr']){
 			}
 		}
 		$return_html1.='</td>';
-		//$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].$_POST['menu']]=$return_html;
-		//$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].$_POST['menu'].'_a']=$return_html1;
-		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'a_a']=$return_html;
-		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'a_a_a']=$return_html1;
+		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a_a']=$return_html;
+		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a_a_a']=$return_html1;
 		break;
     case 'set':
     case 'setall':
     case 'allset':
-        $arr_role=explode(',',$_POST['id']);
+    	switch ($_POST['fr']){
+    		case 'allset':
+    			$arr_role=explode(',',$_POST['rb'.$_POST['rbbckarrk'].'alckarrv']);
+    			break;
+    		default:
+    			$arr_role=explode(',',$_POST['id']);
+    			break;
+    	}
         $str_rwb_add='';
         $str_rwb_del='';
         $sql_rwb_add='';
@@ -315,7 +318,8 @@ switch ($_POST['fr']){
 		}
 		break;
 	case 'alldel':
-		$sql_m_q='select * from menu where id='.$_POST['ckarrk'];
+		//$sql_m_q='select * from menu where id='.$_POST['ckarrk'];
+		$sql_m_q='select * from menu where id='.$_POST['rbackarrk'];
 		$result_m_q=$db_modify->select($sql_m_q);
 		//$return_arr['0']['0']=$sql_m_q;
 		//break;
@@ -324,8 +328,10 @@ switch ($_POST['fr']){
 			//$return_arr['0']['0']=$sql_m_q;
 			break;
 		}
-		$sql_rm_d='delete from role_menu where menu_id='.$_POST['ckarrk'].' and role_id in ('.$_POST['id'].')';
-		$sql_rwb_q='select * from wordbook where type>=0 and type<3000 and menu_id='.$_POST['ckarrk'];
+		//$sql_rm_d='delete from role_menu where menu_id='.$_POST['ckarrk'].' and role_id in ('.$_POST['id'].')';
+		//$sql_rwb_q='select * from wordbook where type>=0 and type<3000 and menu_id='.$_POST['ckarrk'];
+		$sql_rm_d='delete from role_menu where menu_id='.$_POST['rbackarrk'].' and role_id in ('.$_POST['rb'.$_POST['rbbckarrk'].'alckarrv'].')';
+		$sql_rwb_q='select * from wordbook where type>=0 and type<3000 and menu_id='.$_POST['rbackarrk'];
 		$result_rwb_q=$db_modify->select($sql_rwb_q);
 		$str_rwb='';
 		if ($result_rwb_q){
@@ -335,7 +341,8 @@ switch ($_POST['fr']){
 			$str_rwb=substr($str_rwb,0,strlen($str_rwb)-1);;
 		}
 		if ($str_rwb!=''){
-			$sql_rwb_del='delete from role_wordbook where role_id in ('.$_POST['id'].') and wordbook_id in ('.$str_rwb.')';
+//			$sql_rwb_del='delete from role_wordbook where role_id in ('.$_POST['id'].') and wordbook_id in ('.$str_rwb.')';
+			$sql_rwb_del='delete from role_wordbook where role_id in ('.$_POST['rb'.$_POST['rbbckarrk'].'alckarrv'].') and wordbook_id in ('.$str_rwb.')';
 			$return_arr['content']['tips'].='功能删除';
 			if ($db_modify->update($sql_rwb_del)){
 				$return_arr['content']['tips'].='成功,';

@@ -180,7 +180,8 @@ $.extend({
 					eval('ct_'+v+'=0;');
 				})
 				str_k=new Object();
-				flag_k=0;
+				ct_ev=0;
+				arr_ev=new Array();
 				$('table#t_vwmod').find('tr').each(function(){
 					if($(this).attr('id')!=undefined){
 						arr_tr_id=$(this).attr('id').split('_');
@@ -189,16 +190,13 @@ $.extend({
 								return true;
 							}
 						}
-
 						if(arr_tr_id[0]=='rb'&&arr_tr_id[2]!=undefined){
-							eval('str_k.'+arr_tr_id[2]+'=\'\';');
+							if($.inArray(arr_tr_id[2],arr_ev)<0){
+								arr_ev[ct_ev]=arr_tr_id[2];
+								eval('str_k.'+arr_tr_id[2]+arr_tr_id[3]+'=\'\';');
+								ct_ev++;
+							}
 						}
-//						if(arr_tr_id[0]=='rb'&&arr_tr_id[2]!=undefined){
-//							eval('str_k.'+arr_tr_id[2]+'+=\'X\';');
-//							//alert('alert(\'#K:\''+arr_tr_id[2]+'\'#STR:\'+str_k.'+arr_tr_id[2]+'+\'#LTH:\'+'+str_k.length+');');
-//							//eval('alert(\'#K:\''+arr_tr_id[2]+'\'#STR:\'+str_k.'+arr_tr_id[2]+'+\'#LTH:\''+str_k.length+');');
-//						}
-						
 						eval('arr_para[arr_tr_id[0]][ct_'+arr_tr_id[0]+']=new Array();');
 					}else{
 						return true;
@@ -213,216 +211,110 @@ $.extend({
 							return true;
 						}
 						switch(arr_tr_id[0]){
-							case ('ra'):
-								switch(arr_td_id[1]){
-									case ('a'):
-										arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+arr_td_id[1]+'_'+postfix_td_id+'"]').html();
-										break;
-									case ('b'):
-										arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
-										arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
-										break;
-								}
-								break;
-							case ('rb'):
-								switch(arr_td_id[1]){
-								case('a'):
-									arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']=$(this).find('input').attr('id').substring(0,4);
-									arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']=$(this).find('input').attr('id').substring(7);
-									if(ct_rb%2==0){
-										//alert('str_k.'+arr_tr_id[2]+'+='+$(this).attr('id').substring(7)+'\',\';');
-										eval('str_k.'+arr_tr_id[2]+'+=\''+$(this).attr('id').substring(7)+',\';');
-//										alert('#A:'+str_k.arr_tr_id[2]);
-									}
-									flag_k=1;
-									break;
-								case('b'):
-									arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']=$(this).find('input').attr('id').substring(0,4);
-									arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']=$(this).find('input').attr('id').substring(7);
-									eval('str_k.'+arr_tr_id[2]+'+=\''+$(this).attr('id').substring(7)+',\';');
-//									alert('#B:'+str_k.arr_tr_id[2]);
-//									alert('#B:'+str_k[arr_tr_id[2]]+'#K:'+arr_tr_id[2]+'#ARR:'+str_k);
-									break;
-								case('c'):
-									arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']=$(this).attr('id');	
-									break;
-								}
-								break;
-						}
-					})
-					switch(arr_tr_id[0]){
 						case ('ra'):
-							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
-								$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
-								alert(arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'不能为空');
-								return false;
-							}else{
-								data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content'];
+							switch(arr_td_id[1]){
+							case ('a'):
+								arr_para[arr_tr_id[0]][ct_ra]['info_alert']=$('td[id="'+str_td+arr_td_id[1]+'_'+postfix_td_id+'"]').html();
+								break;
+							case ('b'):
+								arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
+								arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
+								break;
 							}
 							break;
 						case ('rb'):
-							str_v='';
-							$('#'+arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']).find('input#'+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'sub'+arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']).each(function(){
-								if($(this).prop('checked')){
-									str_v+=$(this).val()+',';
+							switch(arr_td_id[1]){
+							case('a'):
+								arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']=$(this).find('input').attr('id').substring(0,4);
+								arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']=$(this).find('input').attr('id').substring(7);
+								str_tmp=$(this).find('input').val();
+								if(str_tmp.substr(-1)=='Y'){
+									arr_para[arr_tr_id[0]][ct_rb]['info_alert']=str_tmp.substr(0,str_tmp.length-1);
+									arr_para[arr_tr_id[0]][ct_rb]['flag_valid']='Y';
+								}else{
+									arr_para[arr_tr_id[0]][ct_rb]['info_alert']=str_tmp;
+									arr_para[arr_tr_id[0]][ct_rb]['flag_valid']='N';
 								}
-							})
-							data+='&'+arr_tr_id[0]+arr_tr_id[2]+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'arrv='+str_v.substring(0,str_v.length-1);
+								if(ct_rb%2==0){
+									eval('str_k.'+arr_tr_id[2]+arr_tr_id[3]+'+=\''+$(this).find('input').attr('id').substring(7)+',\';');
+								}
+								break;
+							case('b'):
+								arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']=$(this).find('input').attr('id').substring(0,4);
+								arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']=$(this).find('input').attr('id').substring(7);
+								str_tmp=$(this).find('input').val();
+								if(str_tmp.substr(-1)=='Y'){
+									arr_para[arr_tr_id[0]][ct_rb]['info_alert']=str_tmp.substr(0,str_tmp.length-1);
+									arr_para[arr_tr_id[0]][ct_rb]['flag_valid']='Y';
+								}else{
+									arr_para[arr_tr_id[0]][ct_rb]['info_alert']=str_tmp;
+									arr_para[arr_tr_id[0]][ct_rb]['flag_valid']='N';
+								}
+								eval('str_k.'+arr_tr_id[2]+arr_tr_id[3]+'+=\''+$(this).find('input').attr('id').substring(7)+',\';');
+								break;
+							case('c'):
+								arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']=$(this).attr('id');	
+								break;
+							}
 							break;
+						case ('rc'):
+							switch(arr_td_id[1]){
+							case('a'):
+								arr_para[arr_tr_id[0]][ct_rc]['info_alert']=$(this).html();
+								break;
+							case('b'):
+								arr_para[arr_tr_id[0]][ct_rc]['val_slct']=$(this).find('option:selected').val();
+								arr_para[arr_tr_id[0]][ct_rc]['id_slct']=$(this).attr('id');
+								break;
+							}
+							break;
+						}
+					})
+					switch(arr_tr_id[0]){
+					case ('ra'):
+						if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
+							$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
+							alert('"'+arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'"该处不能为空');
+							return false;
+						}else{
+							data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content'];
+						}
+						break;
+					case ('rb'):
+						str_v='';
+						$('#'+arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']).find('input#'+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'sub'+arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']).each(function(){
+							if($(this).prop('checked')){
+								str_v+=$(this).val()+',';
+							}
+						})
+						if(str_v==''&&arr_para[arr_tr_id[0]][ct_rb]['flag_valid']=='Y'){
+							$('#'+arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']).find('input#'+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'sub'+arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']).focus();
+							alert('"'+arr_para[arr_tr_id[0]][ct_rb]['info_alert']+'"该多选处请至少选择一项');
+							return false;
+						}else{
+							data+='&'+arr_tr_id[0]+arr_tr_id[1]+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'arrv='+str_v.substring(0,str_v.length-1);
+						}
+						break;
+					case('rc'):
+						if(arr_para[arr_tr_id[0]][ct_rc]['val_slct']=='FL'){
+							$('#'+arr_para[arr_tr_id[0]][ct_rc]['id_slct']).focus();
+							alert('"'+arr_para[arr_tr_id[0]][ct_rc]['info_alert']+'"该单选请选择有效选项');
+							return false;
+						}else{
+							data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_rc]['val_slct'];
+						}
+						break;
 					}
 					eval('ct_'+arr_tr_id[0]+'++;');
 				})
-//				alert('#STR_K:'+str_k+'#LTH:'+str_k.length);
 				if(!$.isEmptyObject(str_k)){
 					$.each(str_k,function(k,v){
 						data+='&rb'+k+'ckarrk='+v.substring(0,v.length-1);
-//						alert('#K:'+k+'#V:'+v);
 					})
 				}
 				alert('DT:'+data);
 				//$.ajx(url_ajx,data);
 			})
-			
-//			//权限修改_执行_修改
-//			//mod add 设置ckk以满足多个多选的情况
-//			//$('#content').on('click','[id^=vwset_]',function(){
-//			$('#content').on('click','[id^=vwmod45_]',function(){
-//				arr=$(this).attr('id').split('_');
-//				data='f=modify&fr='+arr[1];
-//				switch(arr[1]){
-//					case ('mod'):
-//					case ('add'):
-//						if($('#name').val()==''){
-//							alert('权限名称不能为空');
-//							$('#name').focus();
-//							return false;
-//						}
-//						data+='&name='+$('#name').val();
-//						str1='&ckarrk=';
-//						str='';
-//						$('input[name^="ckall"]').each(function(){
-//							ckid=$(this).prop('name').substring(5);
-//							str1+=ckid+',';
-//							str+='&ckarrv'+ckid+'=';
-//							$('input[name^="cksub'+ckid+'"]').each(function(){
-//								if($(this).prop('checked')){
-//									str+=$(this).val()+',';
-//								}
-//							})
-//							str=str.substring(0,str.length-1);
-//						})
-//						str1=str1.substring(0,str1.length-1);
-//						data+=str+str1;
-//						switch(arr[1]){
-//							case ('mod'):
-//								data+='&id='+arr[2];
-//								break;
-//						}
-//						break;
-//					case ('allset'):
-//						str='';
-//						$('input[name="cksub0"]').each(function(){
-//							if($(this).prop('checked')){
-//								str+=$(this).val()+',';
-//							}
-//						})
-//						str=str.substring(0,str.length-1);
-//						if(str==''){
-//							alert('请选择权限');
-//							$('[name="ckall0"]').focus();
-//							return false;
-//						}
-//						str='&id='+str;
-//						menuid=$('#scg option:selected').attr('id');
-//						//alert(menuid);
-//						menu='&ckarrk='+menuid;
-//						str1='';
-//						str2=''
-//						$('input[name^="vwcksub'+menuid+'"]').each(function(){
-//							if($(this).prop('checked')){
-//								str1+=$(this).val()+',';
-//							}
-//						})
-//						$('input[name^="stcksub'+menuid+'"]').each(function(){
-//							if($(this).prop('checked')){
-//								str2+=$(this).val()+',';
-//							}
-//						})
-//						str1='&vwckarrv='+str1.substring(0,str1.length-1);
-//						str2='&stckarrv='+str2.substring(0,str2.length-1);
-//						data+=str+menu+str1+str2;
-//						break;
-//					case ('alldel'):
-//						str='';
-//						$('input[name=cksub0]').each(function(){
-//							if($(this).prop('checked')){
-//								str+=$(this).val()+',';
-//							}
-//						})
-//						str=str.substring(0,str.length-1);
-//						if(str==''){
-//							alert('请选择权限');
-//							$('[name=ckall0]').focus();
-//							return false;
-//						}
-//						str='&id='+str;
-//						menuid=$('#scg option:selected').attr('id');
-//						menu='&ckarrk='+menuid;
-//						data+=str+menu
-//						break;
-//					case ('set'):
-//						role=$('[name="setid"]').attr('id');
-//						data+='&id='+role;
-//						data+='&ckarrk='+arr[2];
-//						str='';
-//						str1='';
-//						$('input[name^="vwcksub'+arr[2]+'"]').each(function(){
-//							if($(this).prop('checked')){
-//								str+=$(this).prop('id')+',';
-//							}
-//						})
-//						$('input[name^="stcksub'+arr[2]+'"]').each(function(){
-//							if($(this).prop('checked')){
-//								str1+=$(this).prop('id')+',';
-//							}
-//						})
-//						str='&vwckarrv'+arr[2]+'='+str.substring(0,str.length-1);
-//						str1='&stckarrv'+arr[2]+'='+str1.substring(0,str1.length-1);
-//						data+=str+str1;
-//						break;
-//					case ('setall'):
-//						role=$('[name="setid"]').attr('id');
-//						data+='&id='+role;
-//						str='&ckarrk=';
-//						str1='';
-//						str2='';
-//						$('[name^="ckall"]').each(function(){
-//							ckid=$(this).attr('name').substring(5);
-//							str+=ckid+',';
-//							str3='';
-//							str4='';
-//							$('input[name^="vwcksub'+ckid+'"]').each(function(){
-//								if($(this).prop('checked')){
-//									str3+=$(this).prop('id')+',';
-//								}
-//							})
-//							str3='&vwckarrv'+ckid+'='+str3.substring(0,str3.length-1);
-//							$('input[name^="stcksub'+ckid+'"]').each(function(){
-//								if($(this).prop('checked')){
-//									str4+=$(this).prop('id')+',';
-//								}
-//							})
-//							str4='&stckarrv'+ckid+'='+str4.substring(0,str4.length-1);
-//							str1+=str3;
-//							str2+=str4;
-//
-//						})
-//						data+=str+str1+str2;
-//						break;
-//				}
-//				//alert(data);
-//				$.ajx(url_ajx,data);
-//			})
 			
 			//修改_执行_删除
 			$('#content,#menu_func').on('click','[id^=oprt_]',function(){

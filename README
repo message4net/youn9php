@@ -64,8 +64,8 @@ j.vwmod table 元素 tr id 含义
 //				其他与rb相同 
 		rb 代表选择类input信息
 			td类别
-				a 代表记录多选arr_k
-				b 代表多选arr_v sub前缀   
+				a 代表记录多选arr_k，并记录复式多选arr_v
+				b 代表记录多选arr_k,并记录单一多选arr_v    
 				c代表多选arr_v所在td的ID 
 				d代表 select单选
 k.为避免多用户同时修改造成数据库混乱，需要加锁	
