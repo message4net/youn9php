@@ -7,6 +7,12 @@ $sql_where_arr=array(
 );
 $sql_where_flag=0;
 
+//$rec_sql_suffix,$rec_table,$rec_col,$_SESSION['page']
+$rec_sql_suffix='';
+$rec_table='';
+$rec_col='';
+
+
 //根据传参解析sql
 switch ($_POST['fr']){
 	case 'view':
@@ -63,30 +69,42 @@ switch ($_POST['fr']){
 		//$sql_1m='id='.$_POST['id'];
 		$sql_where_arr['add']='id='.$_POST['id'];
 		break;
+	case 'umdpswd':
+	case 'usetcol':
+		$_SESSION['menu_id']=$_POST['id'];
+		$_SESSION['page']=1;
+		break;
 	default:
 		break;
 }
 
-//sql参数赋值
-$sql_where_arr['search']=$_SESSION['searchword'];
-if ($_SESSION['loginroleid']!=1 && $_SESSION['menu_id']>3 && $_SESSION['menu_id']<6){
-	$sql_where_arr['default']='creator='.$_SESSION['loginroleid'];
-}else{
-	$sql_where_arr['default']='';
-}
-
-$mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
-
-if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
-	require $mdl_path_file;
-	unset($mdl_path_file);
-}else{
-	$return_arr['content']['content']='<span style="text-align:left;float:left">(ง •̀_•́)ง努力<br/>拼命୧(๑•̀⌄•́๑)૭<br/>制作中。。。</br>先逛逛别的呗：DDD</span>';
-	$return_arr['content']['page_bar']='';
-	$return_arr['content']['tips_nav']='';
-	$return_arr['content']['tips']='';
-	$return_arr['content']['menu_func']='';
-	require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+switch ($_POST['fr']){
+	case 'umdpswd':
+	case 'usetcol':
+		break;
+	default:
+	//sql参数赋值
+	$sql_where_arr['search']=$_SESSION['searchword'];
+	if ($_SESSION['loginroleid']!=1 && $_SESSION['menu_id']>3 && $_SESSION['menu_id']<6){
+		$sql_where_arr['default']='creator='.$_SESSION['loginroleid'];
+	}else{
+		$sql_where_arr['default']='';
+	}
+	
+	$mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
+	
+	if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
+		require $mdl_path_file;
+		unset($mdl_path_file);
+	}else{
+		$return_arr['content']['content']='<span style="text-align:left;float:left">(ง •̀_•́)ง努力<br/>拼命୧(๑•̀⌄•́๑)૭<br/>制作中。。。</br>先逛逛别的呗：DDD</span>';
+		$return_arr['content']['page_bar']='';
+		$return_arr['content']['tips_nav']='';
+		$return_arr['content']['tips']='';
+		$return_arr['content']['menu_func']='';
+		require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+	}
+	break;
 }
 
 //选择性生成view_content的html，并输出 
@@ -113,6 +131,8 @@ switch ($_POST['fr']){
 	case 'vwset':	
 	case 'vwallset':
 	case 'vwsetcol':
+	case 'umdpswd':
+	case 'usetcol':
 		$return_arr['content']['page_bar']='';
 		$return_arr['content']['menu_func']='';
 		$return_arr['content']['tips_nav']=$main_view->gen_navpos_html($_POST['navname']);
@@ -135,6 +155,11 @@ switch ($_POST['fr']){
 			case 'vwsetcol':
 				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
 				break;
+			case 'umdpswd':
+			case 'usetcol':
+				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
+				break;
+				
 		}
 		break;
 	case 'del':

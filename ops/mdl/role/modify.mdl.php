@@ -1,6 +1,7 @@
 <?php
 $return_arr['content']['tips']='<div style="float:left">';
 //$return_arr['0']['0']='test1';
+//$return_arr[0][0]='#STRAT:';
 switch ($_POST['fr']){
 	case 'vwapd':
 //		$return_html='<td rowspan="2">明细</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['a'].$_POST['menu'].'"><input type="checkbox" id="vwckall'.$_POST['menu'].'" value="浏览"/>浏览</td><td id="'.$html_e[APP_OPS]['td']['suffix'].$html_e[APP_OPS]['td']['c'].$_POST['menu'].'">';
@@ -49,12 +50,16 @@ switch ($_POST['fr']){
 		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a_a']=$return_html;
 		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a_a_a']=$return_html1;
 		break;
+	case 'setcol':
+	case 'setcolall':
+		$return_arr['0']['0']='setcol';
+		break;
     case 'set':
     case 'setall':
     case 'allset':
     	switch ($_POST['fr']){
     		case 'allset':
-    			$arr_role=explode(',',$_POST['rb'.$_POST['rbbckarrk'].'alckarrv']);
+    			$arr_role=explode(',',$_POST['rb'.$_POST['rbbackarrk'].'alckarrv']);
     			break;
     		default:
     			$arr_role=explode(',',$_POST['id']);
@@ -67,14 +72,16 @@ switch ($_POST['fr']){
         $arr_sql_rm_i=array();
         foreach ($arr_role as $val){
         	if ($_POST['fr']=='allset'){
-        		$sql_rm_q='select * from role_menu where role_id='.$val.' and menu_id='.$_POST['ckarrk'];
+        		$sql_rm_q='select * from role_menu where role_id='.$val.' and menu_id='.$_POST['rca'];
         		$result_rm_q=$db_modify->select($sql_rm_q);
         		if (!$result_rm_q){
-        			$arr_sql_rm_i[$val]='insert into role_menu values ('.$val.','.$_POST['ckarrk'].')';
+        			//$arr_sql_rm_i[$val]='insert into role_menu values ('.$val.','.$_POST['ckarrk'].')';
+        			$arr_sql_rm_i[$val]='insert into role_menu values ('.$val.','.$_POST['rca'].')';
         		}
         	}
         	$sql_rwb_init='select wb.* from role_wordbook rwb, wordbook wb where rwb.wordbook_id=wb.id and role_id='.$val;
             $result_rwb_init=$db_modify->select($sql_rwb_init);
+//$return_arr[0][0].='#'.$sql_rwb_init;
             $arr_rwb_init=array();
             $arr_rwb_init[$val]=array();
             if ($result_rwb_init){
@@ -83,7 +90,7 @@ switch ($_POST['fr']){
                 }
             }
             //$arr_k=explode(',',$_POST['ckarrk']);
-            $arr_k=explode(',',$_POST['rbckarrk']);
+            $arr_k=explode(',',$_POST['rbaackarrk']);
             $arr_rwb_post=array();
             $arr_rwb_post[$val]=array();
             $arr_rwb_post_view=array();
@@ -106,14 +113,28 @@ switch ($_POST['fr']){
                 if (isset($_POST['rb'.$val1.'stckarrv']) && $_POST['rb'.$val1.'stckarrv']!=''){
                     $arr_rwb_post_set[$val1]=explode(',', $_POST['rb'.$val1.'stckarrv']);
                 }
-            	       
-            	
+
+
+//            	$arr_rwb_post[$val][$val1]=array_merge($arr_rwb_post_view[$val1],$arr_rwb_post_set[$val1]);
+//                if (!isset($arr_rwb_init[$val][$val1])){
+//                	$arr_rwb_init[$val][$val1]=array();
+//                }
             	$arr_rwb_post[$val][$val1]=array_merge($arr_rwb_post_view[$val1],$arr_rwb_post_set[$val1]);
-                if (!isset($arr_rwb_init[$val][$val1])){
-                	$arr_rwb_init[$val][$val1]=array();
+            	
+            	switch ($_POST['fr']){
+            		case 'allset':
+            			$k_arr_post=$_POST['rca'];
+            			break;
+            		default:
+            			$k_arr_post=$val1;
+            			break;
+            	}
+                if (!isset($arr_rwb_init[$val][$k_arr_post])){
+                	$arr_rwb_init[$val][$k_arr_post]=array();
                 }
-                $arr_rwb_add[$val][$val1]=array_diff($arr_rwb_post[$val][$val1], $arr_rwb_init[$val][$val1]);
-                $arr_rwb_del[$val][$val1]=array_diff($arr_rwb_init[$val][$val1], $arr_rwb_post[$val][$val1]);
+                
+                $arr_rwb_add[$val][$val1]=array_diff($arr_rwb_post[$val][$val1], $arr_rwb_init[$val][$k_arr_post]);
+                $arr_rwb_del[$val][$val1]=array_diff($arr_rwb_init[$val][$k_arr_post], $arr_rwb_post[$val][$val1]);
                 if ($arr_rwb_add[$val][$val1]){
                 	foreach ($arr_rwb_add[$val][$val1] as $val2){
                 		$str_rwb_add.='('.$val.','.$val2.'),';
@@ -133,6 +154,7 @@ switch ($_POST['fr']){
         if ($str_rwb_add!=''){
             $str_rwb_add=substr($str_rwb_add,0,strlen($str_rwb_add)-1);
             $sql_rwb_add='insert into role_wordbook values '.$str_rwb_add;
+//$return_arr[0][0]=$sql_rwb_add;
             $return_arr['content']['tips'].='功能增设';
             if($db_modify->update($sql_rwb_add)){
                 $return_arr['content']['tips'].='成功';
@@ -218,8 +240,8 @@ switch ($_POST['fr']){
 		$result_vrf=$db_modify->select($sql_vrf);
 		//$arr_k=explode(',',$_POST['ckarrk']);
 		//$sql_arr_init='select * from wordbook where id in ('.$_POST['ckarrk'].')';
-		$arr_k=explode(',',$_POST['rb3ckarrk']);
-		$sql_arr_init='select * from wordbook where id in ('.$_POST['rb3ckarrk'].')';
+		$arr_k=explode(',',$_POST['rbbackarrk']);
+		$sql_arr_init='select * from wordbook where id in ('.$_POST['rbbackarrk'].')';
 		$result_arr_init=$db_modify->select($sql_arr_init);
 		$arr_init=array();
 		if ($result_arr_init){
@@ -319,7 +341,7 @@ switch ($_POST['fr']){
 		break;
 	case 'alldel':
 		//$sql_m_q='select * from menu where id='.$_POST['ckarrk'];
-		$sql_m_q='select * from menu where id='.$_POST['rbackarrk'];
+		$sql_m_q='select * from menu where id='.$_POST['rca'];
 		$result_m_q=$db_modify->select($sql_m_q);
 		//$return_arr['0']['0']=$sql_m_q;
 		//break;
@@ -330,8 +352,8 @@ switch ($_POST['fr']){
 		}
 		//$sql_rm_d='delete from role_menu where menu_id='.$_POST['ckarrk'].' and role_id in ('.$_POST['id'].')';
 		//$sql_rwb_q='select * from wordbook where type>=0 and type<3000 and menu_id='.$_POST['ckarrk'];
-		$sql_rm_d='delete from role_menu where menu_id='.$_POST['rbackarrk'].' and role_id in ('.$_POST['rb'.$_POST['rbbckarrk'].'alckarrv'].')';
-		$sql_rwb_q='select * from wordbook where type>=0 and type<3000 and menu_id='.$_POST['rbackarrk'];
+		$sql_rm_d='delete from role_menu where menu_id='.$_POST['rca'].' and role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].')';
+		$sql_rwb_q='select * from wordbook where type>=0 and type<3000 and menu_id='.$_POST['rca'];
 		$result_rwb_q=$db_modify->select($sql_rwb_q);
 		$str_rwb='';
 		if ($result_rwb_q){
@@ -342,7 +364,7 @@ switch ($_POST['fr']){
 		}
 		if ($str_rwb!=''){
 //			$sql_rwb_del='delete from role_wordbook where role_id in ('.$_POST['id'].') and wordbook_id in ('.$str_rwb.')';
-			$sql_rwb_del='delete from role_wordbook where role_id in ('.$_POST['rb'.$_POST['rbbckarrk'].'alckarrv'].') and wordbook_id in ('.$str_rwb.')';
+			$sql_rwb_del='delete from role_wordbook where role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].') and wordbook_id in ('.$str_rwb.')';
 			$return_arr['content']['tips'].='功能删除';
 			if ($db_modify->update($sql_rwb_del)){
 				$return_arr['content']['tips'].='成功,';

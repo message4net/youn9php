@@ -11,8 +11,10 @@ if ($_SESSION ['loginflag'] == 1 && $_SESSION['loginduration']>time()) {
 	$returnhtml.='</ul></div>';
 	$return_arr['show']=array('main_left','main_right','info');
 	$return_arr['hide']=array('main_login');
-	$return_arr['content']=array('span_info'=>$_SESSION['loginname'],'menu_nav'=>$returnhtml);
-
+//	$return_arr['content']=array('span_info'=>$_SESSION['loginname'],'menu_nav'=>$returnhtml);
+	$return_arr['content']['span_info']=$_SESSION['loginname'];
+	$return_arr['content']['menu_nav']=$returnhtml;
+//	$return_arr['content']['content']='';
 	unset($val,$result_menu,$returnhtml,$tmpmenusql,$db_menu);
 } else {
 	$return_arr['hide']=array('main_left','main_right');

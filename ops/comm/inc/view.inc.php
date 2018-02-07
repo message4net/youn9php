@@ -73,13 +73,15 @@ class ViewMain extends DbSqlPdo {
 				$_arr_rwb[$val['menu_id']][$val['id']]=$val;
 			}
 		}
-		$_return_html='<table><tr><th>名称</th><th colspan="2">内容</th></tr>';
+		$_return_html='<table id="'.$this->id_table_vwmod.'"><tr><th>名称</th><th colspan="2">内容</th></tr>';
 		if ($_arr_rwb){
 			foreach ($_arr_rwb as $key=>$val){
-				$_return_html.='<tr><td><input type="checkbox" name="ckall'.$key.'" />'.$_arr_m[$key]['name'].'</td><td>';
+//				$_return_html.='<tr><td><input type="checkbox" name="alckall'.$key.'" />'.$_arr_m[$key]['name'].'</td><td>';
+				$_return_html.='<tr id="'.$this->id_suffix_rb.$key.'_'.$this->id_cat_da_b.'a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$key.'"><input type="checkbox" id="alckall'.$key.'" />'.$_arr_m[$key]['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$key.'">';
 				$count=0;
 				foreach ($val as $key1=>$val1){
-					$_return_html.='<input type="checkbox" name="cksub'.$key.'" value="'.$key1.'" ';
+//					$_return_html.='<input type="checkbox" name="cksub'.$key.'" value="'.$key1.'" ';
+					$_return_html.='<input type="checkbox" id="alcksub'.$key.'" value="'.$key1.'" ';
 					if ($val1['flag_set']==1){
 						$_return_html.='disabled="disabled" checked="checked"';
 					}else{
@@ -95,7 +97,7 @@ class ViewMain extends DbSqlPdo {
 					}
 				}
 				//$_return_html.='</td><td><button id="vwset_setcol_'.$key.'">保存</button></td>';
-				$_return_html.='</td><td><button id="'.$this->btnvwmod.'_setcol_'.$key.'">保存</button></td>';
+				$_return_html.='</td><td><button id="'.$this->btnvwmod.'_setcol_'.$this->login_user_id.'_'.$key.'">保存</button></td>';
 			}
 		}
 		//$_return_html.='<tr><td colspan="3"><button id="vwset_setcolall">批保存</button></td></tr></table>';

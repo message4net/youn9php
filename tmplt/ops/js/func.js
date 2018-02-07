@@ -2,11 +2,7 @@ $.extend({
 	firstinit:function(){
 		$(document).ready(function(){
 			var url_ajx='{url_js_ajx}';
-//			alert('a_b'.split('_')[1]);
-			//var a='b';
-			//var b='d';
-			//eval('z='+a);
-			//alert(z);
+
 			//登录模块
 			//登入
 			$('#form_login').on('click','button',function(){
@@ -32,13 +28,23 @@ $.extend({
 			
 			//菜单导航模块
 			$('#menu_nav').on('click','a',function(){
-				data='f=menusub&id='+$(this).attr('id');
+				data='f=menusub&id='+$(this).attr('id')+'&navname='+$(this).html();
 				$.ajx(url_ajx,data);
 			});
 			
 			//子菜单模块
 			$('#menu_sub').on('click','a',function(){
-				data='mr='+$(this).attr('name')+'&f=view&fr=view&id='+$(this).attr('id');
+				data='&f=view&id='+$(this).attr('id');
+				switch($(this).attr('id')){
+				case('7'):
+				case('8'):
+					data+='&fr='+$(this).attr('name')+'&navname=修改浏览';
+					break;
+				default:
+					data+='&mr='+$(this).attr('name')+'&fr=view';
+					break;
+				}
+				
 				$.ajx(url_ajx,data);
 			});
 			
@@ -74,51 +80,11 @@ $.extend({
 				data='f=view&fr=reset';
 				$.ajx(url_ajx,data);
 			})
-			
-			//全选
-//			$('#content').on('click','[name^=ckall],[name^=vwckall],[name^=stckall]',function(){
-//				switch ($(this).prop('name').substring(0,5)){
-//					case ('ckall'):
-//						strname=$(this).prop('name').substring(0,2);
-//						ckid=$(this).prop('name').substring(5);
-//						break;
-//					default:
-//						strname=$(this).prop('name').substring(0,4);
-//						ckid=$(this).prop('name').substring(7);
-//						break;
-//				};
-//
-//				if($('input[name="'+strname+'all'+ckid+'"]').prop('checked')){
-//					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
-//						if(!$(this).prop('disabled')){
-//							$(this).prop('checked',true);
-//						}
-//					})
-//				}else{
-//					$('input[name="'+strname+'sub'+ckid+'"]').each(function(){
-//						if(!$(this).prop('disabled')){
-//							$(this).prop('checked',false);
-//						}
-//					})
-//				}
-//			})
-
-//var id_cat_a='a';
-//var id_cat_b='b';
-//var id_suffix_ck='rb_';
-			
+						
 			//全选
 			$('#content').on('click','input[id^=alckall],input[id^=vwckall],input[id^=stckall]',function(){
-				//switch ($(this).attr('id').substring(0,5)){
-				//	case ('ckall'):
-				//		strname=$(this).attr('id').substring(0,2);
-				//		ckid=$(this).attr('id').substring(5);
-				//		break;
-				//	default:
-						strname=$(this).attr('id').substring(0,4);
-						ckid=$(this).attr('id').substring(7);
-				//		break;
-				//};
+				strname=$(this).attr('id').substring(0,4);
+				ckid=$(this).attr('id').substring(7);
 
 				if($('input[id="'+strname+'all'+ckid+'"]').prop('checked')){
 					$('input[id="'+strname+'sub'+ckid+'"]').each(function(){
@@ -185,7 +151,7 @@ $.extend({
 				$('table#t_vwmod').find('tr').each(function(){
 					if($(this).attr('id')!=undefined){
 						arr_tr_id=$(this).attr('id').split('_');
-						if(arr[1]=='set'){
+						if(arr[1]=='set'||arr[1]=='setcolall'){
 							if(arr_tr_id[1]!=arr[3]){
 								return true;
 							}
@@ -312,8 +278,8 @@ $.extend({
 						data+='&rb'+k+'ckarrk='+v.substring(0,v.length-1);
 					})
 				}
-				alert('DT:'+data);
-				//$.ajx(url_ajx,data);
+alert('DT:'+data);
+				$.ajx(url_ajx,data);
 			})
 			
 			//修改_执行_删除
