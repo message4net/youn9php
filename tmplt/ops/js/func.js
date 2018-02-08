@@ -151,7 +151,7 @@ $.extend({
 				$('table#t_vwmod').find('tr').each(function(){
 					if($(this).attr('id')!=undefined){
 						arr_tr_id=$(this).attr('id').split('_');
-						if(arr[1]=='set'||arr[1]=='setcolall'){
+						if(arr[1]=='set'||arr[1]=='setcol'){
 							if(arr_tr_id[1]!=arr[3]){
 								return true;
 							}
