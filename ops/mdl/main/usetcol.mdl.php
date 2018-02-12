@@ -48,7 +48,7 @@ foreach ($arr_k as $val1){
 			$str_uc_del.=$val2.',';
 		}
 		$str_uc_del=substr($str_uc_del,0,strlen($str_uc_del)-1);
-		$arr_uc_del[$val1]='delete from user_wordbook where user_id='.$_SESSION['loginuserid'].' and wordbook_id in ('.$str_uc_del.')';
+		$arr_sql_uc_del[$val1]='delete from user_wordbook where user_id='.$_SESSION['loginuserid'].' and wordbook_id in ('.$str_uc_del.')';
 	}
 }
 
@@ -68,12 +68,12 @@ if ($arr_sql_uc_del){
 	$return_arr['content']['tips'].='字段减设';
 	$flag_uc_del=0;
 ////	foreach ($arr_sql_uc_del as $val){
-		foreach ($val as $val1){
-//			if(!$db_modify->update($val1)){
-//				$flag_rwb_del=1;
-//			}
-$return_arr['0']['0'].='#'.$val1;
+	foreach ($arr_sql_uc_del as $val1){
+		if(!$db_modify->update($val1)){
+			$flag_rwb_del=1;
 		}
+$return_arr['0']['0'].='#'.$val1;
+	}
 ////	}
 	if ($flag_uc_del==1){
 		$return_arr['content']['tips'].=OPS_TIP_FAIL;

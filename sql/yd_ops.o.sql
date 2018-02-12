@@ -106,6 +106,8 @@ CREATE TABLE `user_wordbook` (
 
 /*Data for the table `user_wordbook` */
 
+insert  into `user_wordbook`(`user_id`,`wordbook_id`) values (1,1),(1,2),(1,3),(1,12),(1,18),(1,19),(1,20),(1,29),(1,35);
+
 /*Table structure for table `wordbook` */
 
 DROP TABLE IF EXISTS `wordbook`;
