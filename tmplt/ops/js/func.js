@@ -29,6 +29,7 @@ $.extend({
 			//菜单导航模块
 			$('#menu_nav').on('click','a',function(){
 				data='f=menusub&id='+$(this).attr('id')+'&navname='+$(this).html();
+				//alert(data);
 				$.ajx(url_ajx,data);
 			});
 			

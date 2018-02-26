@@ -10,6 +10,7 @@ class ViewMain extends DbSqlPdo {
 	private $id_suffix_ra='ra_';
 	private $id_suffix_rb='rb_';
 	private $id_suffix_rc='rc_';
+	private $id_suffix_rd='rd_';
 	private $id_suffix_da='da_';
 	private $id_suffix_ipt='ipt_';
 	private $id_cat_da_a='a_';
@@ -44,7 +45,7 @@ class ViewMain extends DbSqlPdo {
 		//}
 		$this->rec_init_arr=$this->init_recarr();
 	}
-
+	
 	/**
 	 * 功能:生成 user菜单显示列 setcol 相关功能 的 浏览html
 	 */
@@ -103,6 +104,19 @@ class ViewMain extends DbSqlPdo {
 		//$_return_html.='<tr><td colspan="3"><button id="vwset_setcolall">批保存</button></td></tr></table>';
 		$_return_html.='<tr><td colspan="3"><button id="'.$this->btnvwmod.'_setcolall">批保存</button></td></tr></table>';
 		return $_return_html;
+	}
+
+	/**
+	 * 功能:生成 修改密码 umdpswd 的 浏览html
+	 */
+	public function gen_umdpswd_view_html(){
+	    $_return_html='';
+	    $_return_html.='<table id="'.$this->id_table_vwmod.'">';
+	    $_return_html.='<tr id="'.$this->id_suffix_ra.'_b"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.'b"></td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.'b"></td></tr>';
+	    $_return_html.='<tr id="'.$this->id_suffix_ra.'_a"></tr>';
+	    $_return_html.='<tr id="'.$this->id_suffix_ra.'_c"></tr>';
+	    $_return_html.='</table>';	    
+	    return $_return_html;
 	}
 	
 	/**

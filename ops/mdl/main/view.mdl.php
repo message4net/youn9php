@@ -152,9 +152,9 @@ switch ($_POST['fr']){
 			case 'vwallset':
 				$return_arr['content']['content']=$main_view->gen_allset_view_html();
 				break;
-			case 'vwsetcol':
-				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
-				break;
+//			case 'vwsetcol':
+//				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
+//				break;
 			case 'umdpswd':
 			case 'usetcol':
 				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
