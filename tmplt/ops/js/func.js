@@ -148,6 +148,7 @@ $.extend({
 				})
 				str_k=new Object();
 				ct_ev=0;
+				flag_aj=0;
 				arr_ev=new Array();
 				$('table#t_vwmod').find('tr').each(function(){
 					if($(this).attr('id')!=undefined){
@@ -186,6 +187,20 @@ $.extend({
 							case ('b'):
 								arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
 								arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
+								break;
+							case ('c'):
+								//alert($('#'+str_ipt+'b_'+arr_td_id[3]).val()+'AAAAAAAAAAAA'+'#'+str_ipt+'b_'+arr_td_id[3]);
+								//alert($('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val()+'BBBBBBBBBBBBB'+'#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id);
+								arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
+								arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
+								str_tmp1=$('#'+str_ipt+'b_'+arr_td_id[3]).val();
+								str_tmp2=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
+								if(str_tmp1!=str_tmp2){
+									alert($('td[id="'+str_td+'a_'+arr_td_id[3]+'"]').html()+'与'+$('td[id="'+str_td+'a_'+arr_td_id[2]+'"]').html()+'两次输入不一致');
+									$('td[id="'+str_td+arr_td_id[1]+'_'+arr_td_id[2]+'"]').focus();
+									flag_aj=1;
+									return;
+								}
 								break;
 							}
 							break;
@@ -279,8 +294,10 @@ $.extend({
 						data+='&rb'+k+'ckarrk='+v.substring(0,v.length-1);
 					})
 				}
-alert('DT:'+data);
-				$.ajx(url_ajx,data);
+//alert('DT:'+data);
+				if(flag_aj==0){
+					$.ajx(url_ajx,data);
+				}
 			})
 			
 			//修改_执行_删除

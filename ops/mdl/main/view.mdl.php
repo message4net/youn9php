@@ -156,6 +156,8 @@ switch ($_POST['fr']){
 //				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
 //				break;
 			case 'umdpswd':
+				$return_arr['content']['content']=$main_view->gen_umdpswd_view_html();
+				break;
 			case 'usetcol':
 				$return_arr['content']['content']=$main_view->gen_setcol_view_html();
 				break;

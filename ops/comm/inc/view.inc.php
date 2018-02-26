@@ -112,10 +112,13 @@ class ViewMain extends DbSqlPdo {
 	public function gen_umdpswd_view_html(){
 	    $_return_html='';
 	    $_return_html.='<table id="'.$this->id_table_vwmod.'">';
-	    $_return_html.='<tr id="'.$this->id_suffix_ra.'_b"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.'b"></td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.'b"></td></tr>';
-	    $_return_html.='<tr id="'.$this->id_suffix_ra.'_a"></tr>';
-	    $_return_html.='<tr id="'.$this->id_suffix_ra.'_c"></tr>';
-	    $_return_html.='</table>';	    
+	    $_tb_id='a';
+	    $_return_html.='<tr id="'.$this->id_suffix_ra.$_tb_id.'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$_tb_id.'">原密码</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_tb_id.'"><input type="text" id="ipt_'.$this->id_cat_da_b.$_tb_id.'" value=""></td></tr>';
+	    $_tb_id='b';
+	    $_return_html.='<tr id="'.$this->id_suffix_ra.$_tb_id.'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$_tb_id.'">新密码</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$_tb_id.'"><input type="text" id="ipt_'.$this->id_cat_da_b.$_tb_id.'"  value=""></td></tr>';
+	    $_tb_idc='c';
+	    $_return_html.='<tr id="'.$this->id_suffix_ra.$_tb_idc.'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$_tb_idc.'">新密码确认</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$_tb_idc.'_'.$_tb_id.'"><input type="text" id="ipt_'.$this->id_cat_da_c.$_tb_idc.'_'.$_tb_id.'" value=""></td></tr>';
+	    $_return_html.='<tr><td colspan="2" style="text-align:center"><button id="vwmod_umdpswd">修改</button></td></tr></table>';	    
 	    return $_return_html;
 	}
 	
