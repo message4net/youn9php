@@ -29,7 +29,6 @@ class ViewMain extends DbSqlPdo {
 	 *
 	 */
 	public function __construct($menu_id,$login_role_id,$login_user_id,$rec_sql_suffix,$rec_table='',$rec_col='',$rec_pagenum_post_tmp=1,$para_arr=array()){
-		//public function __construct($menu_sub_id,$login_role_id,$rec_pagenum_post_tmp=1,$rec_word_search='',$rec_col_search=''){
 		parent::__construct();
 		$this->menu_id=$menu_id;
 		$this->login_role_id=$login_role_id;
@@ -40,9 +39,6 @@ class ViewMain extends DbSqlPdo {
 		$this->rec_col=$rec_col;
 		$this->rec_sql_suffix='select '.$rec_col.$rec_sql_suffix;
 		$this->rec_sql_suffix1=$rec_sql_suffix;
-		//if ($rec_word_search!=''){
-		//	$this->rec_word_search=$rec_col_search.' like \'%'.$rec_word_search.'%\' ';
-		//}
 		$this->rec_init_arr=$this->init_recarr();
 	}
 	
@@ -282,12 +278,10 @@ class ViewMain extends DbSqlPdo {
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
-//					    $_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
 						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
 						if ($rec_id_result){
 							$_return_html.=$rec_id_result[0][$val['colnameid']];
 						}
-						//$_return_html.='</td></tr>';
 						$_return_html.='"/></td></tr>';
 						break;
 					case '1':
@@ -306,15 +300,12 @@ class ViewMain extends DbSqlPdo {
 						}
 						if ($_result_tmp_menu){
 						    $_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'_'.substr($this->id_cat_da_b,0,strlen($this->id_cat_da_b)-1).'_a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'" value="'.$val['name'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
-//							$_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'"><td><input type="checkbox" id="ckall'.$val['id'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">';
 						    foreach ($_result_tmp_menu as $val2){
-								//$_return_html.='<input name="cksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 								if ($val2['flag_set']==1){
 									$_return_html.='checked="checked" disabled="disabled"';
 								}else{
 									if (array_key_exists($val2[$_arr_colname_tmp[0]], $_arr_menu)){
-									//if ($val2[$_arr_colname_tmp[0]]==$val3[$_arr_colname_tmp[0]]){
 										$_return_html.='checked="checked"';
 									}
 								}
@@ -325,14 +316,14 @@ class ViewMain extends DbSqlPdo {
 						break;
 					case '6':
 						if ($val['id']==20){
-							if ($this->login_role_id==1){
-								$_sql_role_q='select * from role where id<>2';	
-							}else{
-								$_sql_role_q='select * from role r,role_menu rm where r.id=rm.role_id and id<>2';
-							}
+//							if ($this->login_role_id==1){
+								$_sql_role_q='select * from role where id<>2 and creator='.$this->login_role_id;	
+//							}else{
+//								$_sql_role_q='select r.* from role r,role_menu rm where r.id=rm.role_id and id<>2 and role_id='.$this->login_role_id.' group by role_id';
+//							}
 						}
 						$_result_role_q=parent::select($_sql_role_q);
-						$_return_html.='<tr><td>'.$val['name'].'</td><td><select id="s'.$val['id'].'">';
+						$_return_html.='<tr id="'.$this->id_suffix_rc.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><select id="s'.$val['id'].'">';
 						$_flag_select=0;
 						if ($_result_role_q){
 							foreach ($_result_role_q as $_val){
@@ -340,7 +331,7 @@ class ViewMain extends DbSqlPdo {
 								if ($rec_id_result){
 									if ($rec_id_result['0'][$val['colnameid']]==$_val['id']){
 										$_return_html.='selected="selected"';
-										$_flag_select=0;
+										$_flag_select=1;
 									}
 								}
 								$_return_html.=' >'.$_val['name'].'</option>';
@@ -359,25 +350,19 @@ class ViewMain extends DbSqlPdo {
 			}
 		}
 		$_return_html.='<tr><td colspan="2"><button id="vwmod_';
-		//$_return_html.='<tr><td colspan="2"><button id="vwmod'.$this->menu_id.'_';
 		if ($rec_id==''){
-			//$_return_html.='<tr><td colspan="2"><button id="vwmod_add">保存</button></td></tr></table>';
 			$_return_html.='add';
 		}else{
-			//$_return_html.='<tr><td colspan="2"><button id="vwmod_mod_'.$rec_id.'">保存</button></td></tr></table>';
 			$_return_html.='mod_'.$rec_id;
 		}
 		$_return_html.='">保存</button></td></tr></table>';
 		return $_return_html;
-		//return $this->rec_sql_suffix;
-		//return $t;
 	}
 	
 	/**
 	 * 功能:解析传入参数
 	 */
 	public function parse_para_arr($para_arr=array()){
-	//if (is_array($para_arr)){
 		foreach ($para_arr as $key=>$val){
 			switch ($key){
 				case search:
@@ -388,7 +373,6 @@ class ViewMain extends DbSqlPdo {
 			}
 		}
 		return $_return_arr;
-	//}
 	}
 
 	/**
@@ -441,8 +425,6 @@ class ViewMain extends DbSqlPdo {
 		$this->rec_init_arr['rec_pagenum_post']=$this->gen_rec_pagenum_post($this->rec_pagenum_post_tmp);
 		$this->rec_init_arr['rec_num_start']=(($this->rec_init_arr['rec_pagenum_post']-1)*$this->pagenum_per);
 		if($this->rec_init_arr['rec_num_start']>=$this->rec_init_arr['rec_count']) $this->rec_init_arr['rec_num_start']=$this->rec_init_arr['rec_count']-$this->rec_init_arr['rec_count']%$this->pagenum_per;
-
-		//$this->rec_init_arr[sql_tmp]=$rec[sql_tmp];
 
 		return $this->rec_init_arr;
 	}
