@@ -2,7 +2,7 @@
 
 if ($_SESSION ['loginflag'] == 1 && $_SESSION['loginduration']>time()) {
 	$db_menu=new DbSqlPdo();
-	$tmpmenusql='select m.id,m.name from menu m,menu ms, role_menu rm where m.id=ms.parent_id and ms.id=rm.menu_id and rm.role_id='.$_SESSION['loginroleid'].' group by m.id';
+	$tmpmenusql='select m.id,m.name from menu m,menu ms, role_menu rm where m.id=ms.parent_id and ms.id=rm.menu_id and rm.role_id='.$_SESSION['loginroleid'].' group by m.id order by m.id';
 	$result_menu=$db_menu->select($tmpmenusql);
 	$returnhtml='<div id="div_menu"><ul>';
 	foreach ($result_menu as $val) {

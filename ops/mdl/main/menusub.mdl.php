@@ -1,6 +1,6 @@
 <?php
 $db_menu_sub=new DbSqlPdo();
-$tmpsql='select id,name,modelname from menu where parent_id=:id';
+$tmpsql='select id,name,modelname from menu where parent_id=:id order by id';
 $tmp_sql_para_arr[':id']=$_POST['id'];
 $result_menu_sub=$db_menu_sub->select($tmpsql,$tmp_sql_para_arr);
 $returnhtml='<ul>';

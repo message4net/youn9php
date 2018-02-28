@@ -267,6 +267,7 @@ class ViewMain extends DbSqlPdo {
 	 */
 	public function gen_mod_view_html($rec_id=''){
 		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+//return $rec_odr_sql;		
 		$rec_odr_result=parent::select($rec_odr_sql);
 		$rec_id_result=array();
 		if ($rec_id!=''){
@@ -512,7 +513,6 @@ class ViewMain extends DbSqlPdo {
 							foreach ($_result_tmp as $val2){
 								$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]].=$val2[$_arr_colname_tmp[1]].'@';
 							}
-							
 						}
 					}
 				break;
