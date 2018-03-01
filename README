@@ -23,8 +23,9 @@ b.public/comm/cfg/self.cfg.php配置
 
 c.wordbook表 type含义
 	a)type [0-1000) 表示view相关的列表字段头名称
-		a.type=1 对应表(如role)已存在的字段  等 角色元素, 通过view.mdl.php 展示  flag_set=1代表编辑时不显示
-		b.type=2 存储 对应1对多关系模式(如role的具体权限) 等 菜单元素,通过view.mdl.php 展示
+		a.type=0 对应 表(如role) 已存在的字段  等 角色元素, 通过view.mdl.php 展示  flag_set=1代表编辑时不显示,修改时判断空
+		b.type=2 对应 表(如role) 已存在的字段  等 角色元素, 通过view.mdl.php 展示  flag_set=1代表编辑时不显示,修改时不判断空
+		c.type=1 存储 对应1对多关系模式(如role的具体权限) 等 菜单元素,通过view.mdl.php 展示
 		g.type=6 存储html id=content 中 记录 对应1对1关系模式creator名称 等 信息元素,通过main.mdl.php 展示
 	b)type [1000-2000) 表示view表中相关功能
 		e.type=5 存储html id=content 中 记录 纪录功能,通过main.mdl.php展示 flag=1对应modify.mdl.php, flag=0对应view.mdl.php		
@@ -56,8 +57,9 @@ j.vwmod table 元素 tr id 含义
 		ra 代表 输入类input信息 
 			td类别 
 				a 代表 输入框 的 名称 
-				b 代表输入内容
+				b 代表输入内容,判断空
 				c 代表输入ID
+				d 代表输入内容，不判断空
 		rc 代表select选择类input信息
 			td类别 
 				a 代表记录多选arr_k

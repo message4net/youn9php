@@ -149,7 +149,6 @@ $.extend({
 				str_k=new Object();
 				ct_ev=0;
 				flag_aj=0;
-				flag_ra_vrf=0
 				arr_ev=new Array();
 				$('table#t_vwmod').find('tr').each(function(){
 					if($(this).attr('id')!=undefined){
@@ -188,11 +187,6 @@ $.extend({
 							case ('b'):
 								arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
 								arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
-								break;
-							case ('d'):
-								arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']=str_ipt+arr_td_id[1]+'_'+postfix_td_id;
-								arr_para[arr_tr_id[0]][ct_ra]['ipt_content']=$('#'+str_ipt+arr_td_id[1]+'_'+postfix_td_id).val();
-								flag_ra_vrf=1;
 								break;
 							case ('c'):
 								//alert($('#'+str_ipt+'b_'+arr_td_id[3]).val()+'AAAAAAAAAAAA'+'#'+str_ipt+'b_'+arr_td_id[3]);
@@ -260,14 +254,10 @@ $.extend({
 					})
 					switch(arr_tr_id[0]){
 					case ('ra'):
-						if(flag_ra_vrf==0){
-							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
-								$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
-								alert('"'+arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'"该处不能为空');
-								return false;
-							}else{
-								data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content'];
-							}
+						if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
+							$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
+							alert('"'+arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'"该处不能为空');
+							return false;
 						}else{
 							data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content'];
 						}

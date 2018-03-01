@@ -50,10 +50,10 @@ switch ($_POST['fr']){
 		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a_a']=$return_html;
 		$return_arr['apd']['t_vwmod'][$html_e[APP_OPS]['tr']['rb'].'b_a_a_a']=$return_html1;
 		break;
-	case 'setcol':
-	case 'setcolall':
-		$return_arr['0']['0']='setcol';
-		break;
+//	case 'setcol':
+//	case 'setcolall':
+//		$return_arr['0']['0']='setcol';
+//		break;
     case 'set':
     case 'setall':
     case 'allset':

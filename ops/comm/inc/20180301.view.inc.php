@@ -16,7 +16,6 @@ class ViewMain extends DbSqlPdo {
 	private $id_cat_da_a='a_';
 	private $id_cat_da_b='b_';
 	private $id_cat_da_c='c_';
-	private $id_cat_da_d='d_';
 	
 	/**
 	 *功能:构造函数，使用父类__construct，连接数据库
@@ -286,22 +285,13 @@ class ViewMain extends DbSqlPdo {
 						}
 						$_return_html.='"/></td></tr>';
 						break;
-					case '2':
-						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_d.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_d.$val['id'].'" type="text" value="';
-						if ($rec_id_result){
-							$_return_html.=$rec_id_result[0][$val['colnameid']];
-						}
-						$_return_html.='"/></td></tr>';
-						break;
 					case '1':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 						$_sql_tmp_menu=$val['sql_relate'];
 						$_result_tmp_menu=parent::select($_sql_tmp_menu);
 						$_arr_menu=array();
 						if ($rec_id!=''){
-							$para_sql_type_1=$rec_id;
-							eval('$_sql_tmp='.$val['sql_eval'].';');
-//							$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$rec_id.$val['sql_postfix'].$val['sql_main1'];
+							$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$rec_id.$val['sql_postfix'].$val['sql_main1'];
 							$_result_tmp=parent::select($_sql_tmp);
 							if ($_result_tmp){
 								foreach ($_result_tmp as $val3){
@@ -463,8 +453,7 @@ class ViewMain extends DbSqlPdo {
 	 *生成content div 内的 html 内容
 	 */
 	public function gen_view_content_html(){
-		$sql_head_user='select uwb.* from user_wordbook uwb, wordbook wb where uwb.wordbook_id=wb.id and wb.menu_id='.$this->menu_id.' and user_id='.$this->login_user_id;
-		//$sql_head_user='select * from user_wordbook where user_id='.$this->login_user_id;
+		$sql_head_user='select * from user_wordbook where user_id='.$this->login_user_id;
 		$result_head_user=parent::select($sql_head_user);
 		if($result_head_user){
 			//$rec_odr_sql='select wb.* from wordbook wb, role_func rf, user_col uc where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
@@ -478,9 +467,7 @@ class ViewMain extends DbSqlPdo {
 
 //return $rec_odr_sql;		
 		
-		$rec_sql_body=$this->rec_sql_suffix.' order by id desc limit '.$this->rec_init_arr['rec_num_start'].','.$this->pagenum_per.';';
-		
-//return 	$rec_sql_body;	
+		$rec_sql_body=$this->rec_sql_suffix.' order by id desc limit '.$this->rec_init_arr['rec_num_start'].','.$this->pagenum_per.';';;
 		$rec_result_body=parent::select($rec_sql_body);
 		
 		//$rec_sql_func='select * from wordbook wb, role_func rf where type>=1000 and type<2000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
@@ -501,10 +488,8 @@ class ViewMain extends DbSqlPdo {
 					foreach ($rec_result_body as $val1){
 						$_str_tmp.='\''.$val1[$val['colnameid']].'\',';
 					}
-					//$_str_tmp=substr($_str_tmp,0,strlen($_str_tmp)-1);
-					$para_sql_type_6=substr($_str_tmp,0,strlen($_str_tmp)-1);
-					eval('$_sql_tmp='.$val['sql_eval'].';');
-					//$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$_str_tmp.$val['sql_postfix'].$val['sql_main1'];
+					$_str_tmp=substr($_str_tmp,0,strlen($_str_tmp)-1);
+					$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$_str_tmp.$val['sql_postfix'].$val['sql_main1'];
 					$_result_tmp=parent::select($_sql_tmp);
 ////$r_sql_tmp.=$_sql_tmp.';@';
 					if ($_result_tmp){
@@ -521,9 +506,7 @@ class ViewMain extends DbSqlPdo {
 				case '1':
 					$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 					foreach ($rec_result_body as $val1){
-						$para_sql_type_1=$val1[$val['colnameid']];
-						eval('$_sql_tmp='.$val['sql_eval'].';');
-						//$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$val1[$val['colnameid']].' '.$val['sql_postfix'].$val['sql_main1'];
+						$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$val1[$val['colnameid']].' '.$val['sql_postfix'].$val['sql_main1'];
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
 							$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]]='';
@@ -575,7 +558,6 @@ class ViewMain extends DbSqlPdo {
 					}
 					switch ($val['type']){
 						case '0':
-						case '2':
 							if ($val['colnameid']=='id'){
 								$_return_html_body_suffix='<td>';
 								$_return_html_body_tmp=$_count.'</td>';

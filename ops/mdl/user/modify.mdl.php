@@ -1,10 +1,10 @@
 <?php
-$return_arr['0']['0']='ZZZZZZZZZZZZ';
+//$return_arr['0']['0']='ZZZZZZZZZZZZ';
 $return_arr['content']['tips']='<div style="float:left">';
 $name_str='用户名';
-foreach ($_POST as $k=>$v){
-	$return_arr['0']['0'].='#K:'.$k.'#V:'.$v;
-}
+//foreach ($_POST as $k=>$v){
+//	$return_arr['0']['0'].='#K:'.$k.'#V:'.$v;
+//}
 switch ($_POST['fr']){
 	case 'mod':
 	case 'add':
@@ -15,14 +15,14 @@ switch ($_POST['fr']){
 			case 'mod':
 					$sql_m='update user set name=\''.$_POST['ra19'].'\',password=\''.$_POST['ra35'].'\',role_id='.$_POST['rc20'].' where creator='.$_SESSION['loginroleid'].' and id='.$_POST['id'];
 					$tips_tmp='修改';
-$return_arr[0][0].=$sql_m;
+//$return_arr[0][0].=$sql_m;
 					$flag_name=1;
 				break;
 			case 'add':
 				if (!$result_vrf){
 					$sql_m='insert into user (name,creator,password,role_id) values (\''.$_POST['ra19'].'\','.$_SESSION['loginroleid'].',\''.$_POST['ra35'].'\','.$_POST['rc20'].')';
 					$tips_tmp='新增';
-$return_arr[0][0].=$sql_m;
+//$return_arr[0][0].=$sql_m;
 					$flag_name=1;
 				}else{
 					$return_arr['content']['tips']='<div style="float:left">'.$name_str.'<i>'.$_POST['ra19'].'</i>已存在</div>';
