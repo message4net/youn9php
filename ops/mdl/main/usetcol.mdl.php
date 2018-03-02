@@ -72,7 +72,7 @@ if ($arr_sql_uc_del){
 		if(!$db_modify->update($val1)){
 			$flag_rwb_del=1;
 		}
-$return_arr['0']['0'].='#'.$val1;
+//$return_arr['0']['0'].='#'.$val1;
 	}
 ////	}
 	if ($flag_uc_del==1){

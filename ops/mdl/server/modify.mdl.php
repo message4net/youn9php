@@ -9,21 +9,21 @@ switch ($_POST['fr']){
 		$flag_name=0;
 		switch ($_POST['fr']){
 			case 'mod':
-				$sql_vrf='select * from '.$table_mod.' where ipi=\''.$_POST['ra38'].'\' and name=\''.$_POST['ra37'].'\' and ipo=\''.$_POST['ra39'].'\' and memory=\''.$_POST['ra40'].'\' and bandwidth=\''.$_POST['ra41'].'\' and cpu=\''.$_POST['ra42'].'\' and hd=\''.$_POST['ra43'].'\' and enddate=\''.$_POST['ra45'].'\' and port=\''.$_POST['ra54'].'\'';
+				$sql_vrf='select * from '.$table_mod.' where port_sshin=\''.$_POST['ra57'].'\' and ipi=\''.$_POST['ra38'].'\' and name=\''.$_POST['ra37'].'\' and ipo=\''.$_POST['ra39'].'\' and memory=\''.$_POST['ra40'].'\' and bandwidth=\''.$_POST['ra41'].'\' and cpu=\''.$_POST['ra42'].'\' and hd=\''.$_POST['ra43'].'\' and enddate=\''.$_POST['ra45'].'\' and port_dbmaster=\''.$_POST['ra54'].'\' and port_sshout=\''.$_POST['ra55'].'\' and port_dbslave='.$_POST['ra56'].'\'';
 				$result_vrf=$db_modify->select($sql_vrf);
 //$return_arr['0']['0'].='XXXXXX';
 				if (!$result_vrf){
-					$sql_m='update '.$table_mod.' set ipi=\''.$_POST['ra38'].'\', name=\''.$_POST['ra37'].'\', ipo=\''.$_POST['ra39'].'\', memory=\''.$_POST['ra40'].'\', bandwidth=\''.$_POST['ra41'].'\', cpu=\''.$_POST['ra42'].'\', hd=\''.$_POST['ra43'].'\', enddate=\''.$_POST['ra45'].'\',port=\''.$_POST['ra54'].'\' where id='.$_POST['id'];
+					$sql_m='update '.$table_mod.' set port_sshin=\''.$_POST['ra57'].'\',port_dbslave=\''.$_POST['ra56'].'\',port_sshout=\''.$_POST['ra55'].'\',ipi=\''.$_POST['ra38'].'\', name=\''.$_POST['ra37'].'\', ipo=\''.$_POST['ra39'].'\', memory=\''.$_POST['ra40'].'\', bandwidth=\''.$_POST['ra41'].'\', cpu=\''.$_POST['ra42'].'\', hd=\''.$_POST['ra43'].'\', enddate=\''.$_POST['ra45'].'\',port_dbmaster=\''.$_POST['ra54'].'\' where id='.$_POST['id'];
 					$tips_tmp='修改';
 					$flag_name=1;
 //$return_arr['0']['0'].=$sql_m;
 				}
 				break;
 			case 'add':
-				$sql_vrf='select * from '.$table_mod.' where ipi=\''.$_POST['ra38'].'\'';
+				$sql_vrf='select * from '.$table_mod.' where ipi=\''.$_POST['ra38'].'\' and ipo=\''.$_POST['ra39'].'\'';
 				$result_vrf=$db_modify->select($sql_vrf);
 				if (!$result_vrf){
-					$sql_m='insert into '.$table_mod.' (port,name,ipi,ipo,memory,bandwidth,cpu,hd,enddate) values (\''.$_POST['ra54'].'\',\''.$_POST['ra37'].'\',\''.$_POST['ra38'].'\',\''.$_POST['ra39'].'\',\''.$_POST['ra40'].'\',\''.$_POST['ra41'].'\',\''.$_POST['ra42'].'\',\''.$_POST['ra43'].'\',\''.$_POST['ra45'].'\')';
+					$sql_m='insert into '.$table_mod.' (port_sshin,port_dbslave,port_sshout,port_dbmaster,name,ipi,ipo,memory,bandwidth,cpu,hd,enddate) values (\''.$_POST['ra57'].'\',\''.$_POST['ra56'].'\',\''.$_POST['ra55'].'\',\''.$_POST['ra54'].'\',\''.$_POST['ra37'].'\',\''.$_POST['ra38'].'\',\''.$_POST['ra39'].'\',\''.$_POST['ra40'].'\',\''.$_POST['ra41'].'\',\''.$_POST['ra42'].'\',\''.$_POST['ra43'].'\',\''.$_POST['ra45'].'\')';
 //$return_arr['0']['0']=$sql_m;
 					$tips_tmp='新增';
 					$flag_name=1;

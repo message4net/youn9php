@@ -138,7 +138,7 @@ class ViewMain extends DbSqlPdo {
 		if ($_result_role_q){
 			$count=0;
 			foreach ($_result_role_q as $val){
-				$_return_html.='<input type="checkbox" id="alcksuba" value="'.$val['id'].'"/>'.$val['name'];
+				$_return_html.='<input type="checkbox" id="alcksuba" value="'.$val['id'].'"/>'.$val['name'].'('.$val['creator'].')';
 				$count++;
 				if ($count>4){
 					$_return_html.='</br>';
@@ -280,11 +280,16 @@ class ViewMain extends DbSqlPdo {
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
 					case '0':
+					case '3':
 						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_b.$val['id'].'" type="text" value="';
 						if ($rec_id_result){
-							$_return_html.=$rec_id_result[0][$val['colnameid']];
+								$_return_html.=$rec_id_result[0][$val['colnameid']];
 						}
-						$_return_html.='"/></td></tr>';
+						$_return_html.='"';
+						if ($rec_id!=''&&$val['type']==3){
+							$_return_html.=' disabled="disabled"';
+						}
+						$_return_html.='/></td></tr>';
 						break;
 					case '2':
 						$_return_html.='<tr id="'.$this->id_suffix_ra.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_d.$val['id'].'"><input id="'.$this->id_suffix_ipt.$this->id_cat_da_d.$val['id'].'" type="text" value="';
@@ -576,6 +581,7 @@ class ViewMain extends DbSqlPdo {
 					switch ($val['type']){
 						case '0':
 						case '2':
+						case '3':
 							if ($val['colnameid']=='id'){
 								$_return_html_body_suffix='<td>';
 								$_return_html_body_tmp=$_count.'</td>';
@@ -599,7 +605,12 @@ class ViewMain extends DbSqlPdo {
 								}
 								$_return_html_body.=$_return_html_body_suffix.$_return_html_body_tmp;
 							}else{
-								$_return_html_body.='<td>'.$val01[$val['colnameid']].'</td>';
+								if($this->menu_id>3&&$this->menu_id<5){
+									$str_tmp_td=$val01[$val['colnameid']].'('.$val01['creator'].')';
+								}else{
+									$str_tmp_td=$val01[$val['colnameid']];
+								}
+								$_return_html_body.='<td>'.$str_tmp_td.'</td>';
 							}
 						break;
 						case '6':
