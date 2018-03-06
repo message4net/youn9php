@@ -267,7 +267,8 @@ class ViewMain extends DbSqlPdo {
 	 * 功能:生成修改 mod add 相关功能的浏览html
 	 */
 	public function gen_mod_view_html($rec_id=''){
-		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+		//$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where ((type>=0 and type<200) or (type>=400 and type<600)) and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 //return $rec_odr_sql;		
 		$rec_odr_result=parent::select($rec_odr_sql);
 		$rec_id_result=array();
@@ -331,6 +332,7 @@ class ViewMain extends DbSqlPdo {
 						}
 						break;
 					case '6':
+					case '406':
 						if ($val['id']==20){
 //							if ($this->login_role_id==1){
 								$_sql_role_q='select * from role where id<>2 and creator='.$this->login_role_id;	
@@ -501,6 +503,7 @@ class ViewMain extends DbSqlPdo {
 			$_str_tmp='';
 			switch ($val['type']){
 				case '6':
+				case '206':
 ////$r_sql_tmp.=$val['id'].'@';
 					$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 					foreach ($rec_result_body as $val1){
@@ -508,6 +511,7 @@ class ViewMain extends DbSqlPdo {
 					}
 					//$_str_tmp=substr($_str_tmp,0,strlen($_str_tmp)-1);
 					$para_sql_type_6=substr($_str_tmp,0,strlen($_str_tmp)-1);
+//return $val['sql_eval'];
 					eval('$_sql_tmp='.$val['sql_eval'].';');
 					//$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$_str_tmp.$val['sql_postfix'].$val['sql_main1'];
 					$_result_tmp=parent::select($_sql_tmp);
@@ -614,6 +618,7 @@ class ViewMain extends DbSqlPdo {
 							}
 						break;
 						case '6':
+						case '206':
 							$_return_html_body.='<td>'.$rec_view_spcial_arr[$val['id']][$val01[$val['colnameid']]].'</td>';
 						break;
 						case '1':
