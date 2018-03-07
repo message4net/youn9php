@@ -33,8 +33,9 @@ c.wordbook表 type含义
 	c)type [2000-2500) 表示menu_func左侧相关功能
 		c.type=3 存储html id=menu_func 中 删除、修改、批设置、批撤销、字段设置 等 菜单功能，通过main.mdl.php展示
 	d)type [2500-3000) 表示menu_func右侧相关功能
-		d.type=4 存储html id=menu_func 中 搜索 等 菜单功能，通过main.mdl.php展示
-	e)type 3000 搜索功能对应的下拉选项
+		d.type=2999 存储html id=menu_func 中 搜索 等 菜单功能，通过main.mdl.php展示
+	e)type >=3000 搜索功能对应的下拉选项
+	f)type [5000-10000) 代表 菜单功能 在wordbook中的模版 (对应的type-5000 即可换算为菜单的ID)
 	
 	f.type=7 存储html id=content 中 记录 菜单元素,通过modify_view.mdl.php展示
 	h.type=8 存储html id=content 中 radio 对应1对1关系模式role名称 等 信息元素,通过modify_view.mdl.php 展示
@@ -71,4 +72,16 @@ j.vwmod table 元素 tr id 含义
 				b 代表记录多选arr_k,并记录单一多选arr_v    
 				c代表多选arr_v所在td的ID 
 k.为避免多用户同时修改造成数据库混乱，需要加锁	
+i.新增子菜单步骤
+	1.menu 表中插入 对应子菜单 记录对应id
+		sql>insert into menu (name,parent_id,modelname,flag_set) values
+('域名分类',9,'domain_category',0);
+	2.wordbook 表中插入 需要 显示的字段
+		sql>insert into wordbook (type,name,colnameid,seq,odr,menu_id,flag_mod) values 
+(0,'序号','id',0,0,11,1),
+(0,'名称','name',1,1,11,0);
+	3.wordbook 表中插入 需要 修改的字段
+		sql>insert into wordbook (type,name,colnameid,odr,menu_id) select type,name,colnameid,odr,
+'11' from wordbook where id between 104 and 107;
+	4.通过 权限管理 给 admin赋权后，再给对应的其他权限赋权	
 	

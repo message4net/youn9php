@@ -333,32 +333,51 @@ class ViewMain extends DbSqlPdo {
 						break;
 					case '6':
 					case '406':
-						if ($val['id']==20){
-//							if ($this->login_role_id==1){
-								$_sql_role_q='select * from role where id<>2 and creator='.$this->login_role_id;	
-//							}else{
-//								$_sql_role_q='select r.* from role r,role_menu rm where r.id=rm.role_id and id<>2 and role_id='.$this->login_role_id.' group by role_id';
-//							}
-						}
-						$_result_role_q=parent::select($_sql_role_q);
+						$_arr_colname_tmp=explode(',', $val['sql_col_str1']);
+//return $val['sql_eval1'];						
+						eval('$_sql_tmp='.$val['sql_eval1'].';');
+						//if ($val['id']==20){
+//						//	if ($this->login_role_id==1){
+						//		$_sql_role_q='select * from role where id<>2 and creator='.$this->login_role_id;	
+//						//	}else{
+//						//		$_sql_role_q='select r.* from role r,role_menu rm where r.id=rm.role_id and id<>2 and role_id='.$this->login_role_id.' group by role_id';
+//						//	}
+						//}
+						$_result_role_q=parent::select($_sql_tmp);
 						$_return_html.='<tr id="'.$this->id_suffix_rc.$val['id'].'"><td id="'.$this->id_suffix_da.$this->id_cat_da_a.$val['id'].'">'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><select id="s'.$val['id'].'">';
 						$_flag_select=0;
 						if ($_result_role_q){
 							foreach ($_result_role_q as $_val){
-								$_return_html.='<option value="'.$_val['id'].'" ';
+//								$_return_html.='<option value="'.$_val['id'].'" ';
+//								if ($rec_id_result){
+//									if ($rec_id_result['0'][$val['colnameid']]==$_val['id']){
+//										$_return_html.='selected="selected"';
+//										$_flag_select=1;
+//									}
+//								}
+//								$_return_html.=' >'.$_val['name'].'</option>';
+
+								$_return_html.='<option value="'.$_val[$_arr_colname_tmp['0']].'" ';
 								if ($rec_id_result){
-									if ($rec_id_result['0'][$val['colnameid']]==$_val['id']){
+									if ($rec_id_result['0'][$val['colnameid']]==$_val[$_arr_colname_tmp['0']]){
 										$_return_html.='selected="selected"';
 										$_flag_select=1;
 									}
 								}
-								$_return_html.=' >'.$_val['name'].'</option>';
+								$_return_html.=' >'.$_val[$_arr_colname_tmp['1']].'</option>';
 							}
-							$_return_html.='<option value="2" ';
+							if($val['id']==2){
+								$_return_html.='<option value="2" ';
+	//								if ($_flag_select==0){
+	//									$_return_html.='selected="selected"';
+	//								}
+									$_return_html.='>init</option>';
+							}
+							$_return_html.='<option value="FL" ';
 							if ($_flag_select==0){
 								$_return_html.='selected="selected"';
 							}
-							$_return_html.='>init</option>';
+							$_return_html.='>未选择</option>';
 						}
 						$_return_html.='</td></tr>';
 						break;
