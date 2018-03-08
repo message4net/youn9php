@@ -1,7 +1,6 @@
 <?php
 $return_arr['content']['tips']='<div style="float:left">';
 $table_mod='domain_category';
-//$return_arr['0']['0']='ZZZZZZ';
 switch ($_POST['fr']){
 	case 'mod':
 	case 'add':
@@ -9,22 +8,19 @@ switch ($_POST['fr']){
 		$flag_name=0;
 		switch ($_POST['fr']){
 			case 'mod':
-				$sql_vrf='select * from '.$table_mod.' where name=\''.$_POST['ra113'].'\'';
+				$sql_vrf='select * from '.$table_mod.' where name=\''.$_POST['ra113'].'\' and remark=\''.$_POST['ra118'].'\' and id=\''.$_POST['id'].'\'';
 				$result_vrf=$db_modify->select($sql_vrf);
-//$return_arr['0']['0'].='XXXXXX';
 				if (!$result_vrf){
-					$sql_m='update '.$table_mod.' set name=\''.$_POST['ra113'].'\' where id='.$_POST['id'];
+					$sql_m='update '.$table_mod.' set name=\''.$_POST['ra113'].'\',remark=\''.$_POST['ra118'].'\' where id='.$_POST['id'];
 					$tips_tmp='修改';
 					$flag_name=1;
-//$return_arr['0']['0'].=$sql_m;
 				}
 				break;
 			case 'add':
 				$sql_vrf='select * from '.$table_mod.' where name=\''.$_POST['ra113'].'\'';
 				$result_vrf=$db_modify->select($sql_vrf);
 				if (!$result_vrf){
-					$sql_m='insert into '.$table_mod.' (name) values (\''.$_POST['ra113'].'\')';
-//$return_arr['0']['0']=$sql_m;
+					$sql_m='insert into '.$table_mod.' (name,remark) values (\''.$_POST['ra113'].'\',\''.$_POST['ra118'].'\')';
 					$tips_tmp='新增';
 					$flag_name=1;
 				}else{
@@ -41,6 +37,8 @@ switch ($_POST['fr']){
 			}else{
 				$return_arr['content']['tips'].=OPS_TIP_FAIL;
 			}
+		}else{
+			$return_arr['content']['tips'].='未做任何处理';
 		}
 		break;
 	case 'del':

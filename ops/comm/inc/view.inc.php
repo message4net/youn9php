@@ -334,7 +334,7 @@ class ViewMain extends DbSqlPdo {
 					case '6':
 					case '406':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str1']);
-//return $val['sql_eval1'];						
+return $val['sql_col_str1'];						
 						eval('$_sql_tmp='.$val['sql_eval1'].';');
 						//if ($val['id']==20){
 //						//	if ($this->login_role_id==1){
@@ -494,10 +494,10 @@ class ViewMain extends DbSqlPdo {
 		$result_head_user=parent::select($sql_head_user);
 		if($result_head_user){
 			//$rec_odr_sql='select wb.* from wordbook wb, role_func rf, user_col uc where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uc.user_id='.$this->login_user_id.' and uc.menu_sub_id=wb.menu_sub_id and uc.wordbook_id=wb.id and wb.menu_sub_id=rf.menu_sub_id and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
-			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb, user_wordbook uwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and uwb.user_id='.$this->login_user_id.' and uwb.wordbook_id=wb.id and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb, user_wordbook uwb where type>=0 and type<400 and role_id='.$this->login_role_id.' and uwb.user_id='.$this->login_user_id.' and uwb.wordbook_id=wb.id and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		}else{
 			//$rec_odr_sql='select wb.* from wordbook wb, role_func rf where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rf.wordbook_id and wb.menu_sub_id='.$this->menu_sub_id.' order by odr';
-			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<400 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
 		}
 		//$rec_head_result=parent::select($rec_head_sql);
 		$rec_odr_result=parent::select($rec_odr_sql);
