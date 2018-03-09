@@ -334,7 +334,7 @@ class ViewMain extends DbSqlPdo {
 					case '6':
 					case '406':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str1']);
-return $val['sql_col_str1'];						
+//return $val['sql_col_str1'];						
 						eval('$_sql_tmp='.$val['sql_eval1'].';');
 						//if ($val['id']==20){
 //						//	if ($this->login_role_id==1){
