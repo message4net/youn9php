@@ -277,6 +277,14 @@ class ViewMain extends DbSqlPdo {
 		}
 		
 		$_return_html='<table id="'.$this->id_table_vwmod.'">';
+		//$_return_html.='<tr><td colspan="2"><button id="vwmod_';
+		//if ($rec_id==''){
+		//	$_return_html.='add';
+		//}else{
+		//	$_return_html.='mod_'.$rec_id;
+		//}
+		//$_return_html.='">保存</button></td></tr>';
+		
 		foreach ($rec_odr_result as $val){
 			if ($val['flag_mod']==0){
 				switch ($val['type']){
@@ -393,6 +401,7 @@ class ViewMain extends DbSqlPdo {
 			$_return_html.='mod_'.$rec_id;
 		}
 		$_return_html.='">保存</button></td></tr></table>';
+		//$_return_html.='</table>';
 		return $_return_html;
 	}
 	
@@ -532,6 +541,7 @@ class ViewMain extends DbSqlPdo {
 					$para_sql_type_6=substr($_str_tmp,0,strlen($_str_tmp)-1);
 //return $val['sql_eval'];
 					eval('$_sql_tmp='.$val['sql_eval'].';');
+//return $_sql_tmp;					
 					//$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$_str_tmp.$val['sql_postfix'].$val['sql_main1'];
 					$_result_tmp=parent::select($_sql_tmp);
 ////$r_sql_tmp.=$_sql_tmp.';@';
