@@ -1,7 +1,7 @@
 <?php
 $return_arr['content']['tips']='<div style="float:left">';
 $table_mod='service';
-$return_arr['0']['0']='ZZZZZZZZ';
+//$return_arr['0']['0']='ZZZZZZZZ';
 switch ($_POST['fr']){
 	case 'mod':
 	case 'add':
