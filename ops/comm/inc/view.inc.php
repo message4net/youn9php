@@ -308,6 +308,7 @@ class ViewMain extends DbSqlPdo {
 						$_return_html.='"/></td></tr>';
 						break;
 					case '1':
+					case '401':
 						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
 						$_sql_tmp_menu=$val['sql_relate'];
 						$_result_tmp_menu=parent::select($_sql_tmp_menu);
