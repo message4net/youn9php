@@ -309,8 +309,15 @@ class ViewMain extends DbSqlPdo {
 						break;
 					case '1':
 					case '401':
-						$_arr_colname_tmp=explode(',', $val['sql_col_str']);
-						$_sql_tmp_menu=$val['sql_relate'];
+						$_arr_colname_tmp_o=explode('#', $val['sql_col_str']);
+						$_arr_colname_tmp=explode(',', $_arr_colname_tmp_o['1']);
+						
+						$_arr_colname_tmp1=explode(',', $val['sql_col_str1']);
+						
+						//$_sql_tmp_menu=$val['sql_relate'];
+						
+						eval('$_sql_tmp_menu='.$val['sql_eval1'].';');
+						
 						$_result_tmp_menu=parent::select($_sql_tmp_menu);
 						$_arr_menu=array();
 						if ($rec_id!=''){
@@ -325,17 +332,31 @@ class ViewMain extends DbSqlPdo {
 							}
 						}
 						if ($_result_tmp_menu){
+							$count=0;
 						    $_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'_'.substr($this->id_cat_da_b,0,strlen($this->id_cat_da_b)-1).'_a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'" value="'.$val['name'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
 						    foreach ($_result_tmp_menu as $val2){
-								$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
-								if ($val2['flag_set']==1){
-									$_return_html.='checked="checked" disabled="disabled"';
+								//$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
+						    	$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp1[0]].'" ';
+								//if ($val2['flag_set']==1){
+						    	if (isset($val2['flag_set'])){
+						    		if ($val2['flag_set']==1){
+										$_return_html.='checked="checked" disabled="disabled"';
+						    		}else{
+										if (array_key_exists($val2[$_arr_colname_tmp[0]], $_arr_menu)){
+											$_return_html.='checked="checked"';
+										}
+						    		}
 								}else{
 									if (array_key_exists($val2[$_arr_colname_tmp[0]], $_arr_menu)){
 										$_return_html.='checked="checked"';
 									}
 								}
 								$_return_html.='"/>'.$val2[$_arr_colname_tmp[1]];
+								$count++;
+								if ($count>$_arr_colname_tmp_o['0']){
+									$count=0;
+									$_return_html.='<br/>';
+								}
 							}
 							$_return_html.='</td></tr>';
 						}
@@ -558,16 +579,22 @@ class ViewMain extends DbSqlPdo {
 					}
 				break;
 				case '1':
-					$_arr_colname_tmp=explode(',', $val['sql_col_str']);
+					$_arr_colname_tmp_o=explode('#', $val['sql_col_str']);
+					$_arr_colname_tmp=explode(',', $_arr_colname_tmp_o['1']);
 					foreach ($rec_result_body as $val1){
 						$para_sql_type_1=$val1[$val['colnameid']];
 						eval('$_sql_tmp='.$val['sql_eval'].';');
-						//$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$val1[$val['colnameid']].' '.$val['sql_postfix'].$val['sql_main1'];
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
+							$count=0;
 							$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]]='';
 							foreach ($_result_tmp as $val2){
-								$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]].=$val2[$_arr_colname_tmp[1]].'@';
+								$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]].=$val2[$_arr_colname_tmp[1]].$_arr_colname_tmp_o['2'];
+								$count++;
+								if ($count>$_arr_colname_tmp_o['0']){
+									$count=0;
+									$rec_view_spcial_arr[$val['id']][$val1[$_arr_colname_tmp[0]]].='<br/>';
+								}
 							}
 						}
 					}
