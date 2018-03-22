@@ -323,6 +323,7 @@ class ViewMain extends DbSqlPdo {
 						if ($rec_id!=''){
 							$para_sql_type_1=$rec_id;
 							eval('$_sql_tmp='.$val['sql_eval'].';');
+//return $_sql_tmp;							
 //							$_sql_tmp=$val['sql_main'].$val['sql_suffix'].$rec_id.$val['sql_postfix'].$val['sql_main1'];
 							$_result_tmp=parent::select($_sql_tmp);
 							if ($_result_tmp){
@@ -342,12 +343,12 @@ class ViewMain extends DbSqlPdo {
 						    		if ($val2['flag_set']==1){
 										$_return_html.='checked="checked" disabled="disabled"';
 						    		}else{
-										if (array_key_exists($val2[$_arr_colname_tmp[0]], $_arr_menu)){
+										if (array_key_exists($val2[$_arr_colname_tmp1[0]], $_arr_menu)){
 											$_return_html.='checked="checked"';
 										}
 						    		}
 								}else{
-									if (array_key_exists($val2[$_arr_colname_tmp[0]], $_arr_menu)){
+									if (array_key_exists($val2[$_arr_colname_tmp1[0]], $_arr_menu)){
 										$_return_html.='checked="checked"';
 									}
 								}

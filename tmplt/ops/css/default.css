@@ -12,7 +12,7 @@ body {text-align:center;margin:0px;padding:0px;color:black}
 #tips {tex-align:left;font-size:15px;width:824px;height:30px;color:pink}
 /*#content {position:absolute;width:824px;height:518px;float:left;overflow:auto}
 */
-#content {position:absolute;width:824px;height:450px;float:left;overflow:auto}
+#content {position:absolute;width:824px;height:400px;float:left;overflow:auto}
 #content table {border-collapse:collapse}
 #content th {font-size:11px;color:white;boder-width:0px;border-style:solid;border-color:#0080c0;text-align:center;padding:5px}
 #content td {font-size:11px;color:black;boder-width:0px;border-style:solid;border-color:#0080c0;text-align:left;padding:5px}
