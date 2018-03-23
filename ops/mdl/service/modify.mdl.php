@@ -31,6 +31,7 @@ switch ($_POST['fr']){
 				break;
 		}
 		$return_arr['content']['tips'].='<i>'.$_POST['ra59'].'</i>';
+//$return_arr['0']['0']=$sql_m;
 		if ($flag_name==1){
 			$return_arr['content']['tips'].=$name_str.$tips_tmp;
 			if($db_modify->update($sql_m)){
@@ -41,13 +42,13 @@ switch ($_POST['fr']){
 		}else{
 			$return_arr['content']['tips'].='未做任何处理';
 		}
-		if ($_POST['fr']=='add'){
-			$result_vrf=$db_modify->select($sql_vrf);
-			if (!isset($result_vrf['0']['id'])){
-				$return_arr['content']['tips'].='新增名称失败';
-				require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
-			}
+//		if ($_POST['fr']=='add'){
+		$result_vrf=$db_modify->select($sql_vrf);
+		if (!isset($result_vrf['0']['id'])){
+			$return_arr['content']['tips'].='操作失败';
+			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 		}
+//		}
 		
 		$arr_k=explode(',',$_POST['rbbackarrk']);
 		$sql_arr_init='select * from wordbook where id in ('.$_POST['rbbackarrk'].')';
