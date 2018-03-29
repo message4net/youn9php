@@ -1,13 +1,27 @@
+<!--
 <head></head><script type="text/javascript" src="http://www.youn9php.com/youn9php/ops/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="http://www.youn9php.com/youn9php/ops/js/test.js"></script></head><body></body>
+-->
 <?php
+$curl=curl_init('http://182.254.140.253:8000/center/getserver.jsp');
+//$result=@json_decode(curl_exec($curl));
+$result=json_decode(file_get_contents('http://182.254.140.253:8000/center/getserver.jsp'));
+echo 'AAAAAAAAAAAA<br/>';
+//var_dump($result);
+foreach ($result->serverlist as $k=>$v){
+	echo $k.'#'.$v.'<br/>';
+}
+//var_dump($result->serverlist);
+echo 'AAAAAAAAAAAA<br/>';
+//var_dump($result->serverlist);
+//print_r($result);
 //$a='b';
 //$b=12;
 //echo $$a;
 ////$a['a']='A';
 ////echo '<script type="text/javascript">$.test('.json_encode($a).')</script>';
-echo '<script type="text/javascript">$.test()</script>';
-phpinfo();
+//echo '<script type="text/javascript">$.test()</script>';
+//phpinfo();
 
 //require __DIR__.'\t1.php';
 //echo $a;
