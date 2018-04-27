@@ -30,7 +30,7 @@ CREATE TABLE `domain` (
 
 /*Data for the table `domain` */
 
-insert  into `domain`(`id`,`domain`,`server_id`,`domain_category_id`) values (1,'3g.liujin.cn',3,1),(2,'3g.ljsy.net',3,1),(3,'admin.liujin.cn',3,2),(4,'admin.ljsy.net',3,2),(5,'by.liujin.cn',3,3),(6,'by.ljsy.net',3,3),(7,'chpay.liujin.cn',4,4),(8,'editw.liujin.cn',3,5),(9,'git.liujin.cn',7,6),(10,'jsby.liujin.cn',4,7),(11,'jsby.ljsy.net',4,7),(12,'mail.liujin.cn',7,8),(13,'pop3.liujin.cn',7,8),(14,'smtp.liujin.cn',7,8),(15,'mh.liujin.cn',1,9),(16,'mh.ljsy.net',1,9),(17,'moli.liujin.cn',2,10),(18,'moli.ljsy.net',2,10),(19,'peer.liujin.cn',2,11),(20,'wap.liujin.cn',2,12),(21,'wap.ljsy.net',2,12),(22,'weixin.liujin.cn',3,13),(23,'www.liujin.cn',3,14),(24,'www.ljsy.net',3,14),(25,'wxg.liujin.cn',3,15),(26,'xq.liujin.cn',10,16),(27,'xq.ljsy.net',10,16),(28,'xy.liujin.cn',2,17),(29,'xy.ljsy.net',2,17),(30,'pay.liujin.cn',2,18),(31,'wxby.ljsy.net',7,19),(32,'wxtest.ljsy.net',7,20),(33,'zytest.ljsy.net',7,21),(34,'chupay.liujin.cn:7002',4,22),(35,'txjsby.liujin.cn',4,23),(36,'txjsby.ljsy.net',4,23),(37,'txchupay.liujin.cn:7020',4,24),(38,'xypay.liujin.cn:7025',2,25),(39,'xyapp.liujin.cn',2,26),(40,'jszb.ljsy.net',4,27),(41,'ins1.liujin.cn',2,28),(42,'ins2.liujin.cn',4,29),(43,'ins3.liujin.cn',3,30),(44,'ins4.liujin.cn',1,31),(45,'ins5.liujin.cn',1,32),(46,'cdk.liujin.cn',3,33),(47,'smtp CNAME smtp.mxhichina.com. 3600',10,34),(49,'pop3	CNAME pop3.mxhichina.com.',10,34),(50,'@	MX mxn.mxhichina.com.',10,34),(51,'',0,0);
+insert  into `domain`(`id`,`domain`,`server_id`,`domain_category_id`) values (1,'3g.liujin.cn',3,1),(2,'3g.ljsy.net',3,1),(3,'admin.liujin.cn',3,2),(4,'admin.ljsy.net',3,2),(5,'by.liujin.cn',3,3),(6,'by.ljsy.net',3,3),(7,'chpay.liujin.cn',4,4),(8,'editw.liujin.cn',3,5),(9,'git.liujin.cn',7,6),(10,'jsby.liujin.cn',4,7),(11,'jsby.ljsy.net',4,7),(12,'mail.liujin.cn',7,8),(13,'pop3.liujin.cn',7,8),(14,'smtp.liujin.cn',7,8),(15,'mh.liujin.cn',1,9),(16,'mh.ljsy.net',1,9),(17,'moli.liujin.cn',2,10),(18,'moli.ljsy.net',2,10),(19,'peer.liujin.cn',2,11),(20,'wap.liujin.cn',2,12),(21,'wap.ljsy.net',2,12),(22,'weixin.liujin.cn',3,13),(23,'www.liujin.cn',3,14),(24,'www.ljsy.net',3,14),(25,'wxg.liujin.cn',3,15),(26,'xq.liujin.cn',10,16),(27,'xq.ljsy.net',10,16),(28,'xy.liujin.cn',2,17),(29,'xy.ljsy.net',2,17),(30,'pay.liujin.cn',2,18),(31,'wxby.ljsy.net',7,19),(32,'wxtest.ljsy.net',7,20),(33,'zytest.ljsy.net',7,21),(34,'chupay.liujin.cn:7002',4,22),(35,'txjsby.liujin.cn',4,23),(36,'txjsby.ljsy.net',4,23),(37,'txchupay.liujin.cn:7020',4,24),(38,'xypay.liujin.cn:7025',2,25),(39,'xyapp.liujin.cn',2,26),(40,'jszb.ljsy.net',4,27),(41,'ins1.liujin.cn',2,28),(42,'ins2.liujin.cn',4,29),(43,'ins3.liujin.cn',3,30),(44,'ins4.liujin.cn',1,31),(45,'ins5.liujin.cn',1,32),(46,'cdk.liujin.cn',3,33),(47,'smtp CNAME smtp.mxhichina.com. 3600',10,34),(49,'pop3	CNAME pop3.mxhichina.com.',10,34),(50,'@	MX mxn.mxhichina.com.',10,34);
 
 /*Table structure for table `domain_category` */
 
@@ -58,11 +58,11 @@ CREATE TABLE `menu` (
   `modelname` varchar(50) DEFAULT NULL,
   `flag_set` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent_id`,`modelname`,`flag_set`) values (1,'系统管理',0,NULL,0),(3,'服务管理',9,'service',0),(2,'服务器管理',9,'server',0),(4,'权限管理',1,'role',0),(5,'用户管理',1,'user',0),(6,'个人管理',0,NULL,0),(7,'修改密码',6,'umdpswd',1),(8,'字段设置',6,'usetcol',1),(9,'运维管理',0,NULL,0),(10,'域名管理',9,'domain',0),(11,'域名分类',9,'domain_category',0),(12,'服务分类',9,'service_category',0);
+insert  into `menu`(`id`,`name`,`parent_id`,`modelname`,`flag_set`) values (1,'系统管理',0,NULL,0),(3,'服务管理',9,'service',0),(2,'服务器管理',9,'server',0),(4,'权限管理',1,'role',0),(5,'用户管理',1,'user',0),(6,'个人管理',0,NULL,0),(7,'修改密码',6,'umdpswd',1),(8,'字段设置',6,'usetcol',1),(9,'运维管理',0,NULL,0),(10,'域名管理',9,'domain',0),(11,'域名分类',9,'domain_category',0),(12,'服务分类',9,'service_category',0),(13,'分类管理',9,'wordbook',0);
 
 /*Table structure for table `role` */
 
