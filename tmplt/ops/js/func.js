@@ -41,6 +41,9 @@ $.extend({
 				case('8'):
 					data+='&fr='+$(this).attr('name')+'&navname=修改浏览';
 					break;
+				case('13'):
+					data+='&fr='+$(this).attr('name')+'&navname=分类选择';
+					break;
 				default:
 					data+='&mr='+$(this).attr('name')+'&fr=view';
 					break;

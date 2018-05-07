@@ -62,7 +62,7 @@ CREATE TABLE `menu` (
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent_id`,`modelname`,`flag_set`) values (1,'系统管理',0,NULL,0),(3,'服务管理',9,'service',0),(2,'服务器管理',9,'server',0),(4,'权限管理',1,'role',0),(5,'用户管理',1,'user',0),(6,'个人管理',0,NULL,0),(7,'修改密码',6,'umdpswd',1),(8,'字段设置',6,'usetcol',1),(9,'运维管理',0,NULL,0),(10,'域名管理',9,'domain',0),(11,'域名分类',9,'domain_category',0),(12,'服务分类',9,'service_category',0),(13,'分类管理',9,'wordbook',0);
+insert  into `menu`(`id`,`name`,`parent_id`,`modelname`,`flag_set`) values (1,'系统管理',0,NULL,0),(3,'服务管理',9,'service',0),(2,'服务器管理',9,'server',0),(4,'权限管理',1,'role',0),(5,'用户管理',1,'user',0),(6,'个人管理',0,NULL,0),(7,'修改密码',6,'umdpswd',1),(8,'字段设置',6,'usetcol',1),(9,'运维管理',0,NULL,0),(10,'域名管理',9,'domain',0),(11,'域名分类',9,'domain_category',0),(12,'服务分类',9,'service_category',0),(13,'分类管理',9,'category',0);
 
 /*Table structure for table `role` */
 

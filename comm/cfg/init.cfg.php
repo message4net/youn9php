@@ -27,6 +27,7 @@ define('FILE_TMPLT_VRSN', '.vrsn');
 
 define('PERPAGENO','5');
 define('PERROWNO','4');
+define('PERMENUNO','5');
 
 //定义app ops配置
 define('OPS_MDL_MAIN', 'main');
