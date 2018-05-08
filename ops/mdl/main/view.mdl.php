@@ -74,6 +74,20 @@ switch ($_POST['fr']){
 		$_SESSION['menu_id']=$_POST['id'];
 		$_SESSION['page']=1;
 		break;
+	case 'category':
+		if (!isset($_SESSION['menu_id'])){
+			$_SESSION['menu_id']=$_POST['id'];
+			$_SESSION['searchword']='';
+			$_SESSION['page']=1;
+		}else{
+			if($_SESSION['menu_id']!=$_POST['id']){
+				$_SESSION['menu_id']=$_POST['id'];
+				$_SESSION['searchword']='';
+				$_SESSION['page']=1;
+			}
+		}
+		require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.'category'.POSTFIX_MDL;;
+		break;
 	default:
 		break;
 }

@@ -1,7 +1,7 @@
 <?php 
 $dbpdo_category=new DbSqlPdo();
 
-$sql='select * from wordbook where type=4000';
+$sql='select * from menu where type=1 and parent_id='.$_SESSION['menu_id'];
 
 $result=$dbpdo_category->select($sql);
 
@@ -11,6 +11,9 @@ $category_view=new ViewMain($_SESSION['menu_id'], $_SESSION['loginroleid'], $_SE
 $count_category=0;
 $return_arr['content']['tips_nav']=$category_view->gen_navpos_html();;
 $return_arr['content']['content']='';
-foreach ($result as $val){
-	$return_arr['content']['content'].='<a id="'.$val[''].'_category_menu3d"></a>';
-}
+//foreach ($result as $val){
+//	$return_arr['content']['content'].='<a id="'.$val[''].'_category_menu3d"></a>';
+//}
+$return_arr['0']['0']='zzzzzzzzzzzz';
+
+require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
