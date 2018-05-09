@@ -268,7 +268,12 @@ class ViewMain extends DbSqlPdo {
 	 */
 	public function gen_mod_view_html($rec_id=''){
 		//$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where type>=0 and type<1000 and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+//		if ($this->menu_id==4){
+//			$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb, menu m where ((wb.type>=0 and wb.type<200) or (wb.type>=400 and wb.type<600)) and role_id='.$this->login_role_id.' and wb.menu_id=m.id and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' and wb.menu_id<>13 and m.type=0 order by odr';
+//		}else{
 		$rec_odr_sql='select wb.* from wordbook wb, role_wordbook rwb where ((type>=0 and type<200) or (type>=400 and type<600)) and role_id='.$this->login_role_id.' and wb.id=rwb.wordbook_id and wb.menu_id='.$this->menu_id.' order by odr';
+//		}
+		
 //return $rec_odr_sql;		
 		$rec_odr_result=parent::select($rec_odr_sql);
 		$rec_id_result=array();
@@ -416,6 +421,10 @@ class ViewMain extends DbSqlPdo {
 						break;
 				}
 			}
+		}
+		if ($this->menu_id==4){
+			$sql1='select * from menu where ';
+			$sql='select * from menu m, menu m1 where m.id=m1.parent_id and m.id=13 and m1.type=1';
 		}
 		$_return_html.='<tr><td colspan="2"><button id="vwmod_';
 		if ($rec_id==''){
