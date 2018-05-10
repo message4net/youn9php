@@ -312,6 +312,9 @@ class ViewMain extends DbSqlPdo {
 						}
 						$_return_html.='"/></td></tr>';
 						break;
+					case '404':
+						
+						break;
 					case '1':
 					case '401':
 						$_arr_colname_tmp_o=explode('#', $val['sql_col_str']);
