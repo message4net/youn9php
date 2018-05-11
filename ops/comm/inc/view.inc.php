@@ -167,6 +167,7 @@ class ViewMain extends DbSqlPdo {
 	 */
 	public function gen_set_view_html($rec_id){
 		$_sql_rwb_q='select rwb.* from role_menu rm,role_wordbook rwb where rm.role_id=rwb.role_id and rwb.role_id='.$rec_id;
+		//$_sql_rwb_q='select rwb.* from role_menu rm,role_wordbook rwb where rm.menu_id<>7 and rm.menu_id<>8 and rm.menu_id<>13 and rm.role_id=rwb.role_id and rwb.role_id='.$rec_id;
 		$_result_rwb_q=parent::select($_sql_rwb_q);
 		$_arr_rwb=array();
 		if($_result_rwb_q){
@@ -177,13 +178,15 @@ class ViewMain extends DbSqlPdo {
 		$_sql_creator_q='select * from role where id='.$rec_id;
 		$_result_creator_q=parent::select($_sql_creator_q);
 		if ($rec_id==1){
-		  $_sql_menu_q='select * from menu where parent_id>0';
-		  $_sql_view_q='select * from wordbook where type>=0 and type<1000';
-		  $_sql_func_q='select * from wordbook where type>=1000 and type<3000';
+		  //$_sql_menu_q='select * from menu where parent_id>0';
+			$_sql_menu_q='select * from menu where id<>7 and id<>8 and id<>13 and parent_id>0';
+			$_sql_view_q='select * from wordbook where type>=0 and type<1000';
+			$_sql_func_q='select * from wordbook where type>=1000 and type<3000';
 		}else{
-		  $_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_id and rm.role_id='.$rec_id;
-		  $_sql_view_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and wb.type>=0 and wb.type<1000 and rwb.role_id='.$_result_creator_q['0']['creator'];
-		  $_sql_func_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and type>=1000 and type<3000 and rwb.role_id='.$_result_creator_q['0']['creator'];
+		  //$_sql_menu_q='select m.* from menu m, role_menu rm where m.parent_id>0 and m.id=rm.menu_id and rm.role_id='.$rec_id;
+			$_sql_menu_q='select m.* from menu m, role_menu rm where m.id<>7 and m.id<>8 and m.id<>13 and m.parent_id>0 and m.id=rm.menu_id and rm.role_id='.$rec_id;
+			$_sql_view_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and wb.type>=0 and wb.type<1000 and rwb.role_id='.$_result_creator_q['0']['creator'];
+			$_sql_func_q='select wb.* from wordbook wb, role_wordbook rwb where wb.id=rwb.wordbook_id and type>=1000 and type<3000 and rwb.role_id='.$_result_creator_q['0']['creator'];
 		  //$_sql_menu_q='select m.* from menu m, role_menu_func rmf where m.parent_id>0 and m.id=rmf.menu_sub_id and rmf.role_id='.$rec_id.' group by m.id';
 		  //$_sql_view_q='select wb.* from wordbook wb, role_menu_func rmf where wb.menu_sub_id=rmf.menu_sub_id and wb.menu_sub_id=rmf.menu_sub_id and wb.type>=0 and wb.type<1000 and rmf.role_id='.$rec_id;
 		  //$_sql_func_q='select wb.* from wordbook wb, role_menu rmf where wb.menu_sub_id=rmf.menu_sub_id and wb.menu_sub_id=rmf.menu_sub_id type>=1000 and type<3000 and rmf.role_id='.$rec_id;
@@ -314,9 +317,12 @@ class ViewMain extends DbSqlPdo {
 						break;
 					case '404':
 						
-						break;
+//						break;
 					case '1':
 					case '401':
+//if ($val['type']==404){
+//	return '404';
+//}
 						$_arr_colname_tmp_o=explode('#', $val['sql_col_str']);
 						$_arr_colname_tmp=explode(',', $_arr_colname_tmp_o['1']);
 						
