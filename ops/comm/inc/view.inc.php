@@ -348,7 +348,12 @@ class ViewMain extends DbSqlPdo {
 						}
 						if ($_result_tmp_menu){
 							$count=0;
-						    $_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'_'.substr($this->id_cat_da_b,0,strlen($this->id_cat_da_b)-1).'_a"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'" value="'.$val['name'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
+							if ($val['type']==404){
+								$cat_row='b';
+							}else{
+								$cat_row='a';
+							}
+						    $_return_html.='<tr id="'.$this->id_suffix_rb.$val['id'].'_'.substr($this->id_cat_da_b,0,strlen($this->id_cat_da_b)-1).'_'.$cat_row.'"><td id="'.$this->id_suffix_da.$this->id_cat_da_b.$val['id'].'"><input type="checkbox" id="alckall'.$val['id'].'" value="'.$val['name'].'"/>'.$val['name'].'</td><td id="'.$this->id_suffix_da.$this->id_cat_da_c.$val['id'].'">';
 						    foreach ($_result_tmp_menu as $val2){
 								//$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp[0]].'" ';
 						    	$_return_html.='<input id="alcksub'.$val['id'].'" type="checkbox"  value="'.$val2[$_arr_colname_tmp1[0]].'" ';
