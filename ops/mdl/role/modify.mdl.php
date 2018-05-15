@@ -70,10 +70,22 @@ switch ($_POST['fr']){
         $sql_rwb_add='';
         $sql_rwb_del='';
         $arr_sql_rm_i=array();
+        $_arr_sql_mh_i=array();
+        $_arr_sql_wbh_i=array();
         foreach ($arr_role as $val){
         	if ($_POST['fr']=='allset'){
         		$sql_rm_q='select * from role_menu where role_id='.$val.' and menu_id='.$_POST['rca'];
         		$result_rm_q=$db_modify->select($sql_rm_q);
+        		$_sql_m_q='select * from menu where id='.$_POST['rca'].' and type=1';
+        		$_result_m_q=$db_modify->select($_sql_m_q);
+        		if ($_result_m_q){
+       				$_sql_m_v='select * from role_menu where role_id='.$val.' and menu_id='.$_result_m_q['0']['parent_id'];
+       				$_result_m_v=$db_modify->select($_sql_m_v);
+//       				$_sql_wb_q='select * from wordbook where colnameid='.$_result_m_q['0']['parent_id'];
+       				if (!$_result_m_v){
+       					$_arr_sql_mh_i[$val]='insert into role_menu values('.$val.','.$_result_m_q['0']['parent_id'].')';
+       				}
+        		}
         		if (!$result_rm_q){
         			//$arr_sql_rm_i[$val]='insert into role_menu values ('.$val.','.$_POST['ckarrk'].')';
         			$arr_sql_rm_i[$val]='insert into role_menu values ('.$val.','.$_POST['rca'].')';
@@ -197,10 +209,32 @@ switch ($_POST['fr']){
        		}
        		$return_arr['content']['tips'].=',';
         }
+$return_arr['0']['0']='';
+if ($_arr_sql_mh_i){
+	foreach ($_arr_sql_mh_i as $val){
+		$return_arr['0']['0'].='#'.$val.'#';
+	}
+}else{
+	$return_arr['0']['0'].='AAAAAAAA';
+}
+//        if ($_arr_sql_mh_i){
+//        	$return_arr['content']['tips'].='隐菜单增设';
+//        	$flag_rm_i=0;
+//        	foreach ($_arr_sql_mh_i as $val){
+//        		if (!$db_modify->update($val)){
+//        			$flag_rm_i=1;
+//        		}
+//        	}
+//        	if ($flag_rm_i==1){
+//        		$return_arr['content']['tips'].=OPS_TIP_FAIL;
+//        	}else{
+//        		$return_arr['content']['tips'].='成功';
+//        	}
+//        	$return_arr['content']['tips'].=',';
+//        }
         break;
 	case 'mod':
 	case 'add':
-//		$return_arr['0']['0']=$_POST['rbbackarrk'];
 		//此处并未区别ckk,若需要可以考虑wordbook新类别中加入表名
 		$flag_name=0;
 		$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['ra2'].'\'';
@@ -227,6 +261,7 @@ switch ($_POST['fr']){
 		$return_arr['content']['tips'].='<i>'.$_POST['ra2'].'</i>';
 		if ($flag_name==1){
 			$return_arr['content']['tips'].='权限名'.$tips_tmp;
+//$sql_m='select 1';			
 			if($db_modify->update($sql_m)){
 				$return_arr['content']['tips'].='成功,';
 			}else{
@@ -234,22 +269,20 @@ switch ($_POST['fr']){
 			}
 		}
 		$result_vrf=$db_modify->select($sql_vrf);
-//		$arr_k=explode(',',$_POST['rbbackarrk']);
-		$sql_arr_init='select * from wordbook where id in ('.$_POST['rbbackarrk'].')';
-		$result_arr_init=$db_modify->select($sql_arr_init);
-		$arr_init=array();
-		if ($result_arr_init){
-//			foreach ($result_arr_init as $val){
-//				$arr_init[$val['id']]=$val;
-//			}
-			$arr_init[$_POST['rbbackarrk']]=$result_arr_init[0];
-		}
-//////		if ($arr_k){
+//$return_arr['0']['0']=$result_vrf['0']['id'];
 		if ($_POST['rbbackarrk']!=''){
-//			foreach ($arr_k as $val){
+			$sql_arr_init='select * from wordbook where id in ('.$_POST['rbbackarrk'].')';
+			$result_arr_init=$db_modify->select($sql_arr_init);
+			$arr_init=array();
+//			if ($result_arr_init){
+//				$arr_init[$_POST['rbbackarrk']]=$result_arr_init[0];
+//			}
+
 				$arr_i=array();
-				if (isset($arr_init[$_POST['rbbackarrk']])){
-					$sql_t=$arr_init[$_POST['rbbackarrk']]['sql_mod'].$result_vrf['0']['id'];
+//				if (isset($arr_init[$_POST['rbbackarrk']])){
+				if ($result_arr_init){
+					$sql_t=$result_arr_init['0']['sql_mod'].$result_vrf['0']['id'];
+//$return_arr['0']['0']=$sql_t;
 					$result_t=$db_modify->select($sql_t);
 					if ($result_t){
 						$count=0;
@@ -259,97 +292,142 @@ switch ($_POST['fr']){
 						}
 					}
 				}
-//			}
 		}
-//////			foreach ($arr_k as $val){
-		if ($_POST['rbbbckarrk']!=''&&$_POST['rb'.$$_POST['rbbbckarrk'].'alckarrv']!=''){
-			if (!in_array($_POST['rbbbckarrk'], $arr_i)){
-				$arr_i[]=$_POST['rbbbckarrk'];
+		$arr_va=array();
+		$arr_vb=array();
+		if ($_POST['rb'.$_POST['rbbackarrk'].'alckarrv']!=''){
+			$arr_va=explode(',', $_POST['rb'.$_POST['rbbackarrk'].'alckarrv']);
+		}
+		if ($_POST['rb'.$_POST['rbbbckarrk'].'alckarrv']!=''){
+			$arr_vb=explode(',', $_POST['rb'.$_POST['rbbbckarrk'].'alckarrv']);
+		}
+		$arr_v=array_merge($arr_va,$arr_vb);
+//$return_arr['0']['0']='';
+//foreach ($arr_v as $k=>$v){
+//	$return_arr['0']['0'].='#K:'.$k.'#V:'.$v;
+//	
+//}
+		$sql_mh='select * from wordbook where id='.$_POST['rbbbckarrk'];
+		$result_mh=$db_modify->select($sql_mh);
+		$sql_rwbh='select * from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id='.$_POST['rbbbckarrk'];
+		$result_rwbh=$db_modify->select($sql_rwbh);
+		$return_arr['content']['tips'].='隐权限';
+		if ($_POST['rb'.$_POST['rbbbckarrk'].'alckarrv']!=''){
+			if ($result_mh){
+//				if (!in_array($result_mh['0']['colnameid'], $arr_i)){
+//					$arr_i[]=$result_mh['0']['colnameid'];
+//				}
+				$arr_v[]=$result_mh['0']['colnameid'];
+			}
+			if (!$result_rwbh){
+				$sql_rwbh_i='insert into role_wordbook values('.$result_vrf['0']['id'].','.$_POST['rbbbckarrk'].');';
+				$return_arr['content']['tips'].='插入';
+				if ($db_modify->insert($sql_rwbh_i)){
+					$return_arr['content']['tips'].='成功';
+				}else{
+					$return_arr['content']['tips'].='失败';
+				}
+			}else{
+				$return_arr['content']['tips'].='无需更改';
+			}
+		}else{
+			if ($result_rwbh){
+				$sql_rwbh_d='delete from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id='.$_POST['rbbbckarrk'];
+				$return_arr['content']['tips'].='删除';
+				if ($db_modify->insert($sql_rwbh_d)){
+					$return_arr['content']['tips'].='成功';
+				}else{
+					$return_arr['content']['tips'].='失败';
+				}
+			}else{
+				$return_arr['content']['tips'].='无需更改';
 			}
 		}
-//		$arr_kb=explode(',', $_POST['rbbbckarrk']);
-//		if($arr_kb){
-//			$arr_i=array_merge($arr_i,$arr_kb);
-//			$arr_vb=explode(',', $_POST['rb'.$val.'alckarrv']);
-//		}
-		$arr_va=explode(',', $_POST['rb'.$_POST['rbbackarrk'].'alckarrv']);
-		$arr_vb=explode(',', $_POST['rb'.$_POST['rbbbckarrk'].'alckarrv']);
-		$arr_v=array_merge($arr_va,$arr_vb);
-		
-		
-//				$arr_v=explode(',', $_POST['rb'.$val.'alckarrv']);
-				$arr_add=array_diff($arr_v, $arr_i);
-				$arr_del=array_diff($arr_i, $arr_v);
-				if ($arr_del){
-					$return_arr['content']['tips'].='功能删除';
-					$str='';
-					foreach ($arr_del as $val1){
-						$str.=$val1.',';
+		$return_arr['content']['tips'].='##';
+
+		$arr_add=array_diff($arr_v, $arr_i);
+
+		$arr_del=array_diff($arr_i, $arr_v);
+//$return_arr['0']['0']='';
+//foreach ($arr_del as $k=>$v){
+//	$return_arr['0']['0'].='#K:'.$k.'#V:'.$v;
+//
+//}
+$retrun_arr['0']['0']='';
+		if ($arr_del){
+$retrun_arr['0']['0'].='AAAAAAA';
+			$return_arr['content']['tips'].='功能删除';
+			$str='';
+			foreach ($arr_del as $val1){
+				$str.=$val1.',';
+			}
+			$str=substr($str,0,strlen($str)-1);
+			if ($str!=''){
+				$result_q_f=$db_modify->select('select * from wordbook where id<>133 and menu_id in ('.$str.')');
+				if ($result_q_f){
+					$str1='';
+					foreach ($result_q_f as $val2){
+						$str1.=$val2['id'].',';
 					}
-					$str=substr($str,0,strlen($str)-1);
-					if ($str!=''){
-						$result_q_f=$db_modify->select('select * from wordbook where menu_id in ('.$str.')');
-						if ($result_q_f){
-							$str1='';
-							foreach ($result_q_f as $val2){
-								$str1.=$val2['id'].',';
-							}
-							$str1=substr($str1,0,strlen($str1)-1);
-							if ($str1!=''){
-								$sql_d_f='delete from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id in ('.$str1.')';
-								if ($db_modify->update($sql_d_f)){
-									$return_arr['content']['tips'].='成功';
-								}else{
-									$return_arr['content']['tips'].=OPS_TIP_FAIL;
-								}
-							}
-							$return_arr['content']['tips'].='菜单删除';
-							$sql_d_m='delete from role_menu where role_id='.$result_vrf['0']['id'].' and menu_id in ('.$str.')';
-							if ($db_modify->update($sql_d_m)){
-								$return_arr['content']['tips'].='成功';
-							}else{
-								$return_arr['content']['tips'].=OPS_TIP_FAIL;
-							}
-						}
-					}
-//////				}
-				if ($arr_add){
-					$str='';
-					$str_sql_i_f='';
-					foreach ($arr_add as $val1){
-						$str.='('.$result_vrf[0]['id'].','.$val1.'),';
-						$sql_q_f='select * from wordbook where flag_set=1 and menu_id='.$val1;
-						$result_q_f=$db_modify->select($sql_q_f);
-						if ($result_q_f){
-							foreach ($result_q_f as $val2){
-								$str_sql_i_f.='('.$result_vrf[0]['id'].','.$val2['id'].'),';
-							}
-						}
-					}
-					$str_sql_i_f=substr($str_sql_i_f,0,strlen($str_sql_i_f)-1);
-					$str=substr($str,0,strlen($str)-1);
-					if ($str!=''){
-						$sql_i='insert into role_menu values '.$str;
-						$return_arr['content']['tips'].='权限新增';
-						if($db_modify->insert($sql_i)){
-							$return_arr['content']['tips'].='成功,';
+					$str1=substr($str1,0,strlen($str1)-1);
+					if ($str1!=''){
+						$sql_d_f='delete from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id in ('.$str1.')';
+						if ($db_modify->update($sql_d_f)){
+							$return_arr['content']['tips'].='成功';
 						}else{
 							$return_arr['content']['tips'].=OPS_TIP_FAIL;
 						}
 					}
-					if ($str_sql_i_f!=''){
-						$sql_i_f='insert into role_wordbook values '.$str_sql_i_f;
-						$return_arr['content']['tips'].='权限默认功能新增';
-						if($db_modify->insert($sql_i_f)){
-							$return_arr['content']['tips'].='成功,';
-						}else{
-							$return_arr['content']['tips'].=OPS_TIP_FAIL;
-						}
+					$return_arr['content']['tips'].='菜单删除';
+					$sql_d_m='delete from role_menu where role_id='.$result_vrf['0']['id'].' and menu_id in ('.$str.')';
+					if ($db_modify->update($sql_d_m)){
+						$return_arr['content']['tips'].='成功';
+					}else{
+						$return_arr['content']['tips'].=OPS_TIP_FAIL;
 					}
 				}
 			}
-
-//////		}
+		}else{
+$retrun_arr['0']['0'].='CCCCCCCCCCCCCCC';
+		}
+		if ($arr_add){
+$retrun_arr['0']['0'].='BBBBBBBBB';
+			$str='';
+			$str_sql_i_f='';
+			foreach ($arr_add as $val1){
+				$str.='('.$result_vrf[0]['id'].','.$val1.'),';
+				$sql_q_f='select * from wordbook where flag_set=1 and menu_id='.$val1;
+				$result_q_f=$db_modify->select($sql_q_f);
+				if ($result_q_f){
+					foreach ($result_q_f as $val2){
+						$str_sql_i_f.='('.$result_vrf[0]['id'].','.$val2['id'].'),';
+					}
+				}
+			}
+			$str_sql_i_f=substr($str_sql_i_f,0,strlen($str_sql_i_f)-1);
+			$str=substr($str,0,strlen($str)-1);
+			if ($str!=''){
+				$sql_i='insert into role_menu values '.$str;
+				$return_arr['content']['tips'].='权限新增';
+				if($db_modify->insert($sql_i)){
+					$return_arr['content']['tips'].='成功,';
+				}else{
+					$return_arr['content']['tips'].=OPS_TIP_FAIL;
+				}
+			}
+			if ($str_sql_i_f!=''){
+				$sql_i_f='insert into role_wordbook values '.$str_sql_i_f;
+				$return_arr['content']['tips'].='权限默认功能新增';
+				if($db_modify->insert($sql_i_f)){
+					$return_arr['content']['tips'].='成功,';
+				}else{
+					$return_arr['content']['tips'].=OPS_TIP_FAIL;
+				}
+			}
+		}else{
+$retrun_arr['0']['0'].='DDDDDDDDDDDD';
+		}
+//		}
 		break;
 	case 'alldel':
 		//$sql_m_q='select * from menu where id='.$_POST['ckarrk'];
@@ -389,6 +467,27 @@ switch ($_POST['fr']){
 			$return_arr['content']['tips'].='成功,';
 		}else{
 			$return_arr['content']['tips'].=OPS_TIP_FAIL;
+		}
+		$_sql_mh_q='select a.role_id,a.menu_id from (select rm.* from role_menu rm ,menu m,menu m1 where rm.menu_id=m.id and m1.parent_id=m.id and m1.type=1 and m.type=0 and rm.role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].')) a left join (select rm.role_id,m.parent_id from role_menu rm ,menu m where rm.menu_id=m.id and m.type=1 and rm.role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].')) b on a.menu_id=b.parent_id where b.parent_id is null group by a.role_id,a.menu_id';
+//$return_arr['0']['0']=$_sql_mh_q;
+		$_result_mh_q=$db_modify->select($_sql_mh_q);
+		if ($_result_mh_q){
+			$_sql_mh_d='';
+			$return_arr['content']['tips'].='隐菜单删除';
+			$_flag=0;
+//$return_arr['0']['0']='';
+			foreach ($_result_mh_q as $val){
+				$_sql_mh_d='delete from role_menu where role_id='.$val['role_id'].' and menu_id='.$val['menu_id'].';';
+//$return_arr['0']['0'].=$_sql_mh_d;
+//				if (!$db_modify->update($_sql_mh_d)){
+//					$_flag=1;
+//				}
+			}
+			if ($_falg==1){
+				$return_arr['content']['tips'].=OPS_TIP_FAIL;
+			}else{
+				$return_arr['content']['tips'].='成功';
+			}
 		}
 		break;
 	case 'del':

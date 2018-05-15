@@ -164,8 +164,8 @@ $.extend({
 							}
 						}
 						if(arr_tr_id[0]=='rb'&&arr_tr_id[2]!=undefined){
-							if($.inArray(arr_tr_id[2],arr_ev)<0){
-								arr_ev[ct_ev]=arr_tr_id[2];
+							if($.inArray(arr_tr_id[2]+arr_tr_id[3],arr_ev)<0){
+								arr_ev[ct_ev]=arr_tr_id[2]+arr_tr_id[3];
 								eval('str_k.'+arr_tr_id[2]+arr_tr_id[3]+'=\'\';');
 								ct_ev++;
 							}
@@ -242,6 +242,7 @@ $.extend({
 									arr_para[arr_tr_id[0]][ct_rb]['info_alert']=str_tmp;
 									arr_para[arr_tr_id[0]][ct_rb]['flag_valid']='N';
 								}
+//alert($(this).find('input').attr('id').substring(7));
 								eval('str_k.'+arr_tr_id[2]+arr_tr_id[3]+'+=\''+$(this).find('input').attr('id').substring(7)+',\';');
 								break;
 							case('c'):
@@ -305,6 +306,7 @@ $.extend({
 				})
 				if(!$.isEmptyObject(str_k)){
 					$.each(str_k,function(k,v){
+//alert('Key:'+k+'#Val:'+v);						
 						data+='&rb'+k+'ckarrk='+v.substring(0,v.length-1);
 					})
 				}

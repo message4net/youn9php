@@ -125,10 +125,10 @@ class ViewMain extends DbSqlPdo {
 	public function gen_allset_view_html(){
 		if ($this->login_role_id==1){
 			$_sql_role_q='select * from role';
-			$_sql_menu_q='select * from menu where parent_id>0';
+			$_sql_menu_q='select * from menu where parent_id>0 and id<>13';
 		}else{
 			$_sql_role_q='select * from role where creator='.$this->login_role_id;
-			$_sql_menu_q='select m.* from menu m, role_menu rm where parent_id>0 and rm.menu_id=m.id and rm.role_id='.$this->login_role_id;
+			$_sql_menu_q='select m.* from menu m, role_menu rm where parent_id>0 and m.id<>13 and rm.menu_id=m.id and rm.role_id='.$this->login_role_id;
 		}
 		$_result_role_q=parent::select($_sql_role_q);
 		$_result_menu_q=parent::select($_sql_menu_q);
