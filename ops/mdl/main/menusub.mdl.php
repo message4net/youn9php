@@ -8,7 +8,8 @@ $returnhtml='<ul>';
 //$return_arr['0']['0']='#ID:'.$_POST['id'].'#SQL:'.$tmpsql.'#NAVNAME:'.$_POST['navname'];
 
 foreach ($result_menu_sub as $val) {
-	$returnhtml.='<li><a id="'.$val['id'].'" name="'.$val['modelname'].'" href="javascript:void(0);">'.$val['name'].'</a></li>';
+	//$returnhtml.='<li><a id="'.$val['id'].'" name="'.$val['modelname'].'" href="javascript:void(0);">'.$val['name'].'</a></li>';
+	$returnhtml.='<li><a id="menu_subc_'.$val['id'].'" name="'.$val['modelname'].'" href="javascript:void(0);">'.$val['name'].'</a></li>';
 }
 $returnhtml.='</ul>';
 

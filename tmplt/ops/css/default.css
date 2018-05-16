@@ -17,6 +17,7 @@ body {text-align:center;margin:0px;padding:0px;color:black}
 #content th {font-size:11px;color:white;boder-width:0px;border-style:solid;border-color:#0080c0;text-align:center;padding:5px}
 #content td {font-size:11px;color:black;boder-width:0px;border-style:solid;border-color:#0080c0;text-align:left;padding:5px}
 #content td a {font-size:10px;color:yellow}
+#content a {font-size:15px;color:yellow}
 #main_login {position:absolute;width:400px;height:300x;margin-left:-200px;margin-top:-150px;left:50%;top:50%;}
 #table_login table,td,tr,form {text-align:right;color:white}
 #menu_nav ul li {float:left;padding:5px;list-style-type:none}

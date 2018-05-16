@@ -606,8 +606,9 @@ class ViewMain extends DbSqlPdo {
 					$_arr_colname_tmp_o=explode('#', $val['sql_col_str']);
 					$_arr_colname_tmp=explode(',', $_arr_colname_tmp_o['1']);
 					foreach ($rec_result_body as $val1){
-						$para_sql_type_1=$val1[$val['colnameid']];
-						eval('$_sql_tmp='.$val['sql_eval'].';');
+						//$para_sql_type_1=$val1[$val['colnameid']];
+						//eval('$_sql_tmp='.$val['sql_eval'].';');
+						$_sql_tmp=$val['sql_mod'].$val1[$val['colnameid']];
 						$_result_tmp=parent::select($_sql_tmp);
 						if ($_result_tmp){
 							$count=0;

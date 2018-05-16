@@ -209,29 +209,29 @@ switch ($_POST['fr']){
        		}
        		$return_arr['content']['tips'].=',';
         }
-$return_arr['0']['0']='';
-if ($_arr_sql_mh_i){
-	foreach ($_arr_sql_mh_i as $val){
-		$return_arr['0']['0'].='#'.$val.'#';
-	}
-}else{
-	$return_arr['0']['0'].='AAAAAAAA';
-}
-//        if ($_arr_sql_mh_i){
-//        	$return_arr['content']['tips'].='隐菜单增设';
-//        	$flag_rm_i=0;
-//        	foreach ($_arr_sql_mh_i as $val){
-//        		if (!$db_modify->update($val)){
-//        			$flag_rm_i=1;
-//        		}
-//        	}
-//        	if ($flag_rm_i==1){
-//        		$return_arr['content']['tips'].=OPS_TIP_FAIL;
-//        	}else{
-//        		$return_arr['content']['tips'].='成功';
-//        	}
-//        	$return_arr['content']['tips'].=',';
-//        }
+//$return_arr['0']['0']='';
+//if ($_arr_sql_mh_i){
+//	foreach ($_arr_sql_mh_i as $val){
+//		$return_arr['0']['0'].='#'.$val.'#';
+//	}
+//}else{
+//	$return_arr['0']['0'].='AAAAAAAA';
+//}
+        if ($_arr_sql_mh_i){
+        	$return_arr['content']['tips'].='隐菜单增设';
+        	$flag_rm_i=0;
+        	foreach ($_arr_sql_mh_i as $val){
+        		if (!$db_modify->update($val)){
+        			$flag_rm_i=1;
+        		}
+        	}
+        	if ($flag_rm_i==1){
+        		$return_arr['content']['tips'].=OPS_TIP_FAIL;
+        	}else{
+        		$return_arr['content']['tips'].='成功';
+        	}
+        	$return_arr['content']['tips'].=',';
+        }
         break;
 	case 'mod':
 	case 'add':
@@ -287,7 +287,8 @@ if ($_arr_sql_mh_i){
 					if ($result_t){
 						$count=0;
 						foreach ($result_t as $val3){
-							$arr_i[$count]=$val3['menu_id'];
+							//$arr_i[$count]=$val3['menu_id'];
+							$arr_i[$count]=$val3['id'];
 							$count++;
 						}
 					}
@@ -468,7 +469,7 @@ $retrun_arr['0']['0'].='DDDDDDDDDDDD';
 		}else{
 			$return_arr['content']['tips'].=OPS_TIP_FAIL;
 		}
-		$_sql_mh_q='select a.role_id,a.menu_id from (select rm.* from role_menu rm ,menu m,menu m1 where rm.menu_id=m.id and m1.parent_id=m.id and m1.type=1 and m.type=0 and rm.role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].')) a left join (select rm.role_id,m.parent_id from role_menu rm ,menu m where rm.menu_id=m.id and m.type=1 and rm.role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].')) b on a.menu_id=b.parent_id where b.parent_id is null group by a.role_id,a.menu_id';
+		$_sql_mh_q='select a.role_id,a.menu_id from (select rm.* from role_menu rm ,menu m,menu m1 where rm.menu_id=m.id and m1.parent_id=m.id and m1.type=1 and m.type=0 and rm.role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].') group by rm.role_id,rm.menu_id) a left join (select rm.role_id,m.parent_id from role_menu rm ,menu m where rm.menu_id=m.id and m.type=1 and rm.role_id in ('.$_POST['rb'.$_POST['rbbackarrk'].'alckarrv'].')) b on a.menu_id=b.parent_id and a.role_id=b.role_id where b.parent_id is null group by a.role_id,a.menu_id';
 //$return_arr['0']['0']=$_sql_mh_q;
 		$_result_mh_q=$db_modify->select($_sql_mh_q);
 		if ($_result_mh_q){
@@ -479,9 +480,9 @@ $retrun_arr['0']['0'].='DDDDDDDDDDDD';
 			foreach ($_result_mh_q as $val){
 				$_sql_mh_d='delete from role_menu where role_id='.$val['role_id'].' and menu_id='.$val['menu_id'].';';
 //$return_arr['0']['0'].=$_sql_mh_d;
-//				if (!$db_modify->update($_sql_mh_d)){
-//					$_flag=1;
-//				}
+				if (!$db_modify->update($_sql_mh_d)){
+					$_flag=1;
+				}
 			}
 			if ($_falg==1){
 				$return_arr['content']['tips'].=OPS_TIP_FAIL;

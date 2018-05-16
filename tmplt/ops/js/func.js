@@ -34,9 +34,12 @@ $.extend({
 			});
 			
 			//子菜单模块
-			$('#menu_sub').on('click','a',function(){
-				data='&f=view&id='+$(this).attr('id');
-				switch($(this).attr('id')){
+			//$('#menu_sub').on('click','a',function(){
+			$('#menu_sub,#content').on('click','[id^=menu_subc_]',function(){
+				//data='&f=view&id='+$(this).attr('id');
+				id=$(this).attr('id').substr(10);
+				data='&f=view&id='+id;
+				switch(id){
 				case('7'):
 				case('8'):
 					data+='&fr='+$(this).attr('name')+'&navname=修改浏览';
@@ -49,7 +52,7 @@ $.extend({
 					data+='&mr='+$(this).attr('name')+'&fr=view';
 					break;
 				}
-				
+//alert(data);				
 				$.ajx(url_ajx,data);
 			});
 			
