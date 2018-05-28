@@ -105,11 +105,30 @@ switch ($_POST['fr']){
 		$sql_where_arr['default']='';
 	}
 	
-	$mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
+//	$mdl_path_file=BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.$_SESSION['mr'].DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
 	
-	if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
-		require $mdl_path_file;
-		unset($mdl_path_file);
+//	if (file_exists($mdl_path_file) && !is_dir($mdl_path_file)){
+	if (isset($_SESSION['mr'])&&$_SESSION['mr']!=''){
+//		require $mdl_path_file;
+//		unset($mdl_path_file);
+//新的开始
+		//替代main
+		$rec_table=$_SESSION['mr'];
+		$rec_col='*';
+		//替代结束
+		
+		$rec_sql_suffix=' from '.$rec_table;
+		
+		foreach ($sql_where_arr as $val){
+			if ($val!=''){
+				if ($sql_where_flag==0){
+					$rec_sql_suffix.=' where '.$val;
+					$sql_where_flag=1;
+				}else{
+					$rec_sql_suffix.=' and '.$val;
+				}
+			}
+		}
 	}else{
 		$return_arr['content']['content']='<span style="text-align:left;float:left">(ง •̀_•́)ง努力<br/>拼命୧(๑•̀⌄•́๑)૭<br/>制作中。。。</br>先逛逛别的呗：DDD</span>';
 		$return_arr['content']['page_bar']='';

@@ -154,6 +154,8 @@ $.extend({
 					eval('ct_'+v+'=0;');
 				})
 				str_k=new Object();
+				//obj_ra=new Object();
+				str_ra='';
 				ct_ev=0;
 				flag_aj=0;
 				flag_ra_vrf=0
@@ -172,6 +174,9 @@ $.extend({
 								eval('str_k.'+arr_tr_id[2]+arr_tr_id[3]+'=\'\';');
 								ct_ev++;
 							}
+						}
+						if(arr_tr_id[0]=='ra'){
+							str_ra+=arr_tr_id[1]+',';
 						}
 						eval('arr_para[arr_tr_id[0]][ct_'+arr_tr_id[0]+']=new Array();');
 					}else{
@@ -313,9 +318,12 @@ $.extend({
 						data+='&rb'+k+'ckarrk='+v.substring(0,v.length-1);
 					})
 				}
-//alert('DT:'+data);
+				if(str_ra!=''){
+					data+='&raackarrk='+str_ra.substring(0,str_ra.length-1);
+				}
+alert('DT:'+data);
 				if(flag_aj==0){
-					$.ajx(url_ajx,data);
+//					$.ajx(url_ajx,data);
 				}
 			})
 			
