@@ -156,6 +156,7 @@ $.extend({
 				str_k=new Object();
 				//obj_ra=new Object();
 				str_ra='';
+				str_rc='';
 				ct_ev=0;
 				flag_aj=0;
 				flag_ra_vrf=0
@@ -177,6 +178,9 @@ $.extend({
 						}
 						if(arr_tr_id[0]=='ra'){
 							str_ra+=arr_tr_id[1]+',';
+						}
+						if(arr_tr_id[0]=='rc'){
+							str_rc+=arr_tr_id[1]+',';
 						}
 						eval('arr_para[arr_tr_id[0]][ct_'+arr_tr_id[0]+']=new Array();');
 					}else{
@@ -320,6 +324,9 @@ $.extend({
 				}
 				if(str_ra!=''){
 					data+='&raackarrk='+str_ra.substring(0,str_ra.length-1);
+				}
+				if(str_rc!=''){
+					data+='&rcackarrk='+str_rc.substring(0,str_rc.length-1);
 				}
 alert('DT:'+data);
 				if(flag_aj==0){
