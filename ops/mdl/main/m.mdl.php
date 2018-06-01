@@ -230,10 +230,15 @@ switch ($_POST['fr']){
 	case 'add':
 		$_sql_wb_arr='select * from wordbook where menu_id='.$_SESSION['menu_id'];
 		$_result_wb_arr=$db_modify->select($_sql_wb_arr);
+		$flag_q_w=0;
 		$_wb_arr=array();
+		$_wb_unq_arr=array();
 		if ($_result_wb_arr){
 			foreach ($_result_wb_arr as $val){
 				$_wb_arr[$val['id']]=$val;
+				if ($val['type']==3){
+					$_wb_unq_arr[$val['id']]=$val;
+				}
 			}
 		}
 		
