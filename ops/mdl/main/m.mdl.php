@@ -298,6 +298,33 @@ switch ($_POST['fr']){
 					$_sql_inst_col=$_wb_arr[$val]['colnameid'].',';
 				}
 			}
+		}//else{
+//			$return_arr['content']['tips']='词典缺少设置，请联系管理员';
+//			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+//		}
+		$_sql_q_w_u='';
+		if ($_wb_unq_arr){
+			foreach ($_wb_unq_arr as $val){
+				if (isset($_POST['ra'.$val])){
+					$_sql_q_w_u.=$_result_wb_arr['colnameid'].'=\''.$_POST['ra'.$val].'\' and ';
+				}
+			}
+		}
+		if ($_sql_q_w_u!=''){
+			$_sql_q_w_u='select * from '.$_result_mn['0']['model'].' where '.$_sql_q_w_u;
+		}else{
+			$return_arr['content']['tips']='缺少唯一设置，请联系管理员';
+			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+		}
+		
+		$_sql_q_w='';
+
+		if (isset($_POST['raackarrk']) && $_POST['raackarrk']!=''){
+			foreach ($_POST['raackarrk'] as $val){
+				if (isset($_POST['ra'.$val])){
+					$_sql_q_w.=$_result_wb_arr['colnameid'].'=\''.$_POST['ra'.$val].'\' and ';
+				}
+			}
 		}
 		
 		//此处并未区别ckk,若需要可以考虑wordbook新类别中加入表名
