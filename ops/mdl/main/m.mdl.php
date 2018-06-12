@@ -306,8 +306,8 @@ switch ($_POST['fr']){
 		$result_vrf=array();
 		if ($_sql_q_w_u!=''){
 			$_sql_q_w_u='select * from '.$_result_mn['0']['model'].' where '.substr($_sql_q_w_u,0, strlen($_sql_q_w_u)-4);
-			$_result_q_w_u=$db_modify->select($_sql_q_w_u);
-			$result_vrf=$db_modify->select($_result_q_w_u);
+			//$_result_q_w_u=$db_modify->select($_sql_q_w_u);
+			$result_vrf=$db_modify->select($_sql_q_w_u);
 		}else{
 			$return_arr['content']['tips']='缺少唯一设置，请联系管理员';
 			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
@@ -374,9 +374,12 @@ switch ($_POST['fr']){
 				$return_arr['content']['tips'].='成功,';
 			}else{
 				$return_arr['content']['tips'].=OPS_TIP_FAIL;
+				require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 			}
 		}
-		$result_vrf=$db_modify->select($_result_q_w_u);
+		$result_vrf=$db_modify->select($_sql_q_w_u);
+require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+		
 		$arr_i=array();
 		if ($_POST['rbbackarrk']!=''){
 			$sql_arr_init='select * from wordbook where id in ('.$_POST['rbbackarrk'].')';
