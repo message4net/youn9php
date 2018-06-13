@@ -263,73 +263,55 @@ switch ($_POST['fr']){
 
 		$_suffix_val_arr=array('ra','rc');
 		foreach ($_suffix_val_arr as $val1){
-			if (isset($_POST[$_suffix_val.'ackarrk']) && $_POST[$_suffix_val.'ackarrk']!=''){
-				foreach ($_POST[$_suffix_val.'ackarrk'] as $val){
-					if (isset($_POST[$_suffix_val.$val])&&isset($_wb_arr[$val])){
-						$_sql_q_w.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$_suffix_val.$val].'\' and ';
+			if (isset($_POST[$val1.'ackarrk']) && $_POST[$val1.'ackarrk']!=''){
+				$_arr_val_k=explode(',', $_POST[$val1.'ackarrk']);
+				foreach ($_arr_val_k as $val){
+					if (isset($_POST[$val1.$val])&&isset($_wb_arr[$val])){
+						$_sql_q_w.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$val1.$val].'\' and ';
 						if ($_wb_arr[$val]['type']=='3'){
-							$_sql_q_w_u.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$_suffix_val.$val].'\' and ';
-							if ($_wb_unq_tip=''){
-								if (isset($_POST[$_suffix_val.$val['id']])&&$_POST[$_suffix_val.$val['id']]!=''){
+							$_sql_q_w_u.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$val1.$val].'\' and ';
+							if ($_wb_unq_tip==''){
+								if (isset($_POST[$val1.$val])&&$_POST[$val1.$val]!=''){
 									//$_wb_unq_tip=$val['name'].'<i>'.$_POST['ra'.$val['id']].'</i>';
-									$_wb_unq_tip_name=$val['name'];
-									$_wb_unq_tip_val=$_POST[$_suffix_val.$val['id']];
+									$_wb_unq_tip_name=$_wb_arr[$val]['name'];
+									$_wb_unq_tip_val=$_POST[$val1.$val];
 								}
 							}
 						}
-						$_sql_updt_set.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$_suffix_val.$val].'\',';
-						$_sql_inst_val.='\''.$_POST[$_suffix_val.$val].'\',';
-						$_sql_inst_col=$_wb_arr[$val]['colnameid'].',';
+						$_sql_updt_set.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$val1.$val].'\',';
+						$_sql_inst_val.='\''.$_POST[$val1.$val].'\',';
+						$_sql_inst_col.=$_wb_arr[$val]['colnameid'].',';
 					}
 				}
-			}//else{
-			//			$return_arr['content']['tips']='词典缺少设置，请联系管理员';
-			//			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
-			//		}
+			}
 		}
-		
-//		$_sql_q_w_u='';
-//		if ($_wb_unq_arr){
-//			foreach ($_wb_unq_arr as $val){
-//				if (isset($_POST['ra'.$val])){
-//					$_sql_q_w_u.=$_result_wb_arr['colnameid'].'=\''.$_POST['ra'.$val].'\' and ';
-//				}
-//			}
-//		}
+///		
 		if ($_SESSION['menu_id']==4||$_SESSION['menu_id']==5){
 			$_sql_q_w.='creator='.$_SESSION['loginroleid'].' and ';
 			$_sql_q_w_u.='creator='.$_SESSION['loginroleid'].' and ';
 			$_sql_inst_val.='\''.$_SESSION['loginroleid'].'\',';
-			$_sql_inst_col='creator,';
+			$_sql_inst_col.='creator,';
 		}
 		
 		$result_vrf=array();
 		if ($_sql_q_w_u!=''){
-			$_sql_q_w_u='select * from '.$_result_mn['0']['model'].' where '.substr($_sql_q_w_u,0, strlen($_sql_q_w_u)-4);
+			$_sql_q_w_u='select * from '.$_result_mn['0']['modelname'].' where '.substr($_sql_q_w_u,0, strlen($_sql_q_w_u)-4);
 			//$_result_q_w_u=$db_modify->select($_sql_q_w_u);
 			$result_vrf=$db_modify->select($_sql_q_w_u);
 		}else{
 			$return_arr['content']['tips']='缺少唯一设置，请联系管理员';
 			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 		}
-
-//$_sql_q_w='';
-//$_sql_q_w_u='';
-//$_sql_updt_set='';
-//$_sql_inst_val='';
-//$_sql_inst_col='';
-//$_wb_unq_tip='';
-		
 		$flag_name=0;
-		if (!$result_vrf&&$result_vrf!=array()){
+		if (!$result_vrf){
 			switch ($_POST['fr']){
 				case 'mod':
-					$sql_m='update '.$_result_mn['0']['model'].' set '.substr($_sql_updt_set,0, strlen($_sql_updt_set)-1).' where id='.$_POST['id'];
+					$sql_m='update '.$_result_mn['0']['modelname'].' set '.substr($_sql_updt_set,0, strlen($_sql_updt_set)-1).' where id='.$_POST['id'];
 					$tips_tmp='修改';
 					$flag_name=1;
 					break;
 				case 'add':
-					$sql_m='insert into '.$_result_mn['0']['model'].' ('.substr($_sql_inst_val,0, strlen($_sql_inst_val)-1).') values ('.substr($_sql_inst_col,0, strlen($_sql_inst_col)-1).')';
+					$sql_m='insert into '.$_result_mn['0']['modelname'].' ('.substr($_sql_inst_col,0, strlen($_sql_inst_col)-1).') values ('.substr($_sql_inst_val,0, strlen($_sql_inst_val)-1).')';
 					$tips_tmp='新增';
 					$flag_name=1;
 					break;
@@ -342,31 +324,19 @@ switch ($_POST['fr']){
 				break;
 			}
 		}
-
+////////////////////////
+//$return_arr['0']['0']='#1:'.$_sql_q_w.'#';
+//$return_arr['1']['0']='#2:'.$_sql_q_w_u.'#';
+//$return_arr['2']['0']='#3:'.$_sql_updt_set.'#';
+//$return_arr['3']['0']='#4:'.$_sql_inst_val.'#';
+//$return_arr['4']['0']='#5:'.$_sql_inst_col.'#';
+//$return_arr['5']['0']='#6:'.$_wb_unq_tip_name.'#';
+//$return_arr['6']['0']='#7:'.$_wb_unq_tip_val.'#';
+//$return_arr['0']['0']=$_sql_q_w_u;
+//$return_arr['0']['0']=$sql_m;
+//require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+//////////////////////////
 		
-		//此处并未区别ckk,若需要可以考虑wordbook新类别中加入表名
-		//$flag_name=0;
-		//$sql_vrf='select * from role where creator='.$_SESSION['loginroleid'].' and name=\''.$_POST['ra2'].'\'';
-		//$result_vrf=$db_modify->select($sql_vrf);
-		//switch ($_POST['fr']){
-		//	case 'mod':
-		//		if (!$result_vrf){
-		//			$sql_m='update role set name=\''.$_POST['ra2'].'\' where creator='.$_SESSION['loginroleid'].' and id='.$_POST['id'];
-		//			$tips_tmp='修改';
-		//			$flag_name=1;
-		//		}
-		//		break;
-		//	case 'add':
-		//		if (!$result_vrf){
-		//			$sql_m='insert into role (name,creator) values (\''.$_POST['ra2'].'\','.$_SESSION['loginroleid'].')';
-		//			$tips_tmp='新增';
-		//			$flag_name=1;
-		//		}else{
-		//			$return_arr['content']['tips']='<div style="float:left">权限名<i>'.$_POST['ra2'].'</i>已存在</div>';
-		//			require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
-		//		}
-		//		break;
-		//}
 		$return_arr['content']['tips'].='<i>'.$_wb_unq_tip_val.'</i>';
 		if ($flag_name==1){
 			$return_arr['content']['tips'].=$_wb_unq_tip_name.$tips_tmp;
@@ -378,7 +348,7 @@ switch ($_POST['fr']){
 			}
 		}
 		$result_vrf=$db_modify->select($_sql_q_w_u);
-require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+//require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
 		
 		$arr_i=array();
 		if ($_POST['rbbackarrk']!=''){
@@ -599,20 +569,36 @@ require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_
 	case 'delall':
 		$_sql_mn='select * from menu where id='.$_SESSION['menu_id'];
 		$_result_mn=$db_modify->select($_sql_mn);
-		$_sql_wb_arr='select * from wordbook where menu_id='.$_SESSION['menu_id'];
-		$_result_wb_arr=$db_modify->select($_sql_wb_arr);
+		//$_sql_wb_arr='select * from wordbook where menu_id='.$_SESSION['menu_id'];
+		//$_result_wb_arr=$db_modify->select($_sql_wb_arr);
 		
-		$sql_m['子权限设置']='update role set creator='.$_SESSION['loginroleid'].' where creator in ('.$_POST['id'].')';
-		$sql_m['权限删除']='delete from role where id in ('.$_POST['id'].')';
-		$sql_m['权限菜单删除']='delete from role_menu where role_id in ('.$_POST['id'].')';
-		$sql_m['权限功能删除']='delete from role_wordbook where role_id in ('.$_POST['id'].')';
+		$sql_m[$_result_mn['0']['name'].'记录删除']='delete from '.$_result_mn['0']['modelname'].' where id in ('.$_POST['id'].')';
+		switch ($_SESSION['menu_id']){
+			case '4':
+				$sql_m['子权限设置']='update role set creator='.$_SESSION['loginroleid'].' where creator in ('.$_POST['id'].')';
+				$sql_m['权限菜单删除']='delete from role_menu where role_id in ('.$_POST['id'].')';
+				$sql_m['权限功能删除']='delete from role_wordbook where role_id in ('.$_POST['id'].')';
+				break;
+			case '5':
+				$sql_m['子用户设置']='update user set creator='.$_SESSION['loginroleid'].' where creator in ('.$_POST['id'].')';
+				$sql_m['用户功能删除']='delete from user_wordbook where user_id in ('.$_POST['id'].')';
+				break;
+		}
+		
+//		$sql_m['子权限设置']='update role set creator='.$_SESSION['loginroleid'].' where creator in ('.$_POST['id'].')';
+//		$sql_m['权限删除']='delete from role where id in ('.$_POST['id'].')';
+//		$sql_m['权限菜单删除']='delete from role_menu where role_id in ('.$_POST['id'].')';
+//		$sql_m['权限功能删除']='delete from role_wordbook where role_id in ('.$_POST['id'].')';
+//$count=0;
 		foreach ($sql_m as $key=>$val){
 			$return_arr['content']['tips'].=$key;
+//$return_arr[$count]['0']=$key.':'.$val;			
 			if($db_modify->update($val)){
 				$return_arr['content']['tips'].='成功';
 			}else{
 				$return_arr['content']['tips'].=OPS_TIP_FAIL;
 			}
+//$count++;
 		}
 		require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_MDL.DIRECTORY_SEPARATOR.OPS_MDL_MAIN.DIRECTORY_SEPARATOR.OPS_FUNC_VIEW.POSTFIX_MDL;
 		break;

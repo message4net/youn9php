@@ -75,7 +75,7 @@ CREATE TABLE `role` (
   `name` varchar(15) DEFAULT NULL,
   `creator` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=137 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
 
 /*Data for the table `role` */
 
