@@ -79,6 +79,7 @@ j.vwmod table 元素 tr id 含义
 				a 代表记录多选arr_k，并记录复式多选arr_v
 				b 代表记录多选arr_k,并记录单一多选arr_v    
 				c代表多选arr_v所在td的ID 
+			最终扩展应该为rb_{rb分类}[a|b|c]_{tr数据库关联id}_{tr行编码}[a|b|...]_{tr编码}_{父tr行编码}
 k.为避免多用户同时修改造成数据库混乱，需要加锁	
 i.新增子菜单步骤
 	1.menu 表中插入 对应子菜单 记录对应id
