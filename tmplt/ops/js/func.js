@@ -330,7 +330,7 @@ $.extend({
 				}
 alert('DT:'+data);
 				if(flag_aj==0){
-					$.ajx(url_ajx,data);
+//					$.ajx(url_ajx,data);
 				}
 			})
 			

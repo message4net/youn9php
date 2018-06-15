@@ -349,6 +349,95 @@ switch ($_POST['fr']){
 		}
 		$result_vrf=$db_modify->select($_sql_q_w_u);
 //require BASE_DIR.APP_OPS.DIRECTORY_SEPARATOR.NAME_COMM.DIRECTORY_SEPARATOR.NAME_INC.DIRECTORY_SEPARATOR.OPS_INC_RETURN.POSTFIX_INC;
+///////////////////////
+//$_sql_mn='select * from menu where id='.$_SESSION['menu_id'];
+//$_result_mn=$db_modify->select($_sql_mn);
+//$_sql_wb_arr='select * from wordbook where menu_id='.$_SESSION['menu_id'];
+//$_result_wb_arr=$db_modify->select($_sql_wb_arr);
+
+//$_wb_prnt_arr=array();
+//$_sql_wb_prnt_arr='select * from wordbook where menu_id='.$_SESSION['menu_id'].' and parent_id>0';
+//$_result_wb_prnt_arr=$db_modify->select($_sql_wb_arr);
+//if ($_result_wb_prnt_arr){
+//	foreach ($_result_wb_prnt_arr as $val){
+//		$_wb_prnt_arr[$val['id']]=$val;
+//	}
+//}
+
+if ($_POST['rbbackarrk']!=''){
+	$_mul_arr_n=explode(',', $_POST['rbbackarrk']);
+	$_sql_rb_init='select * from wordbook where id in ('.$_POST['rbbackarrk'].')';
+	$_result_rb_init=$db_modify->select($_sql_rb_init);
+	if ($_result_rb_init){
+		foreach ($_result_rb_init as $val){
+			$_sql_mul_arr_o=$val['sql_mod'].$result_vrf['0']['id'];
+			$_result_mul_arr_o=$db_modify->select($_sql_mul);
+			$_mul_arr_o=array();
+			$_mul_arr_d_wb=array();
+			if ($_result_mul_arr_o){
+				$count=0;
+				foreach ($_result_mul_arr_o as $val1){
+					$_mul_arr_o[$count]=$val1[$val['colnameid']];
+					$count++;
+				}
+			}
+			//menu_id=4独有
+			if (isset($_POST['rbbbckarrk'])&&$_POST['rbbbckarrk']!=''){
+				$_mul_arr_n1=explode(',',$_POST['rbbbckarrk']);
+				foreach ($_mul_arr_n1 as $val2){
+					if (isset($_POST['rb'.$val2.'alckarrv'])&&$_POST['rb'.$val2.'alckarrv']!=''){
+						$_mul_arr_i_wb[]=$val2;
+						//$_mul_arr_n=array_merge($_mul_arr_n,$_mul_arr_n_tmp);
+					}else{
+						$_mul_arr_d_wb[]=$val2;
+					}
+				}
+				
+			}
+			if ($_mul_arr_i_wb){
+				$_mul_str_i_wb='';
+				foreach ($_mul_arr_i_wb as $val4){
+					$_mul_str_i_wb.='(\''.$result_vrf['0']['id'].'\',\''.$val4.'\'),';
+				}
+				$_sql_mul_i_wb='insert into role_wordbook values '.substr($_mul_str_i_wb,0,strlen($_mul_str_i_wb)-1);
+				$return_arr['content']['tips'].='隐权限插入';
+				$_flag=0;
+				if (!$db_modify->insert($_sql_mul_i_wb)){
+					$_flag=1;
+				}
+				if ($_flag==0){
+					$return_arr['content']['tips'].='成功,';
+				}else{
+					$return_arr['content']['tips'].=OPS_TIP_FAIL;
+				}
+			}
+			if ($_mul_arr_d_wb){
+				$_mul_str_d_wb='';
+				foreach ($_mul_arr_d_wb as $val3){
+					$_mul_str_d_wb.=$val3.',';
+				}
+				$_sql_mul_d_wb='delete from role_wordbook where role_id='.$result_vrf['0']['id'].' and wordbook_id in ('.substr($_mul_str_d_wb,0,strlen($_mul_str_d_wb)-1).')';
+				$return_arr['content']['tips'].='隐权限删除';
+				$_flag=0;
+				if (!$db_modify->insert($_sql_mul_d_wb)){
+					$_flag=1;
+				}
+				if ($_flag==0){
+					$return_arr['content']['tips'].='成功,';
+				}else{
+					$return_arr['content']['tips'].=OPS_TIP_FAIL;
+				}
+			}
+			//独有结束
+			
+		}
+	}
+}
+		
+		
+		
+		
+//////////////////////////		
 		
 		$arr_i=array();
 		if ($_POST['rbbackarrk']!=''){
