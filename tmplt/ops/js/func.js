@@ -328,9 +328,9 @@ $.extend({
 				if(str_rc!=''){
 					data+='&rcackarrk='+str_rc.substring(0,str_rc.length-1);
 				}
-alert('DT:'+data);
+//alert('DT:'+data);
 				if(flag_aj==0){
-//					$.ajx(url_ajx,data);
+					$.ajx(url_ajx,data);
 				}
 			})
 			
