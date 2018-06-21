@@ -84,12 +84,19 @@ j.vwmod table 元素 tr id 含义
 k.为避免多用户同时修改造成数据库混乱，需要加锁	
 i.新增子菜单步骤
 	1.menu 表中插入 对应子菜单 记录对应id
-		sql>insert into menu (name,parent_id,modelname,flag_set) values
-('域名分类',9,'domain_category',0);
+		sql>insert into menu (name,parent_id,modelname,flag_set,type) values
+('分类管理',9,'domain_category',0,0),
+('域名分类',13,'domain_category',0,1);
 	2.wordbook 表中插入 需要 显示的字段
 		sql>insert into wordbook (type,name,colnameid,seq,odr,menu_id,flag_mod) values 
 (0,'序号','id',0,0,11,1),
 (0,'名称','name',1,1,11,0);
+
+		sql>insert into wordbook (type,name,colnameid,seq,odr,menu_id,flag_mod,parent_id,
+	flag_set,sql_col_str,sql_relate,sql_mod,sql_eval,sql_col_str1,sql_eval1,str) 
+	select type,name,colnameid,seq,odr,'{NO.}',flag_mod,parent_id,
+	flag_set,sql_col_str,sql_relate,sql_mod,sql_eval,sql_col_str1,sql_eval1,str 
+	from wordbook where menu_id=12;
 	3.wordbook 表中插入 需要 修改的字段
 		sql>insert into wordbook (type,name,colnameid,odr,menu_id) select type,name,colnameid,odr,
 '11' from wordbook where id between 104 and 107;

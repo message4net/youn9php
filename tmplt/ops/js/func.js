@@ -221,7 +221,7 @@ $.extend({
 									alert($('td[id="'+str_td+'a_'+arr_td_id[3]+'"]').html()+'与'+$('td[id="'+str_td+'a_'+arr_td_id[2]+'"]').html()+'两次输入不一致');
 									$('td[id="'+str_td+arr_td_id[1]+'_'+arr_td_id[2]+'"]').focus();
 									flag_aj=1;
-									return;
+									return false;
 								}
 								break;
 							}
@@ -281,6 +281,7 @@ $.extend({
 							if(arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==''||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==undefined||arr_para[arr_tr_id[0]][ct_ra]['ipt_content']==null){
 								$('#'+arr_para[arr_tr_id[0]][ct_ra]['ipt_focus']).focus();
 								alert('"'+arr_para[arr_tr_id[0]][ct_ra]['info_alert']+'"该处不能为空');
+								flag_aj=1;
 								return false;
 							}else{
 								data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_ra]['ipt_content'];
@@ -299,6 +300,7 @@ $.extend({
 						if(str_v==''&&arr_para[arr_tr_id[0]][ct_rb]['flag_valid']=='Y'){
 							$('#'+arr_para[arr_tr_id[0]][ct_rb]['id_td_ipt_ck']).find('input#'+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'sub'+arr_para[arr_tr_id[0]][ct_rb]['k_id_ipt']).focus();
 							alert('"'+arr_para[arr_tr_id[0]][ct_rb]['info_alert']+'"该多选处请至少选择一项');
+							flag_aj=1;
 							return false;
 						}else{
 							data+='&'+arr_tr_id[0]+arr_tr_id[1]+arr_para[arr_tr_id[0]][ct_rb]['suffix_ck']+'arrv='+str_v.substring(0,str_v.length-1);
@@ -308,6 +310,7 @@ $.extend({
 						if(arr_para[arr_tr_id[0]][ct_rc]['val_slct']=='FL'){
 							$('#'+arr_para[arr_tr_id[0]][ct_rc]['id_slct']).focus();
 							alert('"'+arr_para[arr_tr_id[0]][ct_rc]['info_alert']+'"该单选请选择有效选项');
+							flag_aj=1;
 							return false;
 						}else{
 							data+='&'+arr_tr_id[0]+arr_tr_id[1]+'='+arr_para[arr_tr_id[0]][ct_rc]['val_slct'];
@@ -328,7 +331,7 @@ $.extend({
 				if(str_rc!=''){
 					data+='&rcackarrk='+str_rc.substring(0,str_rc.length-1);
 				}
-//alert('DT:'+data);
+//alert('DT:'+data+'flag:'+flag_aj);
 				if(flag_aj==0){
 					$.ajx(url_ajx,data);
 				}
