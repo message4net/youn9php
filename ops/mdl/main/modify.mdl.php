@@ -260,32 +260,32 @@ switch ($_POST['fr']){
 						$_sql_inst_col='';
 						$_wb_unq_tip_name='';
 						$_wb_unq_tip_val='';
-		
 						$_suffix_val_arr=array('ra','rc');
+
 						foreach ($_suffix_val_arr as $val1){
-							if (isset($_POST[$val1.'ackarrk']) && $_POST[$val1.'ackarrk']!=''){
+							if (isset($_POST[$val1.'ackarrk'])&&$_POST[$val1.'ackarrk']!=''){
 								$_arr_val_k=explode(',', $_POST[$val1.'ackarrk']);
-								foreach ($_arr_val_k as $val){
-									if (isset($_POST[$val1.$val])&&isset($_wb_arr[$val])){
-										$_sql_q_w.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$val1.$val].'\' and ';
-										if ($_wb_arr[$val]['type']=='3'){
-											$_sql_q_w_u.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$val1.$val].'\' and ';
+								foreach ($_arr_val_k as $val3){
+									if (isset($_POST[$val1.$val3])&&isset($_wb_arr[$val3])){
+										$_sql_q_w.=$_wb_arr[$val3]['colnameid'].'=\''.$_POST[$val1.$val3].'\' and ';
+										if ($_wb_arr[$val3]['type']=='3'){
+											$_sql_q_w_u.=$_wb_arr[$val3]['colnameid'].'=\''.$_POST[$val1.$val3].'\' and ';
 											if ($_wb_unq_tip==''){
-												if (isset($_POST[$val1.$val])&&$_POST[$val1.$val]!=''){
+												if (isset($_POST[$val1.$val3])&&$_POST[$val1.$val3]!=''){
 													//$_wb_unq_tip=$val['name'].'<i>'.$_POST['ra'.$val['id']].'</i>';
-													$_wb_unq_tip_name=$_wb_arr[$val]['name'];
-													$_wb_unq_tip_val=$_POST[$val1.$val];
+													$_wb_unq_tip_name=$_wb_arr[$val3]['name'];
+													$_wb_unq_tip_val=$_POST[$val1.$val3];
 												}
 											}
 										}
-										$_sql_updt_set.=$_wb_arr[$val]['colnameid'].'=\''.$_POST[$val1.$val].'\',';
-										$_sql_inst_val.='\''.$_POST[$val1.$val].'\',';
-										$_sql_inst_col.=$_wb_arr[$val]['colnameid'].',';
+										$_sql_updt_set.=$_wb_arr[$val3]['colnameid'].'=\''.$_POST[$val1.$val3].'\',';
+										$_sql_inst_val.='\''.$_POST[$val1.$val3].'\',';
+										$_sql_inst_col.=$_wb_arr[$val3]['colnameid'].',';
 									}
 								}
 							}
 						}
-		
+						
 						if ($_SESSION['menu_id']==4||$_SESSION['menu_id']==5){
 							$_sql_q_w.='creator='.$_SESSION['loginroleid'].' and ';
 							$_sql_q_w_u.='creator='.$_SESSION['loginroleid'].' and ';
